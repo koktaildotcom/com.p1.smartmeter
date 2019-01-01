@@ -55,7 +55,7 @@ This app adds the P1 smartmeter into Homey and add an api to update the data.
    }
    ```
 ## History
-### v1.0.0 - 01.01.2019
+### v2.0.0 - 01.01.2019
 - initial commit
 
 ## Final note ##
