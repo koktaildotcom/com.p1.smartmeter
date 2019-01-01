@@ -1,5 +1,7 @@
 # P1 smartmeter
 
+> NOTE: This app doesn't get information out of the `smartmeter`, you have to use an external service that push data to the the app.
+
 ## Introduction
 This app adds the P1 smartmeter into Homey and add an api to update the data.
 
