@@ -1,0 +1,111 @@
+{
+	"id": "com.p1",
+	"version": "2.0.0",
+	"compatibility": ">=2.0.0",
+	"sdk": 2,
+	"name": {
+		"nl": "P1 Slimme meter",
+		"en": "P1 Smartmeter"
+	},
+	"description": {
+		"nl": "P1 Slimme meter",
+		"en": "P1 Smartmeter"
+	},
+	"images": {
+		"large": "/assets/images/small.png",
+		"small": "/assets/images/large.png"
+	},
+	"author": {
+		"name": "Leendert de Kok",
+		"email": "koktaildotcom@hotmail.com"
+	},
+	"contributing": {
+		"donate": {
+			"paypal": {
+				"username": "koktaildotcom"
+			}
+		}
+	},
+	"category": [
+		"energy"
+	],
+	"permissions": [],
+	"drivers": [
+		{
+			"id": "p1-smartmeter",
+			"name": {
+				"nl": "P1 slimme meter",
+				"en": "P1 smartmeter"
+			},
+			"images": {
+				"large": "./drivers/p1-smartmeter/assets/large.png",
+				"small": "./drivers/p1-smartmeter/assets/small.png"
+			},
+			"class": "sensor",
+			"capabilities": [
+				"measure_power.consumed",
+				"meter_power.consumed",
+				"measure_power.generated",
+				"meter_power.generated",
+				"meter_gas.measure",
+				"meter_gas.consumed"
+			],
+			"capabilitiesOptions": {
+				"measure_power.consumed": {
+					"title": {
+						"nl": "Elektriciteit huidig verbruik",
+						"en": "Electricity current usage"
+					}
+				},
+				"measure_power.generated": {
+					"isGenerator": true,
+					"title": {
+						"nl": "Elektriciteit huidig teruglevering",
+						"en": "Electricity current delivery"
+					}
+				},
+				"meter_power.consumed": {
+					"title": {
+						"nl": "Elektriciteit verbruik",
+						"en": "Electricity delivery"
+					}
+				},
+				"meter_power.generated": {
+					"isGenerator": true,
+					"title": {
+						"nl": "Elektriciteit teruglevering",
+						"en": "Electricity delivery"
+					}
+				},
+				"meter_gas.measure": {
+					"title": {
+						"nl": "Gas huidig verbruik",
+						"en": "Gas current usage"
+					},
+					"decimals": 5
+				},
+				"meter_gas.consumed": {
+					"title": {
+						"nl": "Gas verbruik",
+						"en": "Gas usage"
+					}
+				}
+			},
+			"pair": [
+				{
+					"id": "list_devices",
+					"template": "list_devices",
+					"navigation": {
+						"next": "add_p1"
+					}
+				},
+				{
+					"id": "add_p1",
+					"template": "add_devices"
+				}
+			]
+		}
+	]
+}
+  
+
