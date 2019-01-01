@@ -5,14 +5,14 @@
 ## Introduction
 This app adds the P1 smartmeter into Homey and add an api to update the data.
 
-## Usage
+### Usage
 1. Install the app `com.p1.smartmeter`.
 2. Add device `p1 smartmeter`.
 3. Use the endpoint `/update` to push data to Homey.
 
-## Endpoint
+### Endpoint
 
-#####POST: `/update`
+#### POST: `/update`
 
    body:
    
@@ -56,6 +56,7 @@ This app adds the P1 smartmeter into Homey and add an api to update the data.
    ```
 ## History
 ### v1.0.0 - 01.01.2019
-  
+- initial commit
+
 ## Final note ##
 The repository is available at: https://github.com/koktaildotcom/com.p1.smartmeter
