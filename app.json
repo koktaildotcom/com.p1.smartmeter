@@ -12,8 +12,8 @@
 		"en": "P1 Smartmeter"
 	},
 	"images": {
-		"large": "/assets/images/small.png",
-		"small": "/assets/images/large.png"
+		"small": "/assets/images/small.png",
+		"large": "/assets/images/large.png"
 	},
 	"author": {
 		"name": "Leendert de Kok",
@@ -38,8 +38,8 @@
 				"en": "P1 smartmeter"
 			},
 			"images": {
-				"large": "./drivers/p1-smartmeter/assets/large.png",
-				"small": "./drivers/p1-smartmeter/assets/small.png"
+				"small": "./drivers/p1-smartmeter/assets/small.png",
+				"large": "./drivers/p1-smartmeter/assets/large.png"
 			},
 			"class": "sensor",
 			"capabilities": [
