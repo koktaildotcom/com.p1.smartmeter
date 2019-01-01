@@ -2,6 +2,8 @@
 	"id": "com.p1",
 	"version": "2.0.0",
 	"compatibility": ">=2.0.0",
+	"brandColor": "#3399cc",
+	"homeyCommunityTopicId": 6150,
 	"sdk": 2,
 	"name": {
 		"nl": "P1 Slimme meter",

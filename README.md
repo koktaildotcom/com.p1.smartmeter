@@ -54,9 +54,14 @@ This app adds the P1 smartmeter into Homey and add an api to update the data.
    	}
    }
    ```
+   
 ## History
+
 ### v2.0.0 - 01.01.2019
 - initial commit
+
+### v2.0.1 - 01.01.2019
+- add brandcolor and community topic id
 
 ## Final note ##
 The repository is available at: https://github.com/koktaildotcom/com.p1.smartmeter
