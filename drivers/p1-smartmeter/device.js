@@ -23,7 +23,7 @@ class P1Device extends Homey.Device {
             }
 
             // add an hour
-            update.setTime(this.getTime() + (1*60*60*1000));
+            update.setTime(update.getTime() + (1 * 60 * 60 * 1000));
 
             let gasCurrent = 0;
             let gasNew = 0;
