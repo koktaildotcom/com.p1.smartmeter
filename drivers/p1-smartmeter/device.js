@@ -13,24 +13,24 @@ class P1Device extends Homey.Device {
 
             let now = new Date();
             let update = device.getSetting('meter_gas_update_date');
+            let updateDate = null;
 
-            // if not yet set update the setting
-            let updateDate = new Date(update);
             if (null === update) {
                 updateDate = new Date();
                 device.setSettings({
-                    meter_gas_update_date: updateDate
+                    meter_gas_update_date: updateDate.toISOString()
                 });
             }
-
-            // add an hour
-            updateDate.setTime(updateDate.getTime() + (1 * 60 * 60 * 1000));
+            else{
+                // if not yet set update the setting
+                updateDate = new Date(update);
+            }
 
             let gasCurrent = 0;
             let gasNew = 0;
             let gasChange = 0;
 
-            if (updateDate <= now) {
+            if (updateDate < new Date(now.getTime() - (1000*60*60))) {
                 if (data.gas) {
                     if (data.gas.reading) {
                         gasNew = Number(data.gas.reading);
