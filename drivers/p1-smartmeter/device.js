@@ -7,6 +7,11 @@ Date.prototype.addHours = function(h) {
 }
 
 class P1Device extends Homey.Device {
+
+    round (number) {
+        return Math.round(number * 100) / 100
+    }
+
     onInit () {
         const device = this;
         Homey.on('update.data', function (data) {
@@ -41,11 +46,11 @@ class P1Device extends Homey.Device {
                 device.setCapabilityValue('meter_gas.measure', gasChange);
             }
 
-            device.setCapabilityValue('meter_gas.consumed', data.gas.reading);
-            device.setCapabilityValue('measure_power.consumed', data.electricity.received.actual.reading * 1000);
-            device.setCapabilityValue('measure_power.generated', data.electricity.delivered.actual.reading * 1000);
-            device.setCapabilityValue('meter_power.consumed', data.electricity.received.tariff1.reading + data.electricity.received.tariff2.reading);
-            device.setCapabilityValue('meter_power.generated', data.electricity.delivered.tariff1.reading + data.electricity.delivered.tariff2.reading);
+            device.setCapabilityValue('meter_gas.consumed', device.round(data.gas.reading));
+            device.setCapabilityValue('measure_power.consumed', device.round(data.electricity.received.actual.reading * 1000));
+            device.setCapabilityValue('measure_power.generated', device.round(data.electricity.delivered.actual.reading * 1000));
+            device.setCapabilityValue('meter_power.consumed', device.round(data.electricity.received.tariff1.reading + data.electricity.received.tariff2.reading));
+            device.setCapabilityValue('meter_power.generated', device.round(data.electricity.delivered.tariff1.reading + data.electricity.delivered.tariff2.reading));
         });
     }
 }
