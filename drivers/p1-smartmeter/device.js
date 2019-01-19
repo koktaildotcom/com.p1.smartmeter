@@ -1,11 +1,6 @@
 
 const Homey = require('homey');
 
-Date.prototype.addHours = function(h) {
-    this.setTime(this.getTime() + (h*60*60*1000));
-    return this;
-}
-
 class P1Device extends Homey.Device {
 
     round (number) {
@@ -27,7 +22,8 @@ class P1Device extends Homey.Device {
                 });
             }
 
-            update.addHours(1);
+            // add an hour
+            update.setTime(this.getTime() + (1*60*60*1000));
 
             let gasCurrent = 0;
             let gasNew = 0;
