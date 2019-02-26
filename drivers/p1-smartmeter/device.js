@@ -77,6 +77,26 @@ class P1Device extends Homey.Device {
                         "meter_power.consumed": value
                     }, state);
                     break;
+                case 'measure_power.generated':
+                    device._driver.triggerMeasurePowerGeneratedChangedFlow(device, {
+                        "measure_power.generated": value
+                    }, state);
+                    break;
+                case 'meter_power.generated':
+                    device._driver.triggerMeterPowerGeneratedChangedFlow(device, {
+                        "meter_power.generated": value
+                    }, state);
+                    break;
+                case 'meter_gas.measure':
+                    device._driver.triggerMeasureGasChangedFlow(device, {
+                        "meter_gas.measure": value
+                    }, state);
+                    break;
+                case 'meter_gas.consumed':
+                    device._driver.triggerMeterPowerConsumedChangedFlow(device, {
+                        "meter_gas.consumed": value
+                    }, state);
+                    break;
             }
         }
     }
