@@ -11,7 +11,7 @@ class P1Driver extends Homey.Driver {
             {
                 "name": "P1 smart meter",
                 "data": {
-                    "id": "p1-smartmeter-fork"
+                    "id": "p1-smartmeter"
                 },
             },
         ];
