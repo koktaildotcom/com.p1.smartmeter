@@ -1,6 +1,6 @@
 {
-    "id": "com.p1.fork",
-    "version": "2.0.3",
+    "id": "com.p1",
+    "version": "2.0.4",
     "compatibility": ">=2.0.0",
     "brandColor": "#3399cc",
     "homeyCommunityTopicId": 6150,
@@ -136,10 +136,10 @@
                         "name": "measure_power.consumed",
                         "type": "number",
                         "title": {
-                            "en": "Current power",
-                            "nl": "Huidige stroomverbruik"
+                            "en": "Current power (W)",
+                            "nl": "Huidige stroomverbruik (W)"
                         },
-                        "example": 50
+                        "example": 500
                     }
                 ]
             },
@@ -161,10 +161,10 @@
                         "name": "meter_power.consumed",
                         "type": "number",
                         "title": {
-                            "en": "Consumed power",
-                            "nl": "Verbuikte stroom"
+                            "en": "Consumed power (W)",
+                            "nl": "Verbuikte stroom (W)"
                         },
-                        "example": 100
+                        "example": 123456
                     }
                 ]
             }
