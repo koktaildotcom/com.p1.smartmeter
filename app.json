@@ -167,6 +167,106 @@
                         "example": 123456
                     }
                 ]
+            },
+            {
+                "id": "measure_power.generated.changed",
+                "title": {
+                    "en": "Current generated power changed",
+                    "nl": "Huidige opgewekte stroom gewijzigd"
+                },
+                "args": [
+                    {
+                        "name": "p1-smartmeter",
+                        "type": "device",
+                        "filter": "driver_id=p1-smartmeter"
+                    }
+                ],
+                "tokens": [
+                    {
+                        "name": "measure_power.generated",
+                        "type": "number",
+                        "title": {
+                            "en": "Current generated power (W)",
+                            "nl": "Huidige opgewekte stroom (W)"
+                        },
+                        "example": 100
+                    }
+                ]
+            },
+            {
+                "id": "meter_power.generated.changed",
+                "title": {
+                    "en": "Generated power changed",
+                    "nl": "Opgewekte stroom gewijzigd"
+                },
+                "args": [
+                    {
+                        "name": "p1-smartmeter",
+                        "type": "device",
+                        "filter": "driver_id=p1-smartmeter"
+                    }
+                ],
+                "tokens": [
+                    {
+                        "name": "meter_power.generated",
+                        "type": "number",
+                        "title": {
+                            "en": "Generated power (W)",
+                            "nl": "Opgewekte stroom (W)"
+                        },
+                        "example": 123456
+                    }
+                ]
+            },
+            {
+                "id": "meter_gas.measure.changed",
+                "title": {
+                    "en": "Current gas consumption changed",
+                    "nl": "Huidig gasverbruik gewijzigd"
+                },
+                "args": [
+                    {
+                        "name": "p1-smartmeter",
+                        "type": "device",
+                        "filter": "driver_id=p1-smartmeter"
+                    }
+                ],
+                "tokens": [
+                    {
+                        "name": "meter_gas.measure",
+                        "type": "number",
+                        "title": {
+                            "en": "Current gas consumption (m³)",
+                            "nl": "Huidig gasverbruik (m³)"
+                        },
+                        "example": 0.123
+                    }
+                ]
+            },
+            {
+                "id": "meter_gas.consumed.changed",
+                "title": {
+                    "en": "Gas consumption changed",
+                    "nl": "Gasverbruik gewijzigd"
+                },
+                "args": [
+                    {
+                        "name": "p1-smartmeter",
+                        "type": "device",
+                        "filter": "driver_id=p1-smartmeter"
+                    }
+                ],
+                "tokens": [
+                    {
+                        "name": "meter_gas.consumed",
+                        "type": "number",
+                        "title": {
+                            "en": "Gas consumption (m³)",
+                            "nl": "Gasverbruik (m³)"
+                        },
+                        "example": 500
+                    }
+                ]
             }
         ]
     }
