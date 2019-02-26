@@ -1,6 +1,11 @@
 {
   "settings": {
-    "title": "My Settings Page",
-    "subtitle": "Please log in"
+    "title": "Prestatie-instellingen configureren",
+    "save_changes": "Wijzigingen opslaan",
+    "timeouts": {
+      "title": "Flow Card Trigger time-outs",
+      "measured_power": "Huidige stroomverbruik time-out (seconden)",
+      "meter_power": "Verbuikte stroom time-out (seconden)"
+    }
   }
 }

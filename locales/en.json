@@ -1,0 +1,11 @@
+{
+  "settings": {
+    "title": "Configure performance settings",
+    "save_changes": "Save changes",
+    "timeouts": {
+      "title": "Flow Card Trigger timeouts",
+      "measured_power": "Measured power usage timeout (seconds)",
+      "meter_power": "Consumed power usage timeout (seconds)"
+    }
+  }
+}
