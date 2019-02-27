@@ -1,53 +1,107 @@
 <!doctype html>
 <html>
-    <head>
-        <script type="text/javascript" src="/homey.js" data-origin="settings"></script>
-    </head>
+<head>
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <script type="text/javascript" src="/homey.js" data-origin="settings"></script>
+</head>
 
-    <body>
-    <h1 data-i18n="settings.title"></h1>
-    <fieldset>
-        <legend data-i18n="settings.timeouts.title"></legend>
-        <div class="field row">
-            <label for="measured_power_timeout" data-i18n="settings.timeouts.measured_power_timeout"></label>
-            <input id="measured_power_timeout" type="text" value="" placeholder="1" />
+<body>
+<h1 data-i18n="settings.title">Configure performance settings</h1>
+<form>
+    <div class="form-group">
+        <h2 data-i18n="settings.timeouts.title">Flow Card Trigger timeouts</h2>
+        <p data-i18n="settings.timeouts.description">
+            These timeouts define the period during which the specific flow trigger cannot be triggered again to prevent
+            performance issues.
+        </p>
+        <div class="form-group">
+            <label for="measure_power.consumed.timeout" data-i18n="settings.timeouts.measure_power_consumed_timeout">
+                Measured power usage timeout (seconds)
+            </label>
+            <input id="measure_power.consumed.timeout" class="form-control" type="number" value="" placeholder="1"/>
         </div>
-        <div class="field row">
-            <label for="meter_power_timeout" data-i18n="settings.timeouts.meter_power_timeout"></label>
-            <input id="meter_power_timeout" type="text" value="" placeholder="1" />
+        <div class="form-group">
+            <label for="meter_power.consumed.timeout" data-i18n="settings.timeouts.meter_power_consumed_timeout">
+                Consumed power usage timeout (seconds)
+            </label>
+            <input id="meter_power.consumed.timeout" class="form-control" type="number" value="" placeholder="1"/>
         </div>
-    </fieldset>
-    <button id="save" class="right" data-i18n="settings.save_changes"></button>
+        <div class="form-group">
+            <label for="measured_power.generated.timeout"
+                   data-i18n="settings.timeouts.measured_power_generated_timeout">
+                Measured power usage timeout (seconds)
+            </label>
+            <input id="measured_power.generated.timeout" class="form-control" type="number" value="" placeholder="1"/>
+        </div>
+        <div class="form-group">
+            <label for="meter_power.generated.timeout" data-i18n="settings.timeouts.meter_power_generated_timeout">
+                Consumed power usage timeout (seconds)
+            </label>
+            <input id="meter_power.generated.timeout" class="form-control" type="number" value="" placeholder="1"/>
+        </div>
+        <div class="form-group">
+            <label for="gas_meter.consumed.timeout" data-i18n="settings.timeouts.gas_meter_consumed_timeout">
+                Consumed power usage timeout (seconds)
+            </label>
+            <input id="gas_meter.consumed.timeout" class="form-control" type="number" value="" placeholder="1"/>
+        </div>
+    </div>
+    <button id="save" class="right btn" data-i18n="settings.save_changes">Save changes</button>
+</form>
 
-    <script type="text/javascript">
-        function onHomeyReady( Homey ){
-            Homey.ready();
+<script type="text/javascript">
+    function onHomeyReady(Homey) {
+        Homey.ready();
 
-            var measuredPowerTimeoutElement = document.getElementById('measured_power_timeout');
-            var meterPowerTimeoutElement = document.getElementById('meter_power_timeout');
-            var saveButtonElement = document.getElementById('save');
+        var measuredPowerConsumedTimeoutElement = document.getElementById('measure_power.consumed.timeout');
+        var meterPowerConsumedTimeoutElement = document.getElementById('meter_power.consumed.timeout');
+        var measuredPowerGeneratedTimeoutElement = document.getElementById('measure_power.generated.timeout');
+        var meterPowerGeneratedTimeoutElement = document.getElementById('meter_power.generated.timeout');
+        var gasMeterConsumedTimeoutElement = document.getElementById('gas_meter.consumed.timeout');
+        var saveButtonElement = document.getElementById('save');
 
-            Homey.get('measured_power_timeout', function( err, measuredPowerTimeout ) {
-                if( err ) return Homey.alert( err );
-                measuredPowerTimeoutElement.value = measuredPowerTimeout;
+        Homey.get('measure_power.consumed.timeout', function (err, timeout) {
+            if (err) return Homey.alert(err);
+            measuredPowerConsumedTimeoutElement.value = timeout;
+        });
+        Homey.get('meter_power.consumed.timeout', function (err, timeout) {
+            if (err) return Homey.alert(err);
+            meterPowerConsumedTimeoutElement.value = timeout;
+        });
+        Homey.get('measure_power.generated.timeout', function (err, timeout) {
+            if (err) return Homey.alert(err);
+            measuredPowerGeneratedTimeoutElement.value = timeout;
+        });
+        Homey.get('meter_power.generated.timeout', function (err, timeout) {
+            if (err) return Homey.alert(err);
+            meterPowerGeneratedTimeoutElement.value = timeout;
+        });
+        Homey.get('gas_meter.consumed.timeout', function (err, timeout) {
+            if (err) return Homey.alert(err);
+            gasMeterConsumedTimeoutElement.value = timeout;
+        });
+
+        saveButtonElement.addEventListener('click', function (e) {
+            Homey.set('measure_power.consumed.timeout', measuredPowerConsumedTimeoutElement.value, function (err) {
+                if (err) return Homey.alert(err);
+            });
+            Homey.set('meter_power.consumed.timeout', meterPowerConsumedTimeoutElement.value, function (err) {
+                if (err) return Homey.alert(err);
+            });
+            Homey.set('measure_power.generated.timeout', measuredPowerGeneratedTimeoutElement.value, function (err) {
+                if (err) return Homey.alert(err);
+            });
+            Homey.set('meter_power.generated.timeout', meterPowerGeneratedTimeoutElement.value, function (err) {
+                if (err) return Homey.alert(err);
+            });
+            Homey.set('gas_meter.consumed.timeout', gasMeterConsumedTimeoutElement.value, function (err) {
+                if (err) return Homey.alert(err);
             });
 
-            Homey.get('meter_power_timeout', function( err, meterPowerTimeout ) {
-                if( err ) return Homey.alert( err );
-                meterPowerTimeoutElement.value = meterPowerTimeout;
-            });
+            Homey.alert('Saved');
+        });
 
-            saveButtonElement.addEventListener('click', function(e) {
-
-                Homey.set('measured_power_timeout', measuredPowerTimeoutElement.value, function( err ){
-                    if( err ) return Homey.alert( err );
-                });
-                Homey.set('meter_power_timeout', meterPowerTimeoutElement.value, function( err ){
-                    if( err ) return Homey.alert( err );
-                });
-
-            });
-        }
-    </script>
-    </body>
+    }
+</script>
+</body>
 </html>
