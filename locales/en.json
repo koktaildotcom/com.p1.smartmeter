@@ -4,8 +4,8 @@
     "save_changes": "Save changes",
     "timeouts": {
       "title": "Flow Card Trigger timeouts",
-      "measured_power": "Measured power usage timeout (seconds)",
-      "meter_power": "Consumed power usage timeout (seconds)"
+      "measured_power_timeout": "Measured power usage timeout (seconds)",
+      "meter_power_timeout": "Consumed power usage timeout (seconds)"
     }
   }
 }

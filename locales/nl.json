@@ -4,8 +4,8 @@
     "save_changes": "Wijzigingen opslaan",
     "timeouts": {
       "title": "Flow Card Trigger time-outs",
-      "measured_power": "Huidige stroomverbruik time-out (seconden)",
-      "meter_power": "Verbuikte stroom time-out (seconden)"
+      "measured_power_timeout": "Huidige stroomverbruik time-out (seconden)",
+      "meter_power_timeout": "Verbuikte stroom time-out (seconden)"
     }
   }
 }
