@@ -41,14 +41,14 @@ class P1Device extends Homey.Device {
         if (updateDate < new Date(now.getTime() - (1000 * 60 * 60))) {
             if (data.gas) {
                 if (data.gas.reading) {
-                    gasNew = Number(data.gas.reading);
+                    gasNew = Number(data.gas.reading) * 1000;
                 }
+                gasCurrent = Number(device.getCapabilityValue('meter_gas.consumed')) * 1000;
 
-                gasCurrent = Number(device.getCapabilityValue('meter_gas.consumed'));
-                gasChange = (gasNew - gasCurrent);
+                gasChange = (gasNew - gasCurrent) / 1000;
+
+                device.updateCapabilityValue('meter_gas.measure', gasChange);
             }
-
-            device.updateCapabilityValue('meter_gas.measure', gasChange);
         }
 
         device.updateCapabilityValue('meter_gas.consumed', device.round(data.gas.reading));
@@ -93,7 +93,7 @@ class P1Device extends Homey.Device {
                     }, state);
                     break;
                 case 'meter_gas.consumed':
-                    device._driver.triggerMeterPowerConsumedChangedFlow(device, {
+                    device._driver.triggerMeterGasChangedFlow(device, {
                         "meter_gas.consumed": value
                     }, state);
                     break;
