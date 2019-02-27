@@ -27,7 +27,7 @@ class P1Device extends Homey.Device {
         if (null === update) {
             updateDate = new Date();
             device.setSettings({
-                meter_gas_update_date: updateDate.toISOString()
+                meter_gas_update_date: updateDate.getTime()
             });
         } else {
             // if not yet set update the setting
@@ -47,7 +47,13 @@ class P1Device extends Homey.Device {
 
                 gasChange = (gasNew - gasCurrent) / 1000;
 
-                device.updateCapabilityValue('meter_gas.measure', gasChange);
+                if (gasChange > 0) {
+                    device.updateCapabilityValue('meter_gas.measure', gasChange);
+
+                    device.setSettings({
+                        meter_gas_update_date: now.getTime()
+                    });
+                }
             }
         }
 
