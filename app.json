@@ -89,14 +89,14 @@
                 },
                 "meter_gas.measure": {
                     "title": {
-                        "nl": "Gas huidig verbruik",
+                        "nl": "Huidig gasverbruik",
                         "en": "Gas current usage"
                     },
                     "decimals": 5
                 },
                 "meter_gas.consumed": {
                     "title": {
-                        "nl": "Gas verbruik",
+                        "nl": "Gasverbruik",
                         "en": "Gas usage"
                     }
                 }
