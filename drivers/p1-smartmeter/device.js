@@ -57,6 +57,9 @@ class P1Device extends Homey.Device {
             }
         }
 
+        console.log("Data pushed:");
+        console.log(data);
+
         device.updateCapabilityValue('meter_gas.consumed', device.round(data.gas.reading));
         device.updateCapabilityValue('measure_power.consumed', device.round(data.electricity.received.actual.reading * 1000));
         device.updateCapabilityValue('measure_power.generated', device.round(data.electricity.delivered.actual.reading * 1000));
