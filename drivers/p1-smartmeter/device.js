@@ -14,7 +14,7 @@ class P1Device extends Homey.Device {
 
     registerEventListeners(device) {
         Homey.on('update.data', function (data) {
-            device.processData(data)
+            device.processData(data);
         });
     }
 

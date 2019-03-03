@@ -121,8 +121,8 @@
             {
                 "id": "measure_power.consumed.changed",
                 "title": {
-                    "en": "Current power changed",
-                    "nl": "Huidige stroomverbruik gewijzigd"
+                    "en": "Current electricity changed",
+                    "nl": "Huidige elektriciteitverbruik gewijzigd"
                 },
                 "args": [
                     {
@@ -136,8 +136,8 @@
                         "name": "measure_power.consumed",
                         "type": "number",
                         "title": {
-                            "en": "Current power (W)",
-                            "nl": "Huidige stroomverbruik (W)"
+                            "en": "Current electricity (W)",
+                            "nl": "Huidige elektriciteitverbruik (W)"
                         },
                         "example": 500
                     }
@@ -146,8 +146,8 @@
             {
                 "id": "meter_power.consumed.changed",
                 "title": {
-                    "en": "Consumed power changed",
-                    "nl": "Verbuikte stroom gewijzigd"
+                    "en": "Consumed electricity changed",
+                    "nl": "Verbruikte elektriciteit gewijzigd"
                 },
                 "args": [
                     {
@@ -161,8 +161,8 @@
                         "name": "meter_power.consumed",
                         "type": "number",
                         "title": {
-                            "en": "Consumed power (W)",
-                            "nl": "Verbuikte stroom (W)"
+                            "en": "Consumed electricity (W)",
+                            "nl": "Verbruikte elektriciteit (W)"
                         },
                         "example": 123456
                     }
@@ -171,8 +171,8 @@
             {
                 "id": "measure_power.generated.changed",
                 "title": {
-                    "en": "Current generated power changed",
-                    "nl": "Huidige opgewekte stroom gewijzigd"
+                    "en": "Current generated electricity changed",
+                    "nl": "Huidige opgewekte elektriciteit gewijzigd"
                 },
                 "args": [
                     {
@@ -186,8 +186,8 @@
                         "name": "measure_power.generated",
                         "type": "number",
                         "title": {
-                            "en": "Current generated power (W)",
-                            "nl": "Huidige opgewekte stroom (W)"
+                            "en": "Current generated electricity (W)",
+                            "nl": "Huidige opgewekte elektriciteit (W)"
                         },
                         "example": 100
                     }
@@ -196,8 +196,8 @@
             {
                 "id": "meter_power.generated.changed",
                 "title": {
-                    "en": "Generated power changed",
-                    "nl": "Opgewekte stroom gewijzigd"
+                    "en": "Generated electricity changed",
+                    "nl": "Opgewekte elektriciteit gewijzigd"
                 },
                 "args": [
                     {
@@ -211,8 +211,8 @@
                         "name": "meter_power.generated",
                         "type": "number",
                         "title": {
-                            "en": "Generated power (W)",
-                            "nl": "Opgewekte stroom (W)"
+                            "en": "Generated electricity (W)",
+                            "nl": "Opgewekte elektriciteit (W)"
                         },
                         "example": 123456
                     }
