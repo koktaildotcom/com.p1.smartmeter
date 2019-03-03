@@ -1,0 +1,15 @@
+{
+    "settings": {
+        "title": "Configure performance settings",
+        "save_changes": "Save changes",
+        "timeouts": {
+            "title": "Flow Card Trigger timeouts",
+            "description": "These timeouts define the period during which the specific flow trigger cannot be triggered again to prevent performance issues.",
+            "measure_power_consumed_timeout": "Measured power usage timeout (seconds)",
+            "meter_power_consumed_timeout": "Power usage timeout (seconds)",
+            "measured_power_generated_timeout": "Measured generated power timeout (seconds)",
+            "meter_power_generated_timeout": "Generated power timeout (seconds)",
+            "gas_meter_consumed_timeout": "Gas usage timeout (seconds)"
+        }
+    }
+}

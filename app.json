@@ -1,113 +1,275 @@
 {
-	"id": "com.p1",
-	"version": "2.0.3",
-	"compatibility": ">=2.0.0",
-	"brandColor": "#3399cc",
-	"homeyCommunityTopicId": 6150,
-	"sdk": 2,
-	"name": {
-		"nl": "P1 Slimme meter",
-		"en": "P1 Smartmeter"
-	},
-	"description": {
-		"nl": "P1 Slimme meter",
-		"en": "P1 Smartmeter"
-	},
-	"images": {
-		"small": "/assets/images/small.png",
-		"large": "/assets/images/large.png"
-	},
-	"author": {
-		"name": "Leendert de Kok",
-		"email": "koktaildotcom@hotmail.com"
-	},
-	"contributing": {
-		"donate": {
-			"paypal": {
-				"username": "koktaildotcom"
-			}
-		}
-	},
-	"category": [
-		"energy"
-	],
-	"permissions": [],
-	"drivers": [
-		{
-			"id": "p1-smartmeter",
-			"name": {
-				"nl": "P1 slimme meter",
-				"en": "P1 smartmeter"
-			},
-			"images": {
-				"small": "./drivers/p1-smartmeter/assets/small.png",
-				"large": "./drivers/p1-smartmeter/assets/large.png"
-			},
-			"class": "sensor",
-			"capabilities": [
-				"measure_power.consumed",
-				"meter_power.consumed",
-				"measure_power.generated",
-				"meter_power.generated",
-				"meter_gas.measure",
-				"meter_gas.consumed"
-			],
-			"capabilitiesOptions": {
-				"measure_power.consumed": {
-					"title": {
-						"nl": "Elektriciteit huidig verbruik",
-						"en": "Electricity current usage"
-					}
-				},
-				"measure_power.generated": {
-					"isGenerator": true,
-					"title": {
-						"nl": "Elektriciteit huidig teruglevering",
-						"en": "Electricity current delivery"
-					}
-				},
-				"meter_power.consumed": {
-					"title": {
-						"nl": "Elektriciteit verbruik",
-						"en": "Electricity delivery"
-					}
-				},
-				"meter_power.generated": {
-					"isGenerator": true,
-					"title": {
-						"nl": "Elektriciteit teruglevering",
-						"en": "Electricity delivery"
-					}
-				},
-				"meter_gas.measure": {
-					"title": {
-						"nl": "Gas huidig verbruik",
-						"en": "Gas current usage"
-					},
-					"decimals": 5
-				},
-				"meter_gas.consumed": {
-					"title": {
-						"nl": "Gas verbruik",
-						"en": "Gas usage"
-					}
-				}
-			},
-			"pair": [
-				{
-					"id": "list_devices",
-					"template": "list_devices",
-					"navigation": {
-						"next": "add_p1"
-					}
-				},
-				{
-					"id": "add_p1",
-					"template": "add_devices"
-				}
-			]
-		}
-	]
+    "id": "com.p1",
+    "version": "2.0.4",
+    "compatibility": ">=2.0.0",
+    "brandColor": "#3399cc",
+    "homeyCommunityTopicId": 6150,
+    "sdk": 2,
+    "name": {
+        "nl": "P1 Slimme meter",
+        "en": "P1 Smartmeter"
+    },
+    "description": {
+        "nl": "P1 Slimme meter",
+        "en": "P1 Smartmeter"
+    },
+    "images": {
+        "small": "/assets/images/small.png",
+        "large": "/assets/images/large.png"
+    },
+    "author": {
+        "name": "Leendert de Kok",
+        "email": "koktaildotcom@hotmail.com"
+    },
+    "contributing": {
+        "donate": {
+            "paypal": {
+                "username": "koktaildotcom"
+            }
+        }
+    },
+    "contributors": {
+        "developers": [
+            {
+                "name": "Lucas van der Have",
+                "email": "lucasvdhave@gmail.com"
+            }
+        ]
+    },
+    "category": [
+        "energy"
+    ],
+    "permissions": [],
+    "drivers": [
+        {
+            "id": "p1-smartmeter",
+            "name": {
+                "nl": "P1 slimme meter",
+                "en": "P1 smartmeter"
+            },
+            "images": {
+                "small": "./drivers/p1-smartmeter/assets/small.png",
+                "large": "./drivers/p1-smartmeter/assets/large.png"
+            },
+            "class": "sensor",
+            "capabilities": [
+                "measure_power.consumed",
+                "meter_power.consumed",
+                "measure_power.generated",
+                "meter_power.generated",
+                "meter_gas.measure",
+                "meter_gas.consumed"
+            ],
+            "capabilitiesOptions": {
+                "measure_power.consumed": {
+                    "title": {
+                        "nl": "Elektriciteit huidig verbruik",
+                        "en": "Electricity current usage"
+                    }
+                },
+                "measure_power.generated": {
+                    "isGenerator": true,
+                    "title": {
+                        "nl": "Elektriciteit huidig teruglevering",
+                        "en": "Electricity current delivery"
+                    }
+                },
+                "meter_power.consumed": {
+                    "title": {
+                        "nl": "Elektriciteit verbruik",
+                        "en": "Electricity delivery"
+                    }
+                },
+                "meter_power.generated": {
+                    "isGenerator": true,
+                    "title": {
+                        "nl": "Elektriciteit teruglevering",
+                        "en": "Electricity delivery"
+                    }
+                },
+                "meter_gas.measure": {
+                    "title": {
+                        "nl": "Huidig gasverbruik",
+                        "en": "Gas current usage"
+                    },
+                    "decimals": 5
+                },
+                "meter_gas.consumed": {
+                    "title": {
+                        "nl": "Gasverbruik",
+                        "en": "Gas usage"
+                    }
+                }
+            },
+            "pair": [
+                {
+                    "id": "list_devices",
+                    "template": "list_devices",
+                    "navigation": {
+                        "next": "add_p1"
+                    }
+                },
+                {
+                    "id": "add_p1",
+                    "template": "add_devices"
+                }
+            ]
+        }
+    ],
+    "flow": {
+        "triggers": [
+            {
+                "id": "measure_power.consumed.changed",
+                "title": {
+                    "en": "Current power changed",
+                    "nl": "Huidige stroomverbruik gewijzigd"
+                },
+                "args": [
+                    {
+                        "name": "p1-smartmeter",
+                        "type": "device",
+                        "filter": "driver_id=p1-smartmeter"
+                    }
+                ],
+                "tokens": [
+                    {
+                        "name": "measure_power.consumed",
+                        "type": "number",
+                        "title": {
+                            "en": "Current power (W)",
+                            "nl": "Huidige stroomverbruik (W)"
+                        },
+                        "example": 500
+                    }
+                ]
+            },
+            {
+                "id": "meter_power.consumed.changed",
+                "title": {
+                    "en": "Consumed power changed",
+                    "nl": "Verbuikte stroom gewijzigd"
+                },
+                "args": [
+                    {
+                        "name": "p1-smartmeter",
+                        "type": "device",
+                        "filter": "driver_id=p1-smartmeter"
+                    }
+                ],
+                "tokens": [
+                    {
+                        "name": "meter_power.consumed",
+                        "type": "number",
+                        "title": {
+                            "en": "Consumed power (W)",
+                            "nl": "Verbuikte stroom (W)"
+                        },
+                        "example": 123456
+                    }
+                ]
+            },
+            {
+                "id": "measure_power.generated.changed",
+                "title": {
+                    "en": "Current generated power changed",
+                    "nl": "Huidige opgewekte stroom gewijzigd"
+                },
+                "args": [
+                    {
+                        "name": "p1-smartmeter",
+                        "type": "device",
+                        "filter": "driver_id=p1-smartmeter"
+                    }
+                ],
+                "tokens": [
+                    {
+                        "name": "measure_power.generated",
+                        "type": "number",
+                        "title": {
+                            "en": "Current generated power (W)",
+                            "nl": "Huidige opgewekte stroom (W)"
+                        },
+                        "example": 100
+                    }
+                ]
+            },
+            {
+                "id": "meter_power.generated.changed",
+                "title": {
+                    "en": "Generated power changed",
+                    "nl": "Opgewekte stroom gewijzigd"
+                },
+                "args": [
+                    {
+                        "name": "p1-smartmeter",
+                        "type": "device",
+                        "filter": "driver_id=p1-smartmeter"
+                    }
+                ],
+                "tokens": [
+                    {
+                        "name": "meter_power.generated",
+                        "type": "number",
+                        "title": {
+                            "en": "Generated power (W)",
+                            "nl": "Opgewekte stroom (W)"
+                        },
+                        "example": 123456
+                    }
+                ]
+            },
+            {
+                "id": "meter_gas.measure.changed",
+                "title": {
+                    "en": "Current gas consumption changed",
+                    "nl": "Huidig gasverbruik gewijzigd"
+                },
+                "args": [
+                    {
+                        "name": "p1-smartmeter",
+                        "type": "device",
+                        "filter": "driver_id=p1-smartmeter"
+                    }
+                ],
+                "tokens": [
+                    {
+                        "name": "meter_gas.measure",
+                        "type": "number",
+                        "title": {
+                            "en": "Current gas consumption (m³)",
+                            "nl": "Huidig gasverbruik (m³)"
+                        },
+                        "example": 0.123
+                    }
+                ]
+            },
+            {
+                "id": "meter_gas.consumed.changed",
+                "title": {
+                    "en": "Gas consumption changed",
+                    "nl": "Gasverbruik gewijzigd"
+                },
+                "args": [
+                    {
+                        "name": "p1-smartmeter",
+                        "type": "device",
+                        "filter": "driver_id=p1-smartmeter"
+                    }
+                ],
+                "tokens": [
+                    {
+                        "name": "meter_gas.consumed",
+                        "type": "number",
+                        "title": {
+                            "en": "Gas consumption (m³)",
+                            "nl": "Gasverbruik (m³)"
+                        },
+                        "example": 500
+                    }
+                ]
+            }
+        ]
+    }
 }
   
 
