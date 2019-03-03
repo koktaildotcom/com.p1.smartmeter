@@ -42,12 +42,9 @@ class P1Driver extends Homey.Driver {
             }
         }
 
-        console.log('Loaded settings', this._flowTriggerTimeouts);
-
         let driver = this;
 
         Homey.ManagerSettings.on('set', function (key) {
-            console.log('Setting "' + key + '" updated to "' + Homey.ManagerSettings.get(key) + '"');
             driver._flowTriggerTimeouts[key.replace('timeout', 'changed')] = Homey.ManagerSettings.get(key);
         });
     }

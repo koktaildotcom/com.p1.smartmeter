@@ -7,7 +7,7 @@
             "description": "Deze time-outs defineren de periode waarin de flow trigger niet nogmaals uitgevoerd wordt. Dit is om prestatie problemen te voorkomen.",
             "measure_power_consumed_timeout": "Huidige elektriciteitverbruik time-out (seconden)",
             "meter_power_consumed_timeout": "Verbruikte elektriciteit time-out (seconden)",
-            "measured_power_generated_timeout": "Huidige opgewekte elektriciteit time-out (seconden)",
+            "measure_power_generated_timeout": "Huidige opgewekte elektriciteit time-out (seconden)",
             "meter_power_generated_timeout": "Opgewekte elektriciteit time-out (seconden)",
             "gas_meter_consumed_timeout": "Gasverbruik time-out (seconden)"
         }
