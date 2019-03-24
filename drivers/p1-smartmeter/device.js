@@ -69,7 +69,6 @@ class P1Device extends Homey.Device {
 
     updateCapabilityValue(capability, value) {
         let device = this,
-            state = {},
             currentValue = device.getCapabilityValue(capability);
 
         device.setCapabilityValue(capability, value);
@@ -79,32 +78,32 @@ class P1Device extends Homey.Device {
                 case 'measure_power.consumed':
                     device._driver.triggerMeasurePowerConsumedChangedFlow(device, {
                         "measure_power.consumed": value
-                    }, state);
+                    });
                     break;
                 case 'meter_power.consumed':
                     device._driver.triggerMeterPowerConsumedChangedFlow(device, {
                         "meter_power.consumed": value
-                    }, state);
+                    });
                     break;
                 case 'measure_power.generated':
                     device._driver.triggerMeasurePowerGeneratedChangedFlow(device, {
                         "measure_power.generated": value
-                    }, state);
+                    });
                     break;
                 case 'meter_power.generated':
                     device._driver.triggerMeterPowerGeneratedChangedFlow(device, {
                         "meter_power.generated": value
-                    }, state);
+                    });
                     break;
                 case 'meter_gas.measure':
                     device._driver.triggerMeasureGasChangedFlow(device, {
                         "meter_gas.measure": value
-                    }, state);
+                    });
                     break;
                 case 'meter_gas.consumed':
                     device._driver.triggerMeterGasChangedFlow(device, {
                         "meter_gas.consumed": value
-                    }, state);
+                    });
                     break;
             }
         }

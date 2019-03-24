@@ -34,37 +34,41 @@ class P1Driver extends Homey.Driver {
         }
     }
 
-    triggerChangedFlow(triggerName, device, tokens, state) {
+    triggerChangedFlow (triggerName, device, tokens) {
         if (triggerName in this._flowTriggers) {
             this._flowTriggers[triggerName]
-                .trigger(device, tokens, state)
-                .then(this.log)
-                .catch(this.error);
+                .trigger(device, tokens)
+            .then(() => {
+                console.log('triggered ' + triggerName + ' with success!');
+            })
+            .catch((error) => {
+                console.log('triggered ' + triggerName + ' failed: ' + error);
+            });
         }
     }
 
-    triggerMeasurePowerConsumedChangedFlow(device, tokens, state) {
-        this.triggerChangedFlow('measure_power.consumed.changed', device, tokens, state);
+    triggerMeasurePowerConsumedChangedFlow(device, tokens) {
+        this.triggerChangedFlow('measure_power.consumed.changed', device, tokens);
     }
 
-    triggerMeterPowerConsumedChangedFlow(device, tokens, state) {
-        this.triggerChangedFlow('meter_power.consumed.changed', device, tokens, state);
+    triggerMeterPowerConsumedChangedFlow(device, tokens) {
+        this.triggerChangedFlow('meter_power.consumed.changed', device, tokens);
     }
 
-    triggerMeasurePowerGeneratedChangedFlow(device, tokens, state) {
-        this.triggerChangedFlow('measure_power.generated.changed', device, tokens, state);
+    triggerMeasurePowerGeneratedChangedFlow(device, tokens) {
+        this.triggerChangedFlow('measure_power.generated.changed', device, tokens);
     }
 
-    triggerMeterPowerGeneratedChangedFlow(device, tokens, state) {
-        this.triggerChangedFlow('meter_power.generated.changed', device, tokens, state);
+    triggerMeterPowerGeneratedChangedFlow(device, tokens) {
+        this.triggerChangedFlow('meter_power.generated.changed', device, tokens);
     }
 
-    triggerMeasureGasChangedFlow(device, tokens, state) {
-        this.triggerChangedFlow('meter_gas.measure.changed', device, tokens, state);
+    triggerMeasureGasChangedFlow(device, tokens) {
+        this.triggerChangedFlow('meter_gas.measure.changed', device, tokens);
     }
 
-    triggerMeterGasChangedFlow(device, tokens, state) {
-        this.triggerChangedFlow('meter_gas.consumed.changed', device, tokens, state);
+    triggerMeterGasChangedFlow(device, tokens) {
+        this.triggerChangedFlow('meter_gas.consumed.changed', device, tokens);
     }
 }
 
