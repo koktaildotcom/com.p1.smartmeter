@@ -31,6 +31,10 @@
     "contributors": {
         "developers": [
             {
+                "name": "Leendert de Kok",
+                "email": "koktaildotcom@hotmail.com"
+            },
+            {
                 "name": "Lucas van der Have",
                 "email": "lucasvdhave@gmail.com"
             }
