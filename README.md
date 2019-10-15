@@ -82,8 +82,13 @@ The repository `https://github.com/koktaildotcom/node-p1-reader` reads the data 
 ### v2.0.2 - 01.01.2019
 - add repository description for DSMR 4.0
 
-### v2.0.3 - 
+### v2.0.3 - 01.01.2019
 - update current gas usage once per hour
+
+### v3.0.0 - 15.10.2019
+- Add support for Homey v3 Energy
+- Added capability as it is needed for the power overview
+- Hide total consumed/generated from device sensor overview
 
 ## Final note ##
 The repository is available at: https://github.com/koktaildotcom/com.p1.smartmeter
