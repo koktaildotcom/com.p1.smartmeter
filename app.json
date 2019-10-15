@@ -1,7 +1,7 @@
 {
     "id": "com.p1",
-    "version": "2.0.4",
-    "compatibility": ">=2.0.0",
+    "version": "3.0.0",
+    "compatibility": ">=3.0.0",
     "brandColor": "#3399cc",
     "homeyCommunityTopicId": 6150,
     "sdk": 2,
@@ -57,15 +57,18 @@
             },
             "class": "sensor",
             "capabilities": [
-                "measure_power.consumed",
-                "meter_power.consumed",
+                "measure_power",
+                "meter_power",
                 "measure_power.generated",
                 "meter_power.generated",
                 "meter_gas.measure",
                 "meter_gas.consumed"
             ],
+            "energy": {
+                "cumulative": true
+            },
             "capabilitiesOptions": {
-                "measure_power.consumed": {
+                "measure_power": {
                     "title": {
                         "nl": "Elektriciteit huidig verbruik",
                         "en": "Electricity current usage"

@@ -61,9 +61,9 @@ class P1Device extends Homey.Device {
         console.log(data);
 
         device.updateCapabilityValue('meter_gas.consumed', device.round(data.gas.reading));
-        device.updateCapabilityValue('measure_power.consumed', device.round(data.electricity.received.actual.reading * 1000));
+        device.updateCapabilityValue('measure_power', device.round(data.electricity.received.actual.reading * 1000));
         device.updateCapabilityValue('measure_power.generated', device.round(data.electricity.delivered.actual.reading * 1000));
-        device.updateCapabilityValue('meter_power.consumed', device.round(data.electricity.received.tariff1.reading + data.electricity.received.tariff2.reading));
+        device.updateCapabilityValue('meter_power', device.round(data.electricity.received.tariff1.reading + data.electricity.received.tariff2.reading));
         device.updateCapabilityValue('meter_power.generated', device.round(data.electricity.delivered.tariff1.reading + data.electricity.delivered.tariff2.reading));
     }
 
@@ -75,14 +75,14 @@ class P1Device extends Homey.Device {
 
         if (value !== currentValue) {
             switch (capability) {
-                case 'measure_power.consumed':
+                case 'measure_power':
                     device._driver.triggerMeasurePowerConsumedChangedFlow(device, {
-                        "measure_power.consumed": value
+                        "measure_power": value
                     });
                     break;
-                case 'meter_power.consumed':
+                case 'meter_power':
                     device._driver.triggerMeterPowerConsumedChangedFlow(device, {
-                        "meter_power.consumed": value
+                        "meter_power": value
                     });
                     break;
                 case 'measure_power.generated':
