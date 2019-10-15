@@ -73,7 +73,8 @@
                     "title": {
                         "nl": "Elektriciteit huidig verbruik/teruglevering",
                         "en": "Electricity current usage/generated"
-                    }
+                    },
+                    "uiComponent": null
                 },
                 "measure_power.consumed": {
                     "title": {
