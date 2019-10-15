@@ -11,7 +11,7 @@ class P1Device extends Homey.Device {
         device._driver = this.getDriver();
         device.registerEventListeners(device);
 
-        if (!this.hasCapability('measure_power')) {
+        if (!device.hasCapability('measure_power')) {
             device.addCapability('measure_power')
         }
     }
