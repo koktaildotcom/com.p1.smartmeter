@@ -58,7 +58,8 @@
             "class": "sensor",
             "capabilities": [
                 "measure_power",
-                "meter_power",
+                "measure_power.consumed",
+                "meter_power.consumed",
                 "measure_power.generated",
                 "meter_power.generated",
                 "meter_gas.measure",
@@ -69,6 +70,12 @@
             },
             "capabilitiesOptions": {
                 "measure_power": {
+                    "title": {
+                        "nl": "Elektriciteit huidig verbruik/teruglevering",
+                        "en": "Electricity current usage/generated"
+                    }
+                },
+                "measure_power.consumed": {
                     "title": {
                         "nl": "Elektriciteit huidig verbruik",
                         "en": "Electricity current usage"
@@ -126,10 +133,35 @@
     "flow": {
         "triggers": [
             {
+                "id": "measure_power.changed",
+                "title": {
+                    "en": "Current total consumed/generated electricity changed",
+                    "nl": "Huidige totaal verbruikte/opgewekte elektriciteit gewijzigd"
+                },
+                "args": [
+                    {
+                        "name": "p1-smartmeter",
+                        "type": "device",
+                        "filter": "driver_id=p1-smartmeter"
+                    }
+                ],
+                "tokens": [
+                    {
+                        "name": "measure_power",
+                        "type": "number",
+                        "title": {
+                            "en": "Current total consumed/generated electricity (W)",
+                            "nl": "Huidige toaal verbruikte/opgewekte elektriciteit (W)"
+                        },
+                        "example": 500
+                    }
+                ]
+            },
+            {
                 "id": "measure_power.consumed.changed",
                 "title": {
                     "en": "Current electricity changed",
-                    "nl": "Huidige elektriciteitverbruik gewijzigd"
+                    "nl": "Huidige elektriciteitsverbruik gewijzigd"
                 },
                 "args": [
                     {
@@ -144,7 +176,7 @@
                         "type": "number",
                         "title": {
                             "en": "Current electricity (W)",
-                            "nl": "Huidige elektriciteitverbruik (W)"
+                            "nl": "Huidige elektriciteitsverbruik (W)"
                         },
                         "example": 500
                     }

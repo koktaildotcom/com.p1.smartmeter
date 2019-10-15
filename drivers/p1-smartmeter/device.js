@@ -60,11 +60,19 @@ class P1Device extends Homey.Device {
         console.log("Data pushed:");
         console.log(data);
 
-        device.updateCapabilityValue('meter_gas.consumed', device.round(data.gas.reading));
-        device.updateCapabilityValue('measure_power', device.round(data.electricity.received.actual.reading * 1000));
-        device.updateCapabilityValue('measure_power.generated', device.round(data.electricity.delivered.actual.reading * 1000));
-        device.updateCapabilityValue('meter_power', device.round(data.electricity.received.tariff1.reading + data.electricity.received.tariff2.reading));
-        device.updateCapabilityValue('meter_power.generated', device.round(data.electricity.delivered.tariff1.reading + data.electricity.delivered.tariff2.reading));
+        let measurePowerConsumed = device.round(data.electricity.received.actual.reading * 1000),
+            measurePowerGenerated = device.round(data.electricity.delivered.actual.reading * 1000),
+            measurePower = measurePowerConsumed - measurePowerGenerated,
+            meterGasConsumed = device.round(data.gas.reading),
+            meterPowerConsumed = device.round(data.electricity.received.tariff1.reading + data.electricity.received.tariff2.reading),
+            meterPowerGenerated = device.round(data.electricity.delivered.tariff1.reading + data.electricity.delivered.tariff2.reading);
+
+        device.updateCapabilityValue('measure_power', measurePower);
+        device.updateCapabilityValue('meter_gas.consumed', meterGasConsumed);
+        device.updateCapabilityValue('measure_power.consumed', measurePowerConsumed);
+        device.updateCapabilityValue('measure_power.generated', measurePowerGenerated);
+        device.updateCapabilityValue('meter_power.consumed', meterPowerConsumed);
+        device.updateCapabilityValue('meter_power.generated', meterPowerGenerated);
     }
 
     updateCapabilityValue(capability, value) {
@@ -80,9 +88,14 @@ class P1Device extends Homey.Device {
                         "measure_power": value
                     });
                     break;
-                case 'meter_power':
+                case 'measure_power.consumed':
+                    device._driver.triggerMeasurePowerConsumedChangedFlow(device, {
+                        "measure_power.consumed": value
+                    });
+                    break;
+                case 'meter_power.consumed':
                     device._driver.triggerMeterPowerConsumedChangedFlow(device, {
-                        "meter_power": value
+                        "meter_power.consumed": value
                     });
                     break;
                 case 'measure_power.generated':
