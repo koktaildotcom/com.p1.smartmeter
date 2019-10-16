@@ -10,6 +10,10 @@ class P1Device extends Homey.Device {
         let device = this;
         device._driver = this.getDriver();
         device.registerEventListeners(device);
+
+        if (!device.hasCapability('measure_power')) {
+            device.addCapability('measure_power')
+        }
     }
 
     registerEventListeners(device) {
