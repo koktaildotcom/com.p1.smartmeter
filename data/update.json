@@ -27,10 +27,89 @@
 				"reading": 0,
 				"unit": "kWh"
 			}
+		},
+		"tariffIndicator": 0,
+		"threshold": 0.0,
+		"switchPosition": "",
+		"numberOfPowerFailures": 0,
+		"numberOfLongPowerFailures": 0,
+		"longPowerFailureLog": null,
+		"voltageSags": {
+			"L1": 0,
+			"L2": 0,
+			"L3": 0
+		},
+		"voltageSwell": {
+			"L1": 0,
+			"L2": 0,
+			"L3": 0
+		},
+		"instantaneous": {
+			"current": {
+				"L1": {
+					"reading": 0,
+					"unit": "A"
+				},
+				"L2": {
+					"reading": 0,
+					"unit": "A"
+				},
+				"L3": {
+					"reading": 0,
+					"unit": "A"
+				}
+			},
+			"power": {
+				"positive": {
+					"L1": {
+						"reading": 0,
+						"unit": "kWh"
+					},
+					"L2": {
+						"reading": 0,
+						"unit": "kWh"
+					},
+					"L3": {
+						"reading": 0,
+						"unit": "kWh"
+					}
+				},
+				"negative": {
+					"L1": {
+						"reading": 0,
+						"unit": "kWh"
+					},
+					"L2": {
+						"reading": 0,
+						"unit": "kWh"
+					},
+					"L3": {
+						"reading": 0,
+						"unit": "kWh"
+					}
+				}
+			},
+			"harmonics": {
+				"L1": {
+					"reading": 0,
+					"unit": "V"
+				},
+				"L2": {
+					"reading": 0,
+					"unit": "V"
+				},
+				"L3": {
+					"reading": 0,
+					"unit": "V"
+				}
+			}
 		}
 	},
 	"gas": {
 		"reading": 0,
-		"unit": "m3"
+		"unit": "m3",
+		"deviceType": null,
+		"timestamp": null,
+		"valvePosition": null
 	}
 }
