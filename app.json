@@ -55,11 +55,32 @@
 				"nl": "Is laag tarief actief?"
 			},
 			"getable": true,
-			"setable": false,
+            "setable": false,
+            "insights": true,
 			"insightsTitleTrue": { "en": "Off-peak" },
 			"insightsTitleFalse": { "en": "Peak" },
 			"icon": "./assets/images/offPeak_icon.svg"
-        }
+        },
+        "measure_gas": {
+			"type": "number",
+			"title": {
+				"en": "Gas",
+				"nl": "Gas"
+			},
+			"desc": {
+				"en": "Gas usage",
+				"nl": "Gasverbruik"
+			},
+			"decimals": 4,
+			"units": {
+				"en": "m\u00B3 /hr",
+				"nl": "m\u00B3 /uur"
+			},
+			"getable": true,
+			"setable": false,
+			"insights": true,
+			"icon": "./assets/images/gas_icon.svg"
+		}
     },
     "permissions": [],
     "drivers": [
@@ -151,8 +172,8 @@
         {
             "id": "ISKA-AM550",
             "name": {
-                "nl": "Iska AM550 P1 smartmeter (ESMR 5.0)",
-                "en": "Iska AM550 P1 smartmeter (ESMR 5.0)"
+                "nl": "Iska AM550 (ESMR 5.0)",
+                "en": "Iska AM550 (ESMR 5.0)"
             },
             "images": {
                 "small": "./drivers/ISKA-AM550/assets/small.png",
@@ -160,6 +181,8 @@
             },
             "class": "sensor",
             "capabilities": [
+                "measure_gas",
+                "meter_gas",
                 "measure_power",
                 "measure_power.consumed",
                 "measure_power.produced",
@@ -231,17 +254,74 @@
             },
             "pair": [
                 {
-                    "id": "list_devices",
-                    "template": "list_devices",
-                    "navigation": {
-                        "next": "add_p1"
-                    }
-                },
-                {
-                    "id": "add_p1",
-                    "template": "add_devices"
+                    "id": "pair"
                 }
-            ]
+            ],
+            "settings": [
+				{
+					"type": "group",
+					"label": {
+						"en": "Device information",
+						"nl": "Device informatie"
+					},
+					"children": [
+						{
+							"id": "model",
+							"type": "label",
+							"label": {
+								"en": "Model",
+								"nl": "Model"
+							},
+							"value": "unknown"
+						},
+						{
+							"id": "mac",
+							"type": "label",
+							"label": {
+								"en": "Mac",
+								"nl": "Mac"
+							},
+							"value": "unknown"
+						}
+					]
+				},
+				{
+					"type": "group",
+					"label": {
+						"en": "Meter functionality",
+						"nl": "Meter functionaliteit"
+					},
+					"children": [
+						{
+							"id": "include_off_peak",
+							"type": "checkbox",
+							"label": {
+								"en": "Report OffPeak",
+								"nl": "Rapporteer dal-tarief"
+							},
+							"value": true
+						},
+						{
+							"id": "include_production",
+							"type": "checkbox",
+							"label": {
+								"en": "Report production",
+								"nl": "Rapporteer teruglevering"
+							},
+							"value": true
+						},
+						{
+							"id": "include_gas",
+							"type": "checkbox",
+							"label": {
+								"en": "Report Gas",
+								"nl": "Rapporteer gas"
+							},
+							"value": true
+						}
+					]
+				}
+			]
         }
     ],
     "flow": {
