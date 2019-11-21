@@ -7,16 +7,67 @@ class P1Driver extends Homey.Driver {
         this.registerFlowCards();
     }
 
-    onPairListDevices(data, callback) {
-        let devices = [
-            {
-                "name": "Iska AM550 P1 smart meter (ESMR 5.0)",
-                "data": {
-                    "id": "ISKA-AM550"
-                },
-            },
-        ];
-        callback(null, devices);
+    onPair(socket) {
+		socket.on('validate', async (data, callback) => {
+			try {
+                this.log('save button pressed in frontend');
+                const name = data.name;
+                const hasGas = data.includeGas;
+                const hasOffPeak = data.includeOffPeak;
+                const hasProduction = data.includeProduction;
+				const device = {
+                    name: name,
+                    data: { id: "ISKA-AM550" },
+					settings: {
+						// model: info.model,
+						// mac: info.mac,
+                        include_gas: hasGas,
+                        include_off_peak: hasOffPeak,
+                        include_production: hasProduction,
+					},
+					capabilities: [
+                        // "meter_gas",
+                        // "measure_gas",
+                        // "measure_power",
+                        // "measure_power.consumed",
+                        // "measure_power.produced",
+                        // "meter_power",
+                        // "meter_power.peak",
+                        // "meter_power.offPeak",
+                        // "meter_power.producedPeak",
+                        // "meter_power.producedOffPeak",
+                        // "meter_offPeak"
+					],
+				};
+                if (data.includeGas) {
+                    device.capabilities.push('measure_gas');
+                    device.capabilities.push('meter_gas');
+                }
+                device.capabilities.push('measure_power');
+                if (data.includeProduction) {
+                    device.capabilities.push('measure_power.consumed');
+                    device.capabilities.push('measure_power.produced');
+                }
+                device.capabilities.push('meter_power');
+                if (data.includeOffPeak) {
+                    device.capabilities.push('meter_power.peak');
+                    device.capabilities.push('meter_power.offPeak');
+				}
+                if (data.includeProduction) {
+                    device.capabilities.push('meter_power.producedPeak');
+                } 
+				if (data.includeProduction && data.includeOffPeak) {
+                    device.capabilities.push('meter_power.producedOffPeak');
+                }
+                if (data.includeOffPeak) {
+                    device.capabilities.push('meter_offPeak');
+                }
+				callback(null, JSON.stringify(device)); // report success to frontend
+			}	catch (error) {
+				this.error('Pair error', error);
+				callback(error);
+			}
+        });
     }
 
     registerFlowCards() {
@@ -34,23 +85,24 @@ class P1Driver extends Homey.Driver {
         let device = this;
 		// this.log(`handling new readings for ${this.getName()}`);
 		// gas readings from device
-		// let meterGas = this.meters.lastMeterGas;
-		// let measureGas = this.meters.lastMeasureGas;
-		// if (readings.g !== undefined) {
-		// 	meterGas = readings.g.gas; // gas_cumulative_meter
-		// 	const meterGasTm = Date.now() / 1000; // gas_meter_timestamp
-		// 	// constructed gas readings
-		// 	if (this.meters.lastMeterGas !== meterGas) {
-		// 		if (this.meters.lastMeterGas !== null) {	// first reading after init
-		// 			let hoursPassed = (meterGasTm - this.meters.lastMeterGasTm) / 3600;	// hrs
-		// 			if (hoursPassed > 1.5) { // too long ago; assume 1 hour interval
-		// 				hoursPassed = 1;
-		// 			}
-		// 			measureGas = Math.round(1000 * ((meterGas - this.meters.lastMeterGas) / hoursPassed)) / 1000; // gas_interval_meter
-		// 		}
-		// 		this.meters.lastMeterGasTm = meterGasTm;
-		// 	}
-		// }
+		let meterGas = this.meters.lastMeterGas;
+        let measureGas = this.meters.lastMeasureGas;
+        let meterGasTm = this.meters.lastMeterGasTm;
+		if (data.gas !== undefined) {
+			meterGas = data.gas.reading; // gas_cumulative_meter
+			meterGasTm = Date.now() / 1000; // gas_meter_timestamp
+			// constructed gas readings
+			if (this.meters.lastMeterGas !== meterGas) {
+				if (this.meters.lastMeterGas !== null) {	// first reading after init
+					let hoursPassed = (meterGasTm - this.meters.lastMeterGasTm) / 3600;	// hrs
+					if (hoursPassed > 1.5) { // too long ago; assume 1 hour interval
+						hoursPassed = 1;
+					}
+					measureGas = Math.round(1000 * ((meterGas - this.meters.lastMeterGas) / hoursPassed)) / 1000; // gas_interval_meter
+				}
+				this.meters.lastMeterGasTm = meterGasTm;
+			}
+		}
 
 		// electricity readings from device
 		const meterPowerPeak = data.electricity.received.tariff2.reading;
@@ -103,11 +155,6 @@ class P1Driver extends Homey.Driver {
                 tariff: offPeak 
             };
             device._driver.triggerChangedFlow('meter_tarif.changed', device, tokens);
-            
-            // this.tariffChangedTrigger
-			// 	.trigger(this, tokens)
-			// 	.catch(this.error);
-			// .then(this.error('Tariff change flow card triggered'));
 		}
 		if (measurePower !== this.meters.lastMeasurePower) {
 			const tokens = {
@@ -115,20 +162,12 @@ class P1Driver extends Homey.Driver {
 				power_delta: measurePowerDelta,
             };
             device._driver.triggerChangedFlow('power.changed', device, tokens);
-            
-            // this.powerChangedTrigger
-			// 	.trigger(this, tokens)
-			// 	.catch(this.error);
-			// .then(this.error('Power change flow card triggered'));
-            
-            // update the ledring screensavers
-			// this._ledring.change(this.getSettings(), measurePower);
         }
         
 		// store the new readings in memory
-		// this.meters.lastMeasureGas = measureGas;
-		// this.meters.lastMeterGas = meterGas;
-		// this.meters.lastMeterGasTm = meterGasTm || this.meters.lastMeterGasTm;
+		this.meters.lastMeasureGas = measureGas;
+		this.meters.lastMeterGas = meterGas;
+		this.meters.lastMeterGasTm = meterGasTm;
 
         this.meters.lastMeasurePower = measurePower;
         this.meters.lastMeasurePowerConsumed = measurePowerConsumed;

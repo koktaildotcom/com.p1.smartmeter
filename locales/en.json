@@ -1,3 +1,13 @@
 {
-
+    "pair": {
+		"titleAM550": "ISKA-AM550 P1 (ESMR 5.0)",
+		"instructionsAM550": "This driver should be used if you have an ISKA-AM550 P1 meter connected to a node-p1-reader. De-select any meters that you do not need. The main power is always included.",
+		"includeMeters": "Include meters",
+		"includeProduction": "Power production",
+		"includeOffPeak": "Off-peak",
+		"includeGas": "Gas",
+		"applySettings": "Save",
+        "success": "Success!",
+        "required": "A name for this device is required!"
+    }
 }
