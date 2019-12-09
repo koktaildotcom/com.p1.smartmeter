@@ -6,4 +6,4 @@ class P1 extends Homey.App {
     }
 }
 
-module.exports = P1;
+module.exports = P1

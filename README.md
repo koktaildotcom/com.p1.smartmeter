@@ -4,27 +4,27 @@
 
 ## Introduction
 This app adds the P1 smartmeter into Homey and add an api to update the data.
-The repository `https://github.com/koktaildotcom/node-p1-reader` reads the data from the p1 and push it to the `com.p1` api.
+The repository `https://github.com/koktaildotcom/com.p1.smartmeter-dsmr.reader` reads the data from the p1 and push it to the `com.p1.smartmeter` api.
 
 ### Requirements of the device that reads data from the smartmeter (a raspberry pi for example)
 1. A working internet connection.
-2. A serial connection with the p1 port of the smart meter.
+2. A serial (usb) connection with the p1 port of the p1 smartmeter.
 3. Power.
 4. Cli access to the device.
 
 ### Script for reading the data and push it to the api
 
 > NOTE: This example is for DSMR 4.0 supported devices.
-1. Install the script `https://github.com/koktaildotcom/node-p1-reader` on the device connected to the serial p1.
+1. Install the script `https://github.com/koktaildotcom/com.p1.smartmeter-dsmr.reader` on the device connected to the serial p1.
 2. Run `npm install`
-3. Change the `HomeyId` as described in `examples/example.js`.
-4. Change the `config.serialPort` for your situation (you should check your smartmeter and google around..)
-5. Run the script by calling: `node examples/example.js`
+3. Change the `HomeyId` as described in `src/p1.js`.
+4. Change the `config.serialPort` for your situation (you should check your smartmeter or google around..)
+5. Run the script by calling: `node src/p1.js`
 
 ### Usage of the Homey app
-1. Install the app `com.p1`.
+1. Install the app `com.p1.smartmeter`.
 2. Add device `p1 smartmeter`.
-3. Use the endpoint `/update` to push data to Homey.
+3. Use the package `com.p1.smartmeter-dsmr.reader` to push data `com.p1.smartmeter`'s endpoint `/update`.
 
 ### Endpoint
 

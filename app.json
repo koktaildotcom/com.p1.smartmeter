@@ -51,7 +51,7 @@
 				"nl": "Laag tarief"
 			},
 			"desc": {
-				"en": "Is off-peak tarriff active?",
+				"en": "Is off-peak tariff active?",
 				"nl": "Is laag tarief actief?"
 			},
 			"getable": true,
@@ -502,7 +502,7 @@
                 ]
             },
             {
-                "id":"meter_tarif.changed",
+                "id":"meter_tariff.changed",
 				"title": {
 					"en":"Tariff has changed",
 					"nl":"Tarief is gewijzigd"

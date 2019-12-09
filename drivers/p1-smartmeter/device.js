@@ -38,12 +38,11 @@ class P1Device extends Homey.Device {
             updateDate = new Date(update);
         }
 
-        let gasCurrent = 0;
-        let gasNew = 0;
-        let gasChange = 0;
-
         if (updateDate < new Date(now.getTime() - (1000 * 60 * 60))) {
-            if (data.gas) {
+            let gasCurrent = 0;
+            let gasNew = 0;
+            let gasChange = 0;
+            if (data.hasOwnProperty('gas')) {
                 if (data.gas.reading) {
                     gasNew = Number(data.gas.reading) * 1000;
                 }
@@ -61,9 +60,7 @@ class P1Device extends Homey.Device {
             }
         }
 
-        console.log("Data pushed:");
-        console.log(data);
-
+        if (data.hasOwnProperty('electricity')) {
         let measurePowerConsumed = device.round(data.electricity.received.actual.reading * 1000),
             measurePowerGenerated = device.round(data.electricity.delivered.actual.reading * 1000),
             measurePower = measurePowerConsumed - measurePowerGenerated,
@@ -71,12 +68,13 @@ class P1Device extends Homey.Device {
             meterPowerConsumed = device.round(data.electricity.received.tariff1.reading + data.electricity.received.tariff2.reading),
             meterPowerGenerated = device.round(data.electricity.delivered.tariff1.reading + data.electricity.delivered.tariff2.reading);
 
-        device.updateCapabilityValue('measure_power', measurePower);
-        device.updateCapabilityValue('meter_gas.consumed', meterGasConsumed);
-        device.updateCapabilityValue('measure_power.consumed', measurePowerConsumed);
-        device.updateCapabilityValue('measure_power.generated', measurePowerGenerated);
-        device.updateCapabilityValue('meter_power.consumed', meterPowerConsumed);
-        device.updateCapabilityValue('meter_power.generated', meterPowerGenerated);
+            device.updateCapabilityValue('measure_power', measurePower);
+            device.updateCapabilityValue('meter_gas.consumed', meterGasConsumed);
+            device.updateCapabilityValue('measure_power.consumed', measurePowerConsumed);
+            device.updateCapabilityValue('measure_power.generated', measurePowerGenerated);
+            device.updateCapabilityValue('meter_power.consumed', meterPowerConsumed);
+            device.updateCapabilityValue('meter_power.generated', meterPowerGenerated);
+        }
     }
 
     updateCapabilityValue(capability, value) {
