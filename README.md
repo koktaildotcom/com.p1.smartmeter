@@ -90,5 +90,9 @@ The repository `https://github.com/koktaildotcom/com.p1.smartmeter-dsmr.reader` 
 - Added capability as it is needed for the power overview
 - Hide total consumed/generated from device sensor overview
 
+### v3.1.1 - 18.12.2019
+- Add new p1 smartmeter implementation to work with the new com.p1.smartmeter-dsmr.reader
+- Make the old p1-smartmeter deprecated
+
 ## Final note ##
 The repository is available at: https://github.com/koktaildotcom/com.p1.smartmeter
