@@ -17,7 +17,7 @@ class P1Driver extends Homey.Driver {
                 const hasProduction = data.includeProduction
                 const device = {
                     name: name,
-                    data: {id: 'ISKA-AM550'},
+                    data: {id: 'p1'},
                     settings: {
                         include_gas: hasGas,
                         include_off_peak: hasOffPeak,

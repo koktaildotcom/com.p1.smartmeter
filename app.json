@@ -87,8 +87,8 @@
         {
             "id": "p1-smartmeter",
             "name": {
-                "nl": "P1 slimme meter",
-                "en": "P1 smartmeter"
+                "nl": "P1 slimme meter (verouderd)",
+                "en": "P1 smartmeter (deprecated)"
             },
             "images": {
                 "small": "./drivers/p1-smartmeter/assets/small.png",
@@ -170,14 +170,14 @@
             ]
         },
         {
-            "id": "ISKA-AM550",
+            "id": "p1",
             "name": {
-                "nl": "Iska AM550 (ESMR 5.0)",
-                "en": "Iska AM550 (ESMR 5.0)"
+				"nl": "P1 slimme meter",
+				"en": "P1 smartmeter"
             },
             "images": {
-                "small": "./drivers/ISKA-AM550/assets/small.png",
-                "large": "./drivers/ISKA-AM550/assets/large.png"
+                "small": "./drivers/p1/assets/small.png",
+                "large": "./drivers/p1/assets/large.png"
             },
             "class": "sensor",
             "capabilities": [
@@ -509,9 +509,9 @@
 				},
 				"args": [
 					{
-						"name": "ISKA-AM550",
+						"name": "p1",
 						"type": "device",
-						"filter": "driver_id=ISKA-AM550",
+						"filter": "driver_id=p1",
 						"placeholder": {
 							"en": "Which device",
 							"nl": "Welk apparaat"
@@ -538,9 +538,9 @@
 				},
 				"args": [
 					{
-						"name": "ISKA-AM550",
+						"name": "p1",
 						"type": "device",
-						"filter": "driver_id=ISKA-AM550",
+						"filter": "driver_id=p1",
 						"placeholder": {
 							"en": "Which device",
 							"nl": "Welk apparaat"

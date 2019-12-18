@@ -60,7 +60,6 @@ class P1Device extends Homey.Device {
             }
         }
 
-        if (data.hasOwnProperty('electricity')) {
         let measurePowerConsumed = device.round(data.electricity.received.actual.reading * 1000),
             measurePowerGenerated = device.round(data.electricity.delivered.actual.reading * 1000),
             measurePower = measurePowerConsumed - measurePowerGenerated,
@@ -74,12 +73,10 @@ class P1Device extends Homey.Device {
             device.updateCapabilityValue('measure_power.generated', measurePowerGenerated);
             device.updateCapabilityValue('meter_power.consumed', meterPowerConsumed);
             device.updateCapabilityValue('meter_power.generated', meterPowerGenerated);
-        }
     }
 
     updateCapabilityValue(capability, value) {
-        let device = this,
-            currentValue = device.getCapabilityValue(capability);
+        let device = this, currentValue = device.getCapabilityValue(capability);
 
         device.setCapabilityValue(capability, value);
 
