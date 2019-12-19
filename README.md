@@ -94,5 +94,8 @@ The repository `https://github.com/koktaildotcom/com.p1.smartmeter-dsmr.reader` 
 - Add new p1 smartmeter implementation to work with the new com.p1.smartmeter-dsmr.reader
 - Make the old p1-smartmeter deprecated
 
+### v3.1.2 - 19.12.2019
+- Bump version because of rejecting in store
+
 ## Final note ##
 The repository is available at: https://github.com/koktaildotcom/com.p1.smartmeter

@@ -68,26 +68,29 @@ body:
 History
 
 v2.0.0 - 01.01.2019
-
 initial commit
+
 v2.0.1 - 01.01.2019
-
 add brandcolor and community topic id
+
 v2.0.2 - 01.01.2019
-
 add repository description for DSMR 4.0
+
 v2.0.3 - 01.01.2019
-
 update current gas usage once per hour
-v3.0.0 - 15.10.2019
 
+v3.0.0 - 15.10.2019
 Add support for Homey v3 Energy
 Added capability as it is needed for the power overview
 Hide total consumed/generated from device sensor overview
-v3.1.1 - 18.12.2019
 
+v3.1.1 - 18.12.2019
 Add new p1 smartmeter implementation to work with the new com.p1.smartmeter-dsmr.reader
 Make the old p1-smartmeter deprecated
+
+v3.1.2 - 19.12.2019
+Bump version because of rejecting in store
+
 Final note
 
 The repository is available at: https://github.com/koktaildotcom/com.p1.smartmeter
