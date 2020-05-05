@@ -22,7 +22,7 @@ module.exports = [
         fn: function (args, callback) {
             if (args.hasOwnProperty('body')) {
                 const DsmrReader = Homey.app.dsmrreader;
-                Homey.emit('update.dsmrreaderdata', DsmrReader.parseData(args.body));
+                Homey.emit('update.data', DsmrReader.parseData(args.body));
 
                 callback(null, 'OK');
             }
