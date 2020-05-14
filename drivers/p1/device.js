@@ -7,6 +7,7 @@ class P1Device extends Homey.Device {
     }
 
     onInit () {
+        console.log('P1 Device ready');
         this._driver = this.getDriver()
         this.handleNewReadings = this._driver.handleNewReadings.bind(this)
         this.settings = this.getSettings()

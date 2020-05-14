@@ -64,8 +64,7 @@ class P1Driver extends Homey.Driver {
         ]
 
         for (const trigger of triggers) {
-            this._flowTriggers[trigger] = new Homey.FlowCardTriggerDevice(
-              trigger).register()
+            this._flowTriggers[trigger] = new Homey.FlowCardTriggerDevice(trigger).register()
         }
     }
 
