@@ -82,15 +82,15 @@ class P1Driver extends Homey.Driver {
             meterGasTm = Date.now() / 1000 // gas_meter_timestamp
             // constructed gas readings
             if (this.meters.lastMeterGas !== meterGas) {
-                if (this.meters.lastMeterGas !== null) {	// first reading after init
-                    let hoursPassed = (meterGasTm -
-                      this.meters.lastMeterGasTm) / 3600	// hrs
-                    if (hoursPassed > 1.5) { // too long ago; assume 1 hour interval
+                if (this.meters.lastMeterGas !== null) {
+                    // first reading after init in hrs
+                    let hoursPassed = (meterGasTm - this.meters.lastMeterGasTm) / 3600
+                    // too long ago; assume 1 hour interval
+                    if (hoursPassed > 1) {
                         hoursPassed = 1
                     }
-                    measureGas = Math.round(1000 *
-                        ((meterGas - this.meters.lastMeterGas) / hoursPassed)) /
-                      1000 // gas_interval_meter
+                    // gas_interval_meter
+                    measureGas = Math.round(1000 * ((meterGas - this.meters.lastMeterGas) / hoursPassed)) / 1000
                 }
                 this.meters.lastMeterGasTm = meterGasTm
             }
@@ -120,21 +120,17 @@ class P1Driver extends Homey.Driver {
             const meterPowerTm = Date.now() / 1000 // readings.tm;
 
             // constructed electricity readings
-            const meterPower = (meterPowerOffpeak + meterPowerPeak) -
-              (meterPowerOffpeakProduced + meterPowerPeakProduced)
+            const meterPower =
+                (meterPowerOffpeak + meterPowerPeak) - (meterPowerOffpeakProduced + meterPowerPeakProduced)
 
-            const offPeak = device.round(data.electricity.tariffIndicator) ===
-              1;
-            const measurePowerDelta = (measurePower -
-            this.meters.lastMeasurePower)
+            const offPeak = device.round(data.electricity.tariffIndicator) === 1;
+            const measurePowerDelta = (measurePower - this.meters.lastMeasurePower)
 
             if (offPeak !== this.meters.lastOffpeak) {
                 const tokens = {
                     tariff: offPeak,
                 }
-                device._driver.triggerChangedFlow('meter_tariff.changed',
-                  device,
-                  tokens)
+                device._driver.triggerChangedFlow('meter_tariff.changed', device, tokens)
             }
 
             if (measurePower !== this.meters.lastMeasurePower) {
@@ -142,8 +138,7 @@ class P1Driver extends Homey.Driver {
                     power: measurePower,
                     power_delta: measurePowerDelta,
                 }
-                device._driver.triggerChangedFlow('power.changed', device,
-                  tokens)
+                device._driver.triggerChangedFlow('power.changed', device, tokens)
             }
 
             // store the new readings in memory
@@ -165,7 +160,6 @@ class P1Driver extends Homey.Driver {
         }
 
         // update the device state
-        // this.log(this.meters);
         this.updateDeviceState()
     }
 
