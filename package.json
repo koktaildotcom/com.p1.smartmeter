@@ -2,5 +2,8 @@
   "name": "com.p1.smartmeter",
   "dependencies": {
     "node-dsmr": "^0.1.11"
+  },
+  "devDependencies": {
+    "homey": "^2.3.3"
   }
 }
