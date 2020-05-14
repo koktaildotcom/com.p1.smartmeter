@@ -3,7 +3,7 @@
 /* eslint-disable no-undef */
 
 const homeyIsV2 = typeof Homey.showLoadingOverlay === 'function';
-Homey.setTitle(__('pair.titleAM550'));
+Homey.setTitle(__('pair.title'));
 
 if (!homeyIsV2) {
 	Homey.showLoadingOverlay = () => {

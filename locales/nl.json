@@ -1,7 +1,7 @@
 {
     "pair": {
-		"titleAM550": "ISKA-AM550 P1 (ESMR 5.0)",
-		"instructionsAM550": "Deze driver kan gebruikt worden als je een ISKA-AM550 P1 meter verbonden hebt door middel van node-p1-reader software. De-selecteer de meters die je niet nodig hebt. De hoofd-stroommeter wordt altijd weergegeven.",
+		"title": "P1 slimme meter",
+		"instructions": "Deze driver kan gebruikt worden als je een P1 meter verbonden hebt door middel van com.p1.smartmeter-dsmr.reader software. De-selecteer de meters die je niet nodig hebt. De hoofd-stroommeter wordt altijd weergegeven.",
 		"includeMeters": "Meters weergeven",
 		"includeProduction": "Stroom teruglevering",
 		"includeOffPeak": "Dal tarief",

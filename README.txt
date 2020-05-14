@@ -111,5 +111,4 @@ v3.1.2 - 19.12.2019
 Bump version because of rejecting in store
 
 Final note
-
 The repository is available at: https://github.com/koktaildotcom/com.p1.smartmeter
