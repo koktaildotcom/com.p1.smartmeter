@@ -47,7 +47,7 @@ class P1Driver extends Homey.Driver {
                     device.capabilities.push('meter_power.producedOffPeak')
                 }
                 if (data.includeOffPeak) {
-                    device.capabilities.push('meter_offPeak')
+                    device.capabilities.push('meter_offpeak')
                 }
                 callback(null, JSON.stringify(device)) // report success to frontend
             } catch (error) {

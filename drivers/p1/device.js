@@ -84,13 +84,13 @@ class P1Device extends Homey.Device {
                             await this.addCapability(
                               'meter_power.producedOffPeak')
                         }
-                        await this.addCapability('meter_offPeak')
+                        await this.addCapability('meter_offpeak')
                     } else {
                         await this.removeCapability('meter_power.peak')
                         await this.removeCapability('meter_power.offPeak')
                         await this.removeCapability(
                           'meter_power.producedOffPeak')
-                        await this.removeCapability('meter_offPeak')
+                        await this.removeCapability('meter_offpeak')
                     }
                     break
                 default:
@@ -121,7 +121,7 @@ class P1Device extends Homey.Device {
             if (this.settings.include_off_peak) {
                 this.setCapabilityValue('meter_power.peak', this.meters.lastMeterPowerPeak)
                 this.setCapabilityValue('meter_power.offPeak', this.meters.lastMeterPowerOffpeak)
-                this.setCapabilityValue('meter_offPeak', this.meters.lastOffpeak)
+                this.setCapabilityValue('meter_offpeak', this.meters.lastOffpeak)
             }
         } catch (error) {
             this.error(error)

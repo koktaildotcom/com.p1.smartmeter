@@ -19,7 +19,7 @@
     "meter_power.offPeak",
     "meter_power.producedPeak",
     "meter_power.producedOffPeak",
-    "meter_offPeak"
+    "meter_offpeak"
   ],
   "energy": {
     "cumulative": true
