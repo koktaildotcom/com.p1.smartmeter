@@ -1,0 +1,6 @@
+{
+  "name": "com.p1.smartmeter",
+  "dependencies": {
+    "node-dsmr": "^0.1.11"
+  }
+}

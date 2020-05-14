@@ -10,7 +10,8 @@ A working internet connection.
 A serial (usb) connection with the p1 port of the p1 smartmeter.
 Power.
 Cli access to the device.
-Script for reading the data and push it to the api
+
+Script for reading the data and push it to the api (Standalone)
 
 NOTE: This example is for DSMR 4.0 supported devices.
 Install the script https://github.com/koktaildotcom/com.p1.smartmeter-dsmr.reader on the device connected to the serial p1.
@@ -20,9 +21,18 @@ Change the config.serialPort for your situation (you should check your smartmete
 Run the script by calling: node src/p1.js
 Usage of the Homey app
 
+Script for reading the data and push it to the api (DSMR-Reader)
+
+Install the script `https://gist.github.com/steffjenl/31bd083eeb9d0be04375b7695b9f2eaf` as plugin for DSM-Reader.
+More information about installing plugin's can be found on `https://dsmr-reader.readthedocs.io/nl/v3/plugins.html`
+Change the `HOMEY_ID` as described in `forward_raw_telegram_to_api.py`.
+Execute as user dsmr in the dsmr directory `./post-deploy.sh`
+
 Install the app com.p1.smartmeter.
 Add device p1 smartmeter.
-Use the package com.p1.smartmeter-dsmr.reader to push data com.p1.smartmeter's endpoint /update.
+Use the package com.p1.smartmeter-dsmr.reader to push data com.p1.smartmeter's endpoint /update or /update/dsmrreader.
+
+
 Endpoint
 
 POST: /update
@@ -65,6 +75,15 @@ body:
 		"unit": "m3"
 	}
 }
+
+
+POST: /update/dsmrreader
+
+body:
+{
+	"telegram": "RAW TELEGRAM MESSAGE"
+}
+
 History
 
 v2.0.0 - 01.01.2019
