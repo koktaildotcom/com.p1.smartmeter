@@ -96,8 +96,6 @@ class P1Driver extends Homey.Driver {
             }
         }
 
-        console.log(data.electricity);
-
         if (data.hasOwnProperty('electricity') && data.electricity) {
             // electricity readings from device
             const meterPowerPeak = data.electricity.received.tariff2.reading
@@ -117,7 +115,7 @@ class P1Driver extends Homey.Driver {
               data.electricity.instantaneous.power.negative.L3.reading) * 1000)
 
             let measurePower = measurePowerConsumed - lastMeasurePowerProduced
-console.log(measurePower);
+
             let measurePowerAvg = this.meters.lastMeasurePowerAvg
             const meterPowerTm = Date.now() / 1000 // readings.tm;
 

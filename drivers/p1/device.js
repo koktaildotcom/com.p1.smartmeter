@@ -109,6 +109,7 @@ class P1Device extends Homey.Device {
                 this.setCapabilityValue('meter_gas', this.meters.lastMeterGas)
             }
             this.setCapabilityValue('measure_power', this.meters.lastMeasurePower)
+            this.setCapabilityValue('measure_power.consumed', this.meters.lastMeasurePowerConsumed)
             this.setCapabilityValue('meter_power', this.meters.lastMeterPower)
             if (this.settings.include_production) {
                 this.setCapabilityValue('measure_power.produced', this.meters.lastMeasurePowerProduced)
