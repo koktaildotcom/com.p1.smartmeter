@@ -1,0 +1,25 @@
+{
+  "id": "measure_power.generated.changed",
+  "title": {
+    "en": "Current generated electricity changed",
+    "nl": "Huidige opgewekte elektriciteit gewijzigd"
+  },
+  "args": [
+    {
+      "name": "p1-smartmeter",
+      "type": "device",
+      "filter": "driver_id=p1-smartmeter"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "measure_power.generated",
+      "type": "number",
+      "title": {
+        "en": "Current generated electricity (W)",
+        "nl": "Huidige opgewekte elektriciteit (W)"
+      },
+      "example": 100
+    }
+  ]
+}

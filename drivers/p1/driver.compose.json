@@ -1,0 +1,153 @@
+{
+  "name": {
+    "nl": "P1 slimme meter",
+    "en": "P1 smartmeter"
+  },
+  "images": {
+    "small": "./drivers/p1/assets/small.png",
+    "large": "./drivers/p1/assets/large.png"
+  },
+  "class": "sensor",
+  "capabilities": [
+    "measure_gas",
+    "meter_gas",
+    "measure_power",
+    "measure_power.consumed",
+    "measure_power.produced",
+    "meter_power",
+    "meter_power.peak",
+    "meter_power.offPeak",
+    "meter_power.producedPeak",
+    "meter_power.producedOffPeak",
+    "meter_offPeak"
+  ],
+  "energy": {
+    "cumulative": true
+  },
+  "capabilitiesOptions": {
+    "measure_power": {
+      "title": {
+        "en": "Electricity current usage-generated",
+        "nl": "Elektriciteit huidig verbruik-teruglevering"
+      },
+      "uiComponent": null
+    },
+    "measure_power.consumed": {
+      "title": {
+        "en": "Electricity current usage",
+        "nl": "Elektriciteit huidig verbruik"
+      }
+    },
+    "measure_power.produced": {
+      "title": {
+        "en": "Electricity current delivery",
+        "nl": "Elektriciteit huidig teruglevering"
+      }
+    },
+    "meter_power": {
+      "title": {
+        "en": "Power meter total",
+        "nl": "Energie meter verbruik totaal"
+      },
+      "decimals": 2
+    },
+    "meter_power.peak": {
+      "title": {
+        "en": "Power meter usage peak tariff",
+        "nl": "Meterstand verbuik piek-tarief"
+      },
+      "decimals": 2
+    },
+    "meter_power.offPeak": {
+      "title": {
+        "en": "Power meter usage off-peak tariff",
+        "nl": "Meterstand verbruik dal-tarief"
+      },
+      "decimals": 2
+    },
+    "meter_power.producedPeak": {
+      "title": {
+        "en": "Power meter production peak tariff",
+        "nl": "Meterstand teruglevering piek-tarief"
+      },
+      "decimals": 2
+    },
+    "meter_power.producedOffPeak": {
+      "title": {
+        "en": "Power meter production off-peak tariff",
+        "nl": "Meterstand teruglevering dal-tarief"
+      },
+      "decimals": 2
+    }
+  },
+  "pair": [
+    {
+      "id": "pair"
+    }
+  ],
+  "settings": [
+    {
+      "type": "group",
+      "label": {
+        "en": "Device information",
+        "nl": "Device informatie"
+      },
+      "children": [
+        {
+          "id": "model",
+          "type": "label",
+          "label": {
+            "en": "Model",
+            "nl": "Model"
+          },
+          "value": "unknown"
+        },
+        {
+          "id": "mac",
+          "type": "label",
+          "label": {
+            "en": "Mac",
+            "nl": "Mac"
+          },
+          "value": "unknown"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Meter functionality",
+        "nl": "Meter functionaliteit"
+      },
+      "children": [
+        {
+          "id": "include_off_peak",
+          "type": "checkbox",
+          "label": {
+            "en": "Report OffPeak",
+            "nl": "Rapporteer dal-tarief"
+          },
+          "value": true
+        },
+        {
+          "id": "include_production",
+          "type": "checkbox",
+          "label": {
+            "en": "Report production",
+            "nl": "Rapporteer teruglevering"
+          },
+          "value": true
+        },
+        {
+          "id": "include_gas",
+          "type": "checkbox",
+          "label": {
+            "en": "Report Gas",
+            "nl": "Rapporteer gas"
+          },
+          "value": true
+        }
+      ]
+    }
+  ]
+}

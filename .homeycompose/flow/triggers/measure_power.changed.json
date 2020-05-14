@@ -1,0 +1,25 @@
+{
+  "id": "measure_power.changed",
+  "title": {
+    "en": "Current total consumed/generated electricity changed",
+    "nl": "Huidige totaal verbruikte/opgewekte elektriciteit gewijzigd"
+  },
+  "args": [
+    {
+      "name": "p1-smartmeter",
+      "type": "device",
+      "filter": "driver_id=p1-smartmeter"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "measure_power",
+      "type": "number",
+      "title": {
+        "en": "Current total consumed/generated electricity (W)",
+        "nl": "Huidige toaal verbruikte/opgewekte elektriciteit (W)"
+      },
+      "example": 500
+    }
+  ]
+}

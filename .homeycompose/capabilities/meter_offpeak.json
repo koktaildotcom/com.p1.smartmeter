@@ -1,0 +1,21 @@
+{
+  "type": "boolean",
+  "title": {
+    "en": "Off-peak",
+    "nl": "Laag tarief"
+  },
+  "desc": {
+    "en": "Is off-peak tariff active?",
+    "nl": "Is laag tarief actief?"
+  },
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "insightsTitleTrue": {
+    "en": "Off-peak"
+  },
+  "insightsTitleFalse": {
+    "en": "Peak"
+  },
+  "icon": "./assets/images/offPeak_icon.svg"
+}
