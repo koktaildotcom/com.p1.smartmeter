@@ -117,7 +117,7 @@ The repository `https://github.com/koktaildotcom/com.p1.smartmeter-dsmr.reader` 
 ### v3.1.3 - 14.05.2020
 - Add endpoint for raw telegram messages
 - Fixed translation issues https://github.com/koktaildotcom/com.p1.smartmeter/issues/15
-- Removed depricated driver `p1-smartmeter`.
+- Removed deprecated driver `p1-smartmeter`.
 - Fixed power consumed missing https://github.com/koktaildotcom/com.p1.smartmeter/issues/19 
 
 ## Final note ##
