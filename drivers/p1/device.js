@@ -19,9 +19,6 @@ class P1Device extends Homey.Device {
 
     registerEventListeners(device) {
         Homey.on('update.data', function (data) {
-            console.log('--------------------------------------------------------------------')
-            console.log('New data available');
-            console.log('--------------------------------------------------------------------')
             device.handleNewReadings(data)
         })
     }
