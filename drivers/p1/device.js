@@ -2,11 +2,11 @@ const Homey = require('homey')
 
 class P1Device extends Homey.Device {
 
-    round (number) {
+    round(number) {
         return Math.round(number * 100) / 100
     }
 
-    onInit () {
+    onInit() {
         console.log('P1 Device ready');
         this._driver = this.getDriver()
         this.handleNewReadings = this._driver.handleNewReadings.bind(this)
@@ -17,13 +17,16 @@ class P1Device extends Homey.Device {
         this.registerEventListeners(this)
     }
 
-    registerEventListeners (device) {
+    registerEventListeners(device) {
         Homey.on('update.data', function (data) {
+            console.log('--------------------------------------------------------------------')
+            console.log('New data available');
+            console.log('--------------------------------------------------------------------')
             device.handleNewReadings(data)
         })
     }
 
-    initMeters () {
+    initMeters() {
         this.meters = {
             lastMeasureGas: 0,										// 'measureGas' (m3)
             lastMeterGas: null, 									    // 'meterGas' (m3)
@@ -44,85 +47,117 @@ class P1Device extends Homey.Device {
         }
     }
 
+    async tryToAddCapability(capability) {
+        if (await this.hasCapability(capability)) {
+            return await this.addCapability(capability)
+        }
+    }
+
+    async tryToRemoveCapability(capability) {
+        if (await this.hasCapability(capability)) {
+            return await this.removeCapability(capability)
+        }
+    }
+
     // this method is called when the user has changed the device's settings in Homey.
-    async onSettings (oldSettingsObj, newSettingsObj, changedKeysArr) {
+    async onSettings(oldSettingsObj, newSettingsObj, changedKeysArr) {
         this.log(
-          `${this.getData().id} ${this.getName()} device settings changed`)
+            `${this.getData().id} ${this.getName()} device settings changed`)
 
         await changedKeysArr.forEach(async (key) => {
             switch (key) {
                 case 'include_gas':
                     if (newSettingsObj.include_gas) {
-                        await this.addCapability('measure_gas')
-                        await this.addCapability('meter_gas')
+                        await this.tryToAddCapability('measure_gas')
+                        await this.tryToAddCapability('meter_gas')
                     } else {
-                        await this.removeCapability('measure_gas')
-                        await this.removeCapability('meter_gas')
+                        await this.tryToAddCapability('measure_gas')
+                        await this.tryToAddCapability('meter_gas')
                     }
                     break
                 case 'include_production':
                     if (newSettingsObj.include_production) {
-                        await this.addCapability('measure_power.consumed')
-                        await this.addCapability('measure_power.produced')
-                        await this.addCapability('meter_power.producedPeak')
+                        await this.tryToAddCapability('measure_power.consumed')
+                        await this.tryToAddCapability('measure_power.produced')
+                        await this.tryToAddCapability('meter_power.producedPeak')
                         if (newSettingsObj.include_off_peak) {
-                            await this.addCapability(
-                              'meter_power.producedOffPeak')
+                            await this.tryToAddCapability(
+                                'meter_power.producedOffPeak')
                         }
                     } else {
-                        await this.removeCapability('measure_power.consumed')
-                        await this.removeCapability('measure_power.produced')
-                        await this.removeCapability('meter_power.producedPeak')
-                        await this.removeCapability(
-                          'meter_power.producedOffPeak')
+                        await this.tryToRemoveCapability('measure_power.consumed')
+                        await this.tryToRemoveCapability('measure_power.produced')
+                        await this.tryToRemoveCapability('meter_power.producedPeak')
+                        await this.tryToRemoveCapability(
+                            'meter_power.producedOffPeak')
                     }
                     break
                 case 'include_off_peak':
                     if (newSettingsObj.include_off_peak) {
-                        await this.addCapability('meter_power.peak')
-                        await this.addCapability('meter_power.offPeak')
+                        await this.tryToAddCapability('meter_power.peak')
+                        await this.tryToAddCapability('meter_power.offPeak')
                         if (newSettingsObj.include_production) {
-                            await this.addCapability(
-                              'meter_power.producedOffPeak')
+                            await this.tryToAddCapability(
+                                'meter_power.producedOffPeak')
                         }
-                        await this.addCapability('meter_offpeak')
+                        await this.tryToAddCapability('meter_offpeak')
                     } else {
-                        await this.removeCapability('meter_power.peak')
-                        await this.removeCapability('meter_power.offPeak')
-                        await this.removeCapability(
-                          'meter_power.producedOffPeak')
-                        await this.removeCapability('meter_offpeak')
+                        await this.tryToRemoveCapability('meter_power.peak')
+                        await this.tryToRemoveCapability('meter_power.offPeak')
+                        await this.tryToRemoveCapability(
+                            'meter_power.producedOffPeak')
+                        await this.tryToRemoveCapability('meter_offpeak')
                     }
                     break
                 default:
                     break
             }
-        })
+        });
+
         this.log(newSettingsObj)
         this.settings = newSettingsObj
-        Promise.resolve(true)
+
+        return Promise.resolve(true)
     }
 
-    updateDeviceState () {
+    /**
+     * Set the CapabilityValue
+     * @param key
+     * @param value
+     */
+    setDeviceCapabilityValue(key, value) {
+        this.setCapabilityValue(key, value)
+            .then(() => {
+                console.log('Setting ' + key + ' with value ' + value);
+            })
+            .catch((error) => {
+                console.error('Setting ' + key + ' with value ' + value + ' gives an error:' + error.message);
+            })
+    }
+
+    /**
+     * Update the state
+     */
+    updateDeviceState() {
         try {
             if (this.settings.include_gas) {
-                this.setCapabilityValue('measure_gas', this.meters.lastMeasureGas)
-                this.setCapabilityValue('meter_gas', this.meters.lastMeterGas)
+                this.setDeviceCapabilityValue('measure_gas', this.meters.lastMeasureGas)
+                this.setDeviceCapabilityValue('meter_gas', this.meters.lastMeterGas)
             }
-            this.setCapabilityValue('measure_power', this.meters.lastMeasurePower)
-            this.setCapabilityValue('measure_power.consumed', this.meters.lastMeasurePowerConsumed)
-            this.setCapabilityValue('meter_power', this.meters.lastMeterPower)
+            this.setDeviceCapabilityValue('measure_power', this.meters.lastMeasurePower)
+            this.setDeviceCapabilityValue('measure_power.consumed', this.meters.lastMeasurePowerConsumed)
+            this.setDeviceCapabilityValue('meter_power', this.meters.lastMeterPower)
             if (this.settings.include_production) {
-                this.setCapabilityValue('measure_power.produced', this.meters.lastMeasurePowerProduced)
-                this.setCapabilityValue('meter_power.producedPeak', this.meters.lastMeterPowerPeakProduced)
+                this.setDeviceCapabilityValue('measure_power.produced', this.meters.lastMeasurePowerProduced)
+                this.setDeviceCapabilityValue('meter_power.producedPeak', this.meters.lastMeterPowerPeakProduced)
                 if (this.settings.include_off_peak) {
-                    this.setCapabilityValue('meter_power.producedOffPeak', this.meters.lastMeterPowerOffpeakProduced)
+                    this.setDeviceCapabilityValue('meter_power.producedOffPeak', this.meters.lastMeterPowerOffpeakProduced)
                 }
             }
             if (this.settings.include_off_peak) {
-                this.setCapabilityValue('meter_power.peak', this.meters.lastMeterPowerPeak)
-                this.setCapabilityValue('meter_power.offPeak', this.meters.lastMeterPowerOffpeak)
-                this.setCapabilityValue('meter_offpeak', this.meters.lastOffpeak)
+                this.setDeviceCapabilityValue('meter_power.peak', this.meters.lastMeterPowerPeak)
+                this.setDeviceCapabilityValue('meter_power.offPeak', this.meters.lastMeterPowerOffpeak)
+                this.setDeviceCapabilityValue('meter_offpeak', this.meters.lastOffpeak)
             }
         } catch (error) {
             this.error(error)
