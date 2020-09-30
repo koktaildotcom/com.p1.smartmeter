@@ -1,176 +1,180 @@
-const Homey = require('homey')
+'use strict';
+
+const Homey = require('homey');
 
 class P1Driver extends Homey.Driver {
 
-    onInit () {
-        this._flowTriggers = []
-        this.registerFlowCards()
-    }
+  onInit() {
+    this._flowTriggers = [];
+    this.registerFlowCards();
+  }
 
-    onPair (socket) {
-        socket.on('validate', async (data, callback) => {
-            try {
-                this.log('save button pressed in frontend')
-                const name = data.name
-                const hasGas = data.includeGas
-                const hasOffPeak = data.includeOffPeak
-                const hasProduction = data.includeProduction
-                const device = {
-                    name: name,
-                    data: {id: 'p1'},
-                    settings: {
-                        include_gas: hasGas,
-                        include_off_peak: hasOffPeak,
-                        include_production: hasProduction,
-                    },
-                    capabilities: [
-                    ],
-                }
-                if (data.includeGas) {
-                    device.capabilities.push('measure_gas')
-                    device.capabilities.push('meter_gas')
-                }
-                device.capabilities.push('measure_power')
-                if (data.includeProduction) {
-                    device.capabilities.push('measure_power.consumed')
-                    device.capabilities.push('measure_power.produced')
-                }
-                device.capabilities.push('meter_power')
-                if (data.includeOffPeak) {
-                    device.capabilities.push('meter_power.peak')
-                    device.capabilities.push('meter_power.offPeak')
-                }
-                if (data.includeProduction) {
-                    device.capabilities.push('meter_power.producedPeak')
-                }
-                if (data.includeProduction && data.includeOffPeak) {
-                    device.capabilities.push('meter_power.producedOffPeak')
-                }
-                if (data.includeOffPeak) {
-                    device.capabilities.push('meter_offpeak')
-                }
-                callback(null, JSON.stringify(device)) // report success to frontend
-            } catch (error) {
-                this.error('Pair error', error)
-                callback(error)
-            }
-        })
-    }
-
-    registerFlowCards () {
-        let triggers = [
-            'power.changed',
-            'meter_tariff.changed',
-        ]
-
-        for (const trigger of triggers) {
-            this._flowTriggers[trigger] = new Homey.FlowCardTriggerDevice(trigger).register()
+  onPair(socket) {
+    socket.on('validate', async (data, callback) => {
+      try {
+        this.log('save button pressed in frontend');
+        const { name } = data;
+        const hasGas = data.includeGas;
+        const hasOffPeak = data.includeOffPeak;
+        const hasProduction = data.includeProduction;
+        const device = {
+          name,
+          data: { id: 'p1' },
+          settings: {
+            include_gas: hasGas,
+            include_off_peak: hasOffPeak,
+            include_production: hasProduction,
+          },
+          capabilities: [],
+        };
+        if (data.includeGas) {
+          device.capabilities.push('measure_gas');
+          device.capabilities.push('meter_gas');
         }
+        device.capabilities.push('measure_power');
+        if (data.includeProduction) {
+          device.capabilities.push('measure_power.consumed');
+          device.capabilities.push('measure_power.produced');
+        }
+        device.capabilities.push('meter_power');
+        if (data.includeOffPeak) {
+          device.capabilities.push('meter_power.peak');
+          device.capabilities.push('meter_power.offPeak');
+        }
+        if (data.includeProduction) {
+          device.capabilities.push('meter_power.producedPeak');
+        }
+        if (data.includeProduction && data.includeOffPeak) {
+          device.capabilities.push('meter_power.producedOffPeak');
+        }
+        if (data.includeOffPeak) {
+          device.capabilities.push('meter_offpeak');
+        }
+        callback(null, JSON.stringify(device)); // report success to frontend
+      } catch (error) {
+        this.error('Pair error', error);
+        callback(error);
+      }
+    });
+  }
+
+  registerFlowCards() {
+    const triggers = [
+      'power.changed',
+      'meter_tariff.changed',
+    ];
+
+    for (const trigger of triggers) {
+      this._flowTriggers[trigger] = new Homey.FlowCardTriggerDevice(trigger).register();
+    }
+  }
+
+  handleNewReadings(data) {
+    // call with device as this
+    const device = this;
+    // this.log(`handling new readings for ${this.getName()}`);
+    // gas readings from device
+    let meterGas = this.meters.lastMeterGas;
+    let measureGas = this.meters.lastMeasureGas;
+    let meterGasTm = this.meters.lastMeterGasTm;
+
+    if (data.hasOwnProperty('gas') && data.gas) {
+      meterGas = data.gas.reading; // gas_cumulative_meter
+      meterGasTm = Date.now() / 1000; // gas_meter_timestamp
+      // constructed gas readings
+      if (this.meters.lastMeterGas !== meterGas) {
+        if (this.meters.lastMeterGas !== null) {
+          // first reading after init in hrs
+          let hoursPassed = (meterGasTm - this.meters.lastMeterGasTm) / 3600;
+          // too long ago; assume 1 hour interval
+          if (hoursPassed > 1) {
+            hoursPassed = 1;
+          }
+          // gas_interval_meter
+          measureGas = Math.round(1000 * ((meterGas - this.meters.lastMeterGas) / hoursPassed)) / 1000;
+        }
+        this.meters.lastMeterGasTm = meterGasTm;
+      }
     }
 
-    handleNewReadings (data) {	// call with device as this
-        let device = this
-        // this.log(`handling new readings for ${this.getName()}`);
-        // gas readings from device
-        let meterGas = this.meters.lastMeterGas
-        let measureGas = this.meters.lastMeasureGas
-        let meterGasTm = this.meters.lastMeterGasTm
+    if (data.hasOwnProperty('electricity') && data.electricity) {
+      // electricity readings from device
+      const meterPowerPeak = data.electricity.received.tariff2.reading;
+      const meterPowerOffpeak = data.electricity.received.tariff1.reading;
 
-        if (data.hasOwnProperty('gas') && data.gas) {
-            meterGas = data.gas.reading // gas_cumulative_meter
-            meterGasTm = Date.now() / 1000 // gas_meter_timestamp
-            // constructed gas readings
-            if (this.meters.lastMeterGas !== meterGas) {
-                if (this.meters.lastMeterGas !== null) {
-                    // first reading after init in hrs
-                    let hoursPassed = (meterGasTm - this.meters.lastMeterGasTm) / 3600
-                    // too long ago; assume 1 hour interval
-                    if (hoursPassed > 1) {
-                        hoursPassed = 1
-                    }
-                    // gas_interval_meter
-                    measureGas = Math.round(1000 * ((meterGas - this.meters.lastMeterGas) / hoursPassed)) / 1000
-                }
-                this.meters.lastMeterGasTm = meterGasTm
-            }
-        }
+      const meterPowerPeakProduced = data.electricity.delivered.tariff2.reading;
+      const meterPowerOffpeakProduced = data.electricity.delivered.tariff1.reading;
 
-        if (data.hasOwnProperty('electricity') && data.electricity) {
-            // electricity readings from device
-            const meterPowerPeak = data.electricity.received.tariff2.reading
-            const meterPowerOffpeak = data.electricity.received.tariff1.reading
+      const measurePowerConsumed = device.round(
+        (data.electricity.instantaneous.power.positive.L1.reading
+          + data.electricity.instantaneous.power.positive.L2.reading
+          + data.electricity.instantaneous.power.positive.L3.reading) * 1000,
+      );
 
-            const meterPowerPeakProduced = data.electricity.delivered.tariff2.reading
-            const meterPowerOffpeakProduced = data.electricity.delivered.tariff1.reading
+      const lastMeasurePowerProduced = device.round(
+        (data.electricity.instantaneous.power.negative.L1.reading
+          + data.electricity.instantaneous.power.negative.L2.reading
+          + data.electricity.instantaneous.power.negative.L3.reading) * 1000,
+      );
 
-            let measurePowerConsumed = device.round(
-              (data.electricity.instantaneous.power.positive.L1.reading +
-              data.electricity.instantaneous.power.positive.L2.reading +
-              data.electricity.instantaneous.power.positive.L3.reading) * 1000)
+      const measurePower = measurePowerConsumed - lastMeasurePowerProduced;
 
-            let lastMeasurePowerProduced = device.round(
-              (data.electricity.instantaneous.power.negative.L1.reading +
-              data.electricity.instantaneous.power.negative.L2.reading +
-              data.electricity.instantaneous.power.negative.L3.reading) * 1000)
+      const measurePowerAvg = this.meters.lastMeasurePowerAvg;
+      const meterPowerTm = Date.now() / 1000; // readings.tm;
 
-            let measurePower = measurePowerConsumed - lastMeasurePowerProduced
+      // constructed electricity readings
+      const meterPower = (meterPowerOffpeak + meterPowerPeak) - (meterPowerOffpeakProduced + meterPowerPeakProduced);
 
-            let measurePowerAvg = this.meters.lastMeasurePowerAvg
-            const meterPowerTm = Date.now() / 1000 // readings.tm;
+      const offPeak = device.round(data.electricity.tariffIndicator) === 1;
+      const measurePowerDelta = (measurePower - this.meters.lastMeasurePower);
 
-            // constructed electricity readings
-            const meterPower =
-                (meterPowerOffpeak + meterPowerPeak) - (meterPowerOffpeakProduced + meterPowerPeakProduced)
+      if (offPeak !== this.meters.lastOffpeak) {
+        const tokens = {
+          tariff: offPeak,
+        };
+        device._driver.triggerChangedFlow('meter_tariff.changed', device, tokens);
+      }
 
-            const offPeak = device.round(data.electricity.tariffIndicator) === 1;
-            const measurePowerDelta = (measurePower - this.meters.lastMeasurePower)
+      if (measurePower !== this.meters.lastMeasurePower) {
+        const tokens = {
+          power: measurePower,
+          power_delta: measurePowerDelta,
+        };
+        device._driver.triggerChangedFlow('power.changed', device, tokens);
+      }
 
-            if (offPeak !== this.meters.lastOffpeak) {
-                const tokens = {
-                    tariff: offPeak,
-                }
-                device._driver.triggerChangedFlow('meter_tariff.changed', device, tokens)
-            }
+      // store the new readings in memory
+      this.meters.lastMeasureGas = measureGas;
+      this.meters.lastMeterGas = meterGas;
+      this.meters.lastMeterGasTm = meterGasTm;
 
-            if (measurePower !== this.meters.lastMeasurePower) {
-                const tokens = {
-                    power: measurePower,
-                    power_delta: measurePowerDelta,
-                }
-                device._driver.triggerChangedFlow('power.changed', device, tokens)
-            }
-
-            // store the new readings in memory
-            this.meters.lastMeasureGas = measureGas
-            this.meters.lastMeterGas = meterGas
-            this.meters.lastMeterGasTm = meterGasTm
-
-            this.meters.lastMeasurePower = measurePower
-            this.meters.lastMeasurePowerConsumed = measurePowerConsumed
-            this.meters.lastMeasurePowerProduced = lastMeasurePowerProduced
-            this.meters.lastMeasurePowerAvg = measurePowerAvg
-            this.meters.lastMeterPower = meterPower
-            this.meters.lastMeterPowerPeak = meterPowerPeak
-            this.meters.lastMeterPowerOffpeak = meterPowerOffpeak
-            this.meters.lastMeterPowerPeakProduced = meterPowerPeakProduced
-            this.meters.lastMeterPowerOffpeakProduced = meterPowerOffpeakProduced
-            this.meters.lastMeterPowerTm = meterPowerTm
-            this.meters.lastOffpeak = offPeak
-        }
-
-        // update the device state
-        this.updateDeviceState()
+      this.meters.lastMeasurePower = measurePower;
+      this.meters.lastMeasurePowerConsumed = measurePowerConsumed;
+      this.meters.lastMeasurePowerProduced = lastMeasurePowerProduced;
+      this.meters.lastMeasurePowerAvg = measurePowerAvg;
+      this.meters.lastMeterPower = meterPower;
+      this.meters.lastMeterPowerPeak = meterPowerPeak;
+      this.meters.lastMeterPowerOffpeak = meterPowerOffpeak;
+      this.meters.lastMeterPowerPeakProduced = meterPowerPeakProduced;
+      this.meters.lastMeterPowerOffpeakProduced = meterPowerOffpeakProduced;
+      this.meters.lastMeterPowerTm = meterPowerTm;
+      this.meters.lastOffpeak = offPeak;
     }
 
-    triggerChangedFlow (triggerName, device, tokens) {
-        if (triggerName in this._flowTriggers) {
-            this._flowTriggers[triggerName].trigger(device, tokens).then(() => {
-                console.log('triggered ' + triggerName + ' with success!')
-            }).catch((error) => {
-                console.log('triggered ' + triggerName + ' failed: ' + error)
-            })
-        }
+    // update the device state
+    this.updateDeviceState();
+  }
+
+  triggerChangedFlow(triggerName, device, tokens) {
+    if (triggerName in this._flowTriggers) {
+      this._flowTriggers[triggerName].trigger(device, tokens).then(() => {
+        console.log(`triggered ${triggerName} with success!`);
+      }).catch(error => {
+        console.log(`triggered ${triggerName} failed: ${error}`);
+      });
     }
+  }
+
 }
 
-module.exports = P1Driver
+module.exports = P1Driver;
