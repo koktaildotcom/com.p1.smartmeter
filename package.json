@@ -9,6 +9,6 @@
   "devDependencies": {
     "eslint": "^7.10.0",
     "eslint-config-athom": "^2.1.0",
-    "homey": "^2.3.3"
+    "homey": "^2.7.1"
   }
 }

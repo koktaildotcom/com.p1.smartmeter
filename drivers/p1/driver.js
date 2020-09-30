@@ -12,7 +12,7 @@ class P1Driver extends Homey.Driver {
   onPair(socket) {
     socket.on('validate', async (data, callback) => {
       try {
-        this.log('save button pressed in frontend');
+        console.log('save button pressed in frontend');
         const { name } = data;
         const hasGas = data.includeGas;
         const hasOffPeak = data.includeOffPeak;
@@ -72,7 +72,7 @@ class P1Driver extends Homey.Driver {
   handleNewReadings(data) {
     // call with device as this
     const device = this;
-    // this.log(`handling new readings for ${this.getName()}`);
+    // console.log(`handling new readings for ${this.getName()}`);
     // gas readings from device
     let meterGas = this.meters.lastMeterGas;
     let measureGas = this.meters.lastMeasureGas;

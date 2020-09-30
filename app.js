@@ -6,7 +6,7 @@ const DsmrReader = require('./lib/dsmrreader');
 class P1 extends Homey.App {
 
   onInit() {
-    this.log('p1-smartmeter is running...');
+    console.log('p1-smartmeter is running...');
 
     // Single API instance for all devices
     this.dsmrreader = new DsmrReader();

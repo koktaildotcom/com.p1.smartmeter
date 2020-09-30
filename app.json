@@ -1,7 +1,7 @@
 {
   "id": "com.p1",
   "version": "3.1.4",
-  "compatibility": ">=3.0.0",
+  "compatibility": ">=5.0.0",
   "brandColor": "#3399cc",
   "homeyCommunityTopicId": 6150,
   "sdk": 3,
