@@ -47,5 +47,15 @@
   "category": [
     "energy"
   ],
-  "permissions": []
+  "permissions": [],
+  "api": {
+    "postUpdate": {
+      "method": "post",
+      "path": "/update"
+    },
+    "postUpdateDsmrReader": {
+      "method": "post",
+      "path": "/update/dsmrreader"
+    }
+  }
 }

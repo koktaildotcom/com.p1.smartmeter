@@ -48,6 +48,16 @@
     "energy"
   ],
   "permissions": [],
+  "api": {
+    "postUpdate": {
+      "method": "post",
+      "path": "/update"
+    },
+    "postUpdateDsmrReader": {
+      "method": "post",
+      "path": "/update/dsmrreader"
+    }
+  },
   "flow": {
     "triggers": [
       {

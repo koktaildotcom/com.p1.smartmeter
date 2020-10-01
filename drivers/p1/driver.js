@@ -2,15 +2,15 @@
 
 const Homey = require('homey');
 
-class P1Driver extends Homey.Driver {
+module.exports = class P1Driver extends Homey.Driver {
 
   onInit() {
     this._flowTriggers = [];
     this.registerFlowCards();
   }
 
-  onPair(socket) {
-    socket.on('validate', async (data, callback) => {
+  onPair(session) {
+    session.on('validate', async (data, callback) => {
       try {
         console.log('save button pressed in frontend');
         const { name } = data;
@@ -58,20 +58,7 @@ class P1Driver extends Homey.Driver {
     });
   }
 
-  registerFlowCards() {
-    const triggers = [
-      'power.changed',
-      'meter_tariff.changed',
-    ];
-
-    for (const trigger of triggers) {
-      this._flowTriggers[trigger] = new Homey.FlowCardTriggerDevice(trigger).register();
-    }
-  }
-
-  handleNewReadings(data) {
-    // call with device as this
-    const device = this;
+  handleNewReadings(device, data) {
     // console.log(`handling new readings for ${this.getName()}`);
     // gas readings from device
     let meterGas = this.meters.lastMeterGas;
@@ -105,13 +92,13 @@ class P1Driver extends Homey.Driver {
       const meterPowerPeakProduced = data.electricity.delivered.tariff2.reading;
       const meterPowerOffpeakProduced = data.electricity.delivered.tariff1.reading;
 
-      const measurePowerConsumed = device.round(
+      const measurePowerConsumed = this.round(
         (data.electricity.instantaneous.power.positive.L1.reading
           + data.electricity.instantaneous.power.positive.L2.reading
           + data.electricity.instantaneous.power.positive.L3.reading) * 1000,
       );
 
-      const lastMeasurePowerProduced = device.round(
+      const lastMeasurePowerProduced = this.round(
         (data.electricity.instantaneous.power.negative.L1.reading
           + data.electricity.instantaneous.power.negative.L2.reading
           + data.electricity.instantaneous.power.negative.L3.reading) * 1000,
@@ -125,14 +112,14 @@ class P1Driver extends Homey.Driver {
       // constructed electricity readings
       const meterPower = (meterPowerOffpeak + meterPowerPeak) - (meterPowerOffpeakProduced + meterPowerPeakProduced);
 
-      const offPeak = device.round(data.electricity.tariffIndicator) === 1;
+      const offPeak = this.round(data.electricity.tariffIndicator) === 1;
       const measurePowerDelta = (measurePower - this.meters.lastMeasurePower);
 
       if (offPeak !== this.meters.lastOffpeak) {
         const tokens = {
           tariff: offPeak,
         };
-        device._driver.triggerChangedFlow('meter_tariff.changed', device, tokens);
+        device.triggerChangedFlow('meter_tariff.changed', tokens);
       }
 
       if (measurePower !== this.meters.lastMeasurePower) {
@@ -140,7 +127,7 @@ class P1Driver extends Homey.Driver {
           power: measurePower,
           power_delta: measurePowerDelta,
         };
-        device._driver.triggerChangedFlow('power.changed', device, tokens);
+        device.triggerChangedFlow('power.changed', tokens);
       }
 
       // store the new readings in memory
@@ -165,16 +152,19 @@ class P1Driver extends Homey.Driver {
     this.updateDeviceState();
   }
 
-  triggerChangedFlow(triggerName, device, tokens) {
-    if (triggerName in this._flowTriggers) {
-      this._flowTriggers[triggerName].trigger(device, tokens).then(() => {
-        console.log(`triggered ${triggerName} with success!`);
-      }).catch(error => {
-        console.log(`triggered ${triggerName} failed: ${error}`);
-      });
+  registerFlowCards() {
+    const triggers = [
+      'power.changed',
+      'meter_tariff.changed',
+    ];
+
+    for (const trigger of triggers) {
+      this._flowTriggers[trigger] = this.homey.flow.getDeviceTriggerCard(trigger);
     }
   }
 
-}
+  round(number) {
+    return Math.round(number * 100) / 100;
+  }
 
-module.exports = P1Driver;
+};

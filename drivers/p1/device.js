@@ -4,24 +4,18 @@ const Homey = require('homey');
 
 class P1Device extends Homey.Device {
 
-  round(number) {
-    return Math.round(number * 100) / 100;
-  }
-
   onInit() {
     console.log('P1 Device ready');
-    this._driver = this.getDriver();
-    this.handleNewReadings = this._driver.handleNewReadings.bind(this);
     this.settings = this.getSettings();
     this.meters = {};
     this.initMeters();
 
-    this.registerEventListeners(this);
+    this.registerEventListeners();
   }
 
-  registerEventListeners(device) {
-    Homey.on('update.data', data => {
-      device.handleNewReadings(data);
+  registerEventListeners() {
+    this.homey.on('update.data', data => {
+      this.getDriver().handleNewReadings(this, data);
     });
   }
 
@@ -162,6 +156,19 @@ class P1Device extends Homey.Device {
     } catch (error) {
       this.error(error);
     }
+  }
+
+  triggerChangedFlow(triggerName, tokens) {
+    this.driver.ready().then(() => {
+      const triggers = this.driver._flowTriggers;
+      if (triggerName in triggers) {
+        triggers[triggerName].trigger(this, tokens).then(() => {
+          console.log(`triggered ${triggerName} with success!`);
+        }).catch(error => {
+          console.log(`triggered ${triggerName} failed: ${error}`);
+        });
+      }
+    });
   }
 
 }
