@@ -59,7 +59,7 @@ module.exports = class P1Driver extends Homey.Driver {
   }
 
   handleNewReadings(device, data) {
-    // console.log(`handling new readings for ${this.getName()}`);
+    console.log(`handling new readings for ${this.getName()}`);
     // gas readings from device
     let meterGas = this.meters.lastMeterGas;
     let measureGas = this.meters.lastMeasureGas;

@@ -47,7 +47,9 @@
   "category": [
     "energy"
   ],
-  "permissions": [],
+  "permissions": [
+    "homey:manager:api"
+  ],
   "api": {
     "postUpdate": {
       "method": "post",

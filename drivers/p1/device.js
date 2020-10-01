@@ -15,6 +15,7 @@ class P1Device extends Homey.Device {
 
   registerEventListeners() {
     this.homey.on('update.data', data => {
+      console.log('handle data', data);
       this.getDriver().handleNewReadings(this, data);
     });
   }
