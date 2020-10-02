@@ -61,5 +61,10 @@
       "path": "/update/dsmrreader",
       "public": true
     }
-  }
+  },
+  "pair": [
+    {
+      "id": "pair"
+    }
+  ]
 }

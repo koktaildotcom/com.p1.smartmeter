@@ -8,6 +8,7 @@
 		"includeGas": "Gas",
 		"applySettings": "Save",
         "success": "Success!",
-        "required": "A name for this device is required!"
+        "required": "A name for this device is required!",
+		"addDevice": "Add device"
     }
 }

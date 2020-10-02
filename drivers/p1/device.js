@@ -222,7 +222,7 @@ class P1Device extends Homey.Device {
   setDeviceCapabilityValue(key, value) {
     this.setCapabilityValue(key, value)
       .then(() => {
-        // console.log(`Setting ${key} with value ${value}`);
+        console.log(`Setting ${key} with value ${value}`);
       })
       .catch(error => {
         console.error(`Setting ${key} with value ${value} gives an error:${error.message}`);
