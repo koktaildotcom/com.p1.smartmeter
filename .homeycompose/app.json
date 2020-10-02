@@ -53,11 +53,13 @@
   "api": {
     "postUpdate": {
       "method": "post",
-      "path": "/update"
+      "path": "/update",
+      "public": true
     },
     "postUpdateDsmrReader": {
       "method": "post",
-      "path": "/update/dsmrreader"
+      "path": "/update/dsmrreader",
+      "public": true
     }
   }
 }

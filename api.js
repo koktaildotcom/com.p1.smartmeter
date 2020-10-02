@@ -3,17 +3,14 @@
 const Homey = require('homey');
 
 module.exports = {
-  async postUpdate({ body }) {
-    this.log('Handle new post data in p1 update');
-    await this.homey.emit('update.data', body);
 
-    return 'OK';
+  async postUpdate({ homey, body }) {
+    return homey.emit('update.data', body);
   },
-  async postUpdateDsmrReader({ body }) {
-    this.log('Handle new post data in p1 dsmrreader update');
+
+  async postUpdateDsmrReader({ homey, body }) {
     const DsmrReader = Homey.app.dsmrreader;
-    await this.homey.emit('update.data', DsmrReader.parseData(body));
-
-    return 'OK';
+    return homey.emit('update.data', DsmrReader.parseData(body));
   },
+
 };

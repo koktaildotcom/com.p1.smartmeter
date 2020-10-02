@@ -7,24 +7,10 @@ class P1Device extends Homey.Device {
   onInit() {
     console.log('P1 Device ready');
     this.settings = this.getSettings();
-    this.meters = {};
-    this.initMeters();
-
-    this.registerEventListeners();
-  }
-
-  registerEventListeners() {
-    this.homey.on('update.data', data => {
-      console.log('handle data', data);
-      this.getDriver().handleNewReadings(this, data);
-    });
-  }
-
-  initMeters() {
     this.meters = {
       lastMeasureGas: 0, // 'measureGas' (m3)
+      lastMeterGasTm: 0, // timestamp of gas meter reading, e.g. 1514394325
       lastMeterGas: null, // 'meterGas' (m3)
-      // lastMeterGasTm: 0,// timestamp of gas meter reading, e.g. 1514394325
       lastMeasurePower: 0, // 'measurePower' (W) (consumed - produced)
       lastMeasurePowerConsumed: 0, // 'measure_power.consumed' (W)
       lastMeasurePowerProduced: 0, // 'measure_power.produced' (W)
@@ -39,6 +25,14 @@ class P1Device extends Homey.Device {
       lastMeterPowerIntervalTm: null, // timestamp epoch, e.g. 1514394325
       lastOffpeak: null, // 'meterPower_offpeak' (true/false)
     };
+
+    this.registerEventListeners();
+  }
+
+  registerEventListeners() {
+    this.homey.on('update.data', data => {
+      this.handleNewReadings(this.meters, data);
+    });
   }
 
   async tryToAddCapability(capability) {
@@ -47,6 +41,100 @@ class P1Device extends Homey.Device {
 
   async tryToRemoveCapability(capability) {
     return this.removeCapability(capability);
+  }
+
+  handleNewReadings(current, data) {
+    console.log(`handling new readings for ${this.getName()}`);
+    // gas readings from device
+    let meterGas = current.lastMeterGas;
+    let measureGas = current.lastMeasureGas;
+    let meterGasTm = current.lastMeterGasTm;
+
+    if (data.hasOwnProperty('gas') && data.gas) {
+      meterGas = data.gas.reading; // gas_cumulative_meter
+      meterGasTm = Date.now() / 1000; // gas_meter_timestamp
+      // constructed gas readings
+      if (current.lastMeterGas !== meterGas) {
+        if (current.lastMeterGas !== null) {
+          // first reading after init in hrs
+          let hoursPassed = (meterGasTm - current.lastMeterGasTm) / 3600;
+          // too long ago; assume 1 hour interval
+          if (hoursPassed > 1) {
+            hoursPassed = 1;
+          }
+          // gas_interval_meter
+          measureGas = Math.round(1000 * ((meterGas - current.lastMeterGas) / hoursPassed)) / 1000;
+        }
+        current.lastMeterGasTm = meterGasTm;
+      }
+    }
+
+    if (data.hasOwnProperty('electricity') && data.electricity) {
+      // electricity readings from device
+      const meterPowerPeak = data.electricity.received.tariff2.reading;
+      const meterPowerOffpeak = data.electricity.received.tariff1.reading;
+
+      const meterPowerPeakProduced = data.electricity.delivered.tariff2.reading;
+      const meterPowerOffpeakProduced = data.electricity.delivered.tariff1.reading;
+
+      const measurePowerConsumed = this.round(
+        (data.electricity.instantaneous.power.positive.L1.reading
+          + data.electricity.instantaneous.power.positive.L2.reading
+          + data.electricity.instantaneous.power.positive.L3.reading) * 1000,
+      );
+
+      const lastMeasurePowerProduced = this.round(
+        (data.electricity.instantaneous.power.negative.L1.reading
+          + data.electricity.instantaneous.power.negative.L2.reading
+          + data.electricity.instantaneous.power.negative.L3.reading) * 1000,
+      );
+
+      const measurePower = measurePowerConsumed - lastMeasurePowerProduced;
+
+      const measurePowerAvg = current.lastMeasurePowerAvg;
+      const meterPowerTm = Date.now() / 1000; // readings.tm;
+
+      // constructed electricity readings
+      const meterPower = (meterPowerOffpeak + meterPowerPeak) - (meterPowerOffpeakProduced + meterPowerPeakProduced);
+
+      const offPeak = this.round(data.electricity.tariffIndicator) === 1;
+      const measurePowerDelta = (measurePower - current.lastMeasurePower);
+
+      if (offPeak !== current.lastOffpeak) {
+        const tokens = {
+          tariff: offPeak,
+        };
+        this.triggerChangedFlow('meter_tariff.changed', tokens);
+      }
+
+      if (measurePower !== current.lastMeasurePower) {
+        const tokens = {
+          power: measurePower,
+          power_delta: measurePowerDelta,
+        };
+        this.triggerChangedFlow('power.changed', tokens);
+      }
+
+      // store the new readings in memory
+      current.lastMeasureGas = measureGas;
+      current.lastMeterGas = meterGas;
+      current.lastMeterGasTm = meterGasTm;
+
+      current.lastMeasurePower = measurePower;
+      current.lastMeasurePowerConsumed = measurePowerConsumed;
+      current.lastMeasurePowerProduced = lastMeasurePowerProduced;
+      current.lastMeasurePowerAvg = measurePowerAvg;
+      current.lastMeterPower = meterPower;
+      current.lastMeterPowerPeak = meterPowerPeak;
+      current.lastMeterPowerOffpeak = meterPowerOffpeak;
+      current.lastMeterPowerPeakProduced = meterPowerPeakProduced;
+      current.lastMeterPowerOffpeakProduced = meterPowerOffpeakProduced;
+      current.lastMeterPowerTm = meterPowerTm;
+      current.lastOffpeak = offPeak;
+    }
+
+    // update the device state
+    this.updateDeviceState(current);
   }
 
   // this method is called when the user has changed the device's settings in Homey.
@@ -123,7 +211,7 @@ class P1Device extends Homey.Device {
   setDeviceCapabilityValue(key, value) {
     this.setCapabilityValue(key, value)
       .then(() => {
-        console.log(`Setting ${key} with value ${value}`);
+        // console.log(`Setting ${key} with value ${value}`);
       })
       .catch(error => {
         console.error(`Setting ${key} with value ${value} gives an error:${error.message}`);
@@ -133,26 +221,26 @@ class P1Device extends Homey.Device {
   /**
    * Update the state
    */
-  updateDeviceState() {
+  updateDeviceState(data) {
     try {
       if (this.settings.include_gas) {
-        this.setDeviceCapabilityValue('measure_gas', this.meters.lastMeasureGas);
-        this.setDeviceCapabilityValue('meter_gas', this.meters.lastMeterGas);
+        this.setDeviceCapabilityValue('measure_gas', data.lastMeasureGas);
+        this.setDeviceCapabilityValue('meter_gas', data.lastMeterGas);
       }
-      this.setDeviceCapabilityValue('measure_power', this.meters.lastMeasurePower);
-      this.setDeviceCapabilityValue('measure_power.consumed', this.meters.lastMeasurePowerConsumed);
-      this.setDeviceCapabilityValue('meter_power', this.meters.lastMeterPower);
+      this.setDeviceCapabilityValue('measure_power', data.lastMeasurePower);
+      this.setDeviceCapabilityValue('measure_power.consumed', data.lastMeasurePowerConsumed);
+      this.setDeviceCapabilityValue('meter_power', data.lastMeterPower);
       if (this.settings.include_production) {
-        this.setDeviceCapabilityValue('measure_power.produced', this.meters.lastMeasurePowerProduced);
-        this.setDeviceCapabilityValue('meter_power.producedPeak', this.meters.lastMeterPowerPeakProduced);
+        this.setDeviceCapabilityValue('measure_power.produced', data.lastMeasurePowerProduced);
+        this.setDeviceCapabilityValue('meter_power.producedPeak', data.lastMeterPowerPeakProduced);
         if (this.settings.include_off_peak) {
-          this.setDeviceCapabilityValue('meter_power.producedOffPeak', this.meters.lastMeterPowerOffpeakProduced);
+          this.setDeviceCapabilityValue('meter_power.producedOffPeak', data.lastMeterPowerOffpeakProduced);
         }
       }
       if (this.settings.include_off_peak) {
-        this.setDeviceCapabilityValue('meter_power.peak', this.meters.lastMeterPowerPeak);
-        this.setDeviceCapabilityValue('meter_power.offPeak', this.meters.lastMeterPowerOffpeak);
-        this.setDeviceCapabilityValue('meter_offpeak', this.meters.lastOffpeak);
+        this.setDeviceCapabilityValue('meter_power.peak', data.lastMeterPowerPeak);
+        this.setDeviceCapabilityValue('meter_power.offPeak', data.lastMeterPowerOffpeak);
+        this.setDeviceCapabilityValue('meter_offpeak', data.lastOffpeak);
       }
     } catch (error) {
       this.error(error);
@@ -170,6 +258,10 @@ class P1Device extends Homey.Device {
         });
       }
     });
+  }
+
+  round(number) {
+    return Math.round(number * 100) / 100;
   }
 
 }
