@@ -19,6 +19,9 @@
     },
     "3.1.2": {
         "en": "Bump version because of rejecting in store"
+    },
+    "4.0.0": {
+        "en": "update to SDK 3"
     }
 }
 

@@ -120,5 +120,8 @@ The repository `https://github.com/koktaildotcom/com.p1.smartmeter-dsmr.reader` 
 - Removed deprecated driver `p1-smartmeter`.
 - Fixed power consumed missing https://github.com/koktaildotcom/com.p1.smartmeter/issues/19 
 
+### v4.0.0 - 02.10.2020
+- update to SDK 3
+
 ## Final note ##
 The repository is available at: https://github.com/koktaildotcom/com.p1.smartmeter
