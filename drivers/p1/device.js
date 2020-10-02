@@ -46,7 +46,7 @@ class P1Device extends Homey.Device {
 
   async handleNewReadings(current, data) {
     if (Object.prototype.hasOwnProperty.call(data, 'meterType')) {
-      await this.updateSetting('meterType', data.meterType);
+      await this.updateSetting({ meterType: data.meterType });
     }
 
     // gas readings from device
@@ -254,10 +254,9 @@ class P1Device extends Homey.Device {
     return Math.round(number * 100) / 100;
   }
 
-  async updateSetting(key, value) {
+  async updateSetting(setting) {
     const settings = this.getSettings();
-    settings[key] = value;
-    return this.setSettings(settings);
+    return this.setSettings(Object.assign(settings, setting));
   }
 
 }
