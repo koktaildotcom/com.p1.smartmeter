@@ -38,13 +38,19 @@ class P1Device extends Homey.Device {
   }
 
   async tryToAddCapability(capability) {
-    console.log(`add capability ${capability}`);
-    return this.addCapability(capability);
+    if (!this.hasCapability(capability)) {
+      return this.addCapability(capability);
+    }
+
+    return Promise.resolve();
   }
 
   async tryToRemoveCapability(capability) {
-    console.log(`remove capability ${capability}`);
-    return this.removeCapability(capability);
+    if (this.hasCapability(capability)) {
+      return this.removeCapability(capability);
+    }
+
+    return Promise.resolve();
   }
 
   async handleNewReadings(current, data) {
