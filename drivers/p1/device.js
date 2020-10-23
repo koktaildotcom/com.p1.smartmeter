@@ -58,28 +58,40 @@ class P1Device extends Homey.Device {
       await this.updateSetting({ model: data.meterType });
     }
 
-    // gas readings from device
-    let meterGas = current.lastMeterGas;
-    let measureGas = current.lastMeasureGas;
-    let meterGasTm = current.lastMeterGasTm;
-
     if (Object.prototype.hasOwnProperty.call(data, 'gas') && data.gas) {
-      meterGas = data.gas.reading; // gas_cumulative_meter
-      meterGasTm = Date.now() / 1000; // gas_meter_timestamp
-      // constructed gas readings
-      if (current.lastMeterGas !== meterGas) {
-        if (current.lastMeterGas !== null) {
-          // first reading after init in hrs
-          let hoursPassed = (meterGasTm - current.lastMeterGasTm) / 3600;
-          // too long ago; assume 1 hour interval
-          if (hoursPassed > 1) {
-            hoursPassed = 1;
+      let measureGas = current.lastMeasureGas
+
+      if (Object.prototype.hasOwnProperty.call(data.gas, 'reportedPeriod')) {
+        // Calculate average gas per hour over reportedPeriod
+        let timeDiffSeconds = data.gas.timestamp - current.lastMeterGasTm
+        if (timeDiffSeconds >= data.gas.reportedPeriod * 60) {
+          if (this.meters.lastMeterGas !== null) {
+            let gasDiff = data.gas.reading - this.meters.lastMeterGas
+            measureGas = gasDiff / timeDiffSeconds * 3600
+            measureGas = Math.round(1000 * measureGas) / 1000
           }
-          // gas_interval_meter
-          measureGas = Math.round(1000 * ((meterGas - current.lastMeterGas) / hoursPassed)) / 1000;
+          current.lastMeterGasTm = data.gas.timestamp
         }
-        current.lastMeterGasTm = meterGasTm;
+      } else {
+        let meterGas = data.gas.reading; // gas_cumulative_meter
+        let meterGasTm = Date.now() / 1000; // gas_meter_timestamp
+        // constructed gas readings
+        if (current.lastMeterGas !== meterGas) {
+          if (current.lastMeterGas !== null) {
+            // first reading after init in hrs
+            let hoursPassed = (meterGasTm - current.lastMeterGasTm) / 3600;
+            // too long ago; assume 1 hour interval
+            if (hoursPassed > 1) {
+              hoursPassed = 1;
+            }
+            // gas_interval_meter
+            measureGas = Math.round(1000 * ((meterGas - current.lastMeterGas) / hoursPassed)) / 1000;
+          }
+          current.lastMeterGasTm = meterGasTm;
+        }
       }
+      current.lastMeterGas = data.gas.reading
+      current.lastMeasureGas = measureGas
     }
 
     if (Object.prototype.hasOwnProperty.call(data, 'electricity') && data.electricity) {
@@ -131,10 +143,6 @@ class P1Device extends Homey.Device {
       }
 
       // store the new readings in memory
-      current.lastMeasureGas = measureGas;
-      current.lastMeterGas = meterGas;
-      current.lastMeterGasTm = meterGasTm;
-
       current.lastMeasurePower = measurePower;
       current.lastMeasurePowerConsumed = measurePowerConsumed;
       current.lastMeasurePowerProduced = lastMeasurePowerProduced;
