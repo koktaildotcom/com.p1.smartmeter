@@ -172,8 +172,8 @@ class P1Device extends Homey.Device {
       await this.tryToAddCapability('measure_gas');
       await this.tryToAddCapability('meter_gas');
     } else {
-      await this.tryToAddCapability('measure_gas');
-      await this.tryToAddCapability('meter_gas');
+      await this.tryToRemoveCapability('measure_gas');
+      await this.tryToRemoveCapability('meter_gas');
     }
 
     if (settings.include_production) {
