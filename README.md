@@ -121,7 +121,13 @@ The repository `https://github.com/koktaildotcom/com.p1.smartmeter-dsmr.reader` 
 - Fixed power consumed missing https://github.com/koktaildotcom/com.p1.smartmeter/issues/19 
 
 ### v4.0.0 - 02.10.2020
-- update to SDK 3
+- Update to SDK 3
+
+### v4.0.1 - 30.10.2020
+- Update dependencies
+- Fix removing gas meters
+- Improve dsmrreader with reportedPeriod, timestamp and switched electricity
+- Calculate gas per hour with timestamp and reportedPeriod from dsmr
 
 ## Final note ##
 The repository is available at: https://github.com/koktaildotcom/com.p1.smartmeter
