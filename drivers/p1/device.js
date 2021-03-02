@@ -103,12 +103,6 @@ class P1Device extends Homey.Device {
       const meterPowerPeakProduced = data.electricity.delivered.tariff2.reading;
       const meterPowerOffpeakProduced = data.electricity.delivered.tariff1.reading;
 
-      data.electricity.instantaneous.power.positive = {
-        L1: {
-          reading: 100,
-        },
-      };
-
       let positiveL1 = 0;
       let positiveL2 = 0;
       let positiveL3 = 0;
