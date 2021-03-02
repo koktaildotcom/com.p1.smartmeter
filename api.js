@@ -1,33 +1,16 @@
+'use strict';
+
 const Homey = require('homey');
 
-module.exports = [
-    {
-        method: 'POST',
-        path: '/update',
-        public: true,
-        fn: function (args, callback) {
-            if (args.hasOwnProperty('body')) {
-                Homey.emit('update.data', args.body);
+module.exports = {
 
-                callback(null, 'OK');
-            }
+  async postUpdate({ homey, body }) {
+    return homey.emit('update.data', body);
+  },
 
-            return callback( new Error('Cannot find body.') );
-        },
-    },
-    {
-        method: 'POST',
-        path: '/update/dsmrreader',
-        public: true,
-        fn: function (args, callback) {
-            if (args.hasOwnProperty('body')) {
-                const DsmrReader = Homey.app.dsmrreader;
-                Homey.emit('update.data', DsmrReader.parseData(args.body));
+  async postUpdateDsmrReader({ homey, body }) {
+    const DsmrReader = Homey.app.dsmrreader;
+    return homey.emit('update.data', DsmrReader.parseData(body));
+  },
 
-                callback(null, 'OK');
-            }
-
-            return callback( new Error('Cannot find body.') );
-        },
-    },
-];
+};

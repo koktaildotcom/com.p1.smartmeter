@@ -1,10 +1,10 @@
 {
   "id": "com.p1",
-  "version": "3.1.4",
-  "compatibility": ">=3.0.0",
+  "version": "4.0.1",
+  "compatibility": ">=5.0.0",
   "brandColor": "#3399cc",
   "homeyCommunityTopicId": 6150,
-  "sdk": 2,
+  "sdk": 3,
   "name": {
     "nl": "P1 Slimme meter",
     "en": "P1 Smartmeter"
@@ -47,5 +47,24 @@
   "category": [
     "energy"
   ],
-  "permissions": []
+  "permissions": [
+    "homey:manager:api"
+  ],
+  "api": {
+    "postUpdate": {
+      "method": "post",
+      "path": "/update",
+      "public": true
+    },
+    "postUpdateDsmrReader": {
+      "method": "post",
+      "path": "/update/dsmrreader",
+      "public": true
+    }
+  },
+  "pair": [
+    {
+      "id": "pair"
+    }
+  ]
 }

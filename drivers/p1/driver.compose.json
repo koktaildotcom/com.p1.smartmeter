@@ -41,7 +41,7 @@
     "measure_power.produced": {
       "title": {
         "en": "Electricity current delivery",
-        "nl": "Elektriciteit huidig teruglevering"
+        "nl": "Elektriciteit huidige teruglevering"
       }
     },
     "meter_power": {

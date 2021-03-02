@@ -19,6 +19,12 @@
     },
     "3.1.2": {
         "en": "Bump version because of rejecting in store"
+    },
+    "4.0.0": {
+        "en": "update to SDK 3"
+    },
+    "4.0.1": {
+        "en": "- Update dependencies, Fix removing gas meters, Improve dsmrreader with reportedPeriod, timestamp and switched electricity, Calculate gas per hour with timestamp and reportedPeriod from dsmr"
     }
 }
 

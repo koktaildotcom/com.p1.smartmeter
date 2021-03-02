@@ -6,8 +6,8 @@ html {
 html,
 body, 
 app {
-    margin: 0 !important;
-    padding: 0 !important;
+    margin: 0;
+    padding: 0;
 }
 
 .benefit {
@@ -21,19 +21,19 @@ app {
 }
 
 .section {
-    margin: 10px 0px !important;
-    padding: 0 !important;
-    display: block !important;
-    border: none !important;
-    border-top: 1px solid rgb(220,220,220) !important;
-    border-radius: 0 !important;
+    margin: 10px 0px;
+    padding: 0;
+    display: block;
+    border: none;
+    border-top: 1px solid rgb(220,220,220);
+    border-radius: 0;
 }
 .section > legend {
-    text-transform: uppercase !important;
-    color: rgb(220,220,220) !important;
-    font-weight: bold !important;
-    text-align: center !important;
-    font-size: medium !important;
+    text-transform: uppercase;
+    color: rgb(220,220,220);
+    font-weight: bold;
+    text-align: center;
+    font-size: medium;
 }
 
 .devices {
@@ -51,7 +51,6 @@ app {
 
 .icon-cell {
     width: 60px;
-    display: table-cell-block !important;
     vertical-align: middle;
 }
 .icon-cell > * {
@@ -60,7 +59,7 @@ app {
 }
 
 .tabs {
-    height: 50px !important;
+    height: 50px;
     border-bottom: 1px solid rgb(220,220,220);
 }
 
@@ -77,41 +76,39 @@ app {
 
 select,
 input[type=text] {
-    border: none !important;
-    width: 100% !important;
-    padding: 10px !important;
-    font-size: large !important;
-    vertical-align: middle !important;
-    background: white !important;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    font-size: large;
+    vertical-align: middle;
+    background: white;
 }
 
 input[type=password] {
-    border: none !important;
-    width: 100% !important;
-    padding: 10px !important;
-    font-size: large !important;
-    vertical-align: middle !important;
-    background: white !important;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    font-size: large;
+    vertical-align: middle;
+    background: white;
 }
 
 button {
-    display: block !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 10px !important;
-    font-size: large !important;
-    /* vertical-align: middle !important; */
-    border: 1px solid rgb(220,220,220) !important;
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    font-size: large;
+    /* vertical-align: middle; */
+    border: 1px solid rgb(220,220,220);
 }
 
 .text-header {
     padding: 10px;
     text-transform: uppercase;
-    /*background-color: rgba(245, 245, 245, 1);*/
     background-color: rgba(160, 160, 160, 1);
     color: white;
     font-weight: bold;
-    /*width: 100%;*/
     text-align: center;
 }
 
@@ -131,7 +128,7 @@ button {
 }
 
 .settings-spacer {
-    height: 10 px;
+    height: 10px;
     display: inline-block;
 }
 .settings-itemgroup {
@@ -193,7 +190,6 @@ button {
     border-bottom-width: 0px;
     border-color: rgb(199,199,203);
 }
-
 
 h2 {
     font-size: 16px;
@@ -282,8 +278,8 @@ a:active {
 
 .btn-active {
     color: rgb(0, 0, 0);
-    background-color: rgb(92, 184, 92) !important;
-    border-color: rgb(76, 174, 76) !important;
+    background-color: rgb(92, 184, 92);
+    border-color: rgb(76, 174, 76);
 }
 
 .btn-semiactive {
@@ -443,7 +439,6 @@ a:active {
 }
 
 .Overflow {
-    /*margin-bottom: 1em;*/
     overflow: auto;
     position: relative;
     overflow-x: auto;
@@ -506,8 +501,3 @@ a:active {
 .form-switch input:checked + i::before { transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0); }
 
 .form-switch input:checked + i::after { transform: translate3d(22px, 2px, 0); }
-
-#loglines {
-    padding: 10px;
-    font-size: smaller;
-}
