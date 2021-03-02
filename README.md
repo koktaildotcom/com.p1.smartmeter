@@ -129,5 +129,8 @@ The repository `https://github.com/koktaildotcom/com.p1.smartmeter-dsmr.reader` 
 - Improve dsmrreader with reportedPeriod, timestamp and switched electricity
 - Calculate gas per hour with timestamp and reportedPeriod from dsmr
 
+### v4.0.2 - 02.03.2021
+- bugfix missing L1, L2, L3
+
 ## Final note ##
 The repository is available at: https://github.com/koktaildotcom/com.p1.smartmeter

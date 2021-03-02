@@ -59,22 +59,22 @@ class P1Device extends Homey.Device {
     }
 
     if (Object.prototype.hasOwnProperty.call(data, 'gas') && data.gas) {
-      let measureGas = current.lastMeasureGas
+      let measureGas = current.lastMeasureGas;
 
       if (Object.prototype.hasOwnProperty.call(data.gas, 'reportedPeriod')) {
         // Calculate average gas per hour over reportedPeriod
-        let timeDiffSeconds = data.gas.timestamp - current.lastMeterGasTm
+        const timeDiffSeconds = data.gas.timestamp - current.lastMeterGasTm;
         if (timeDiffSeconds >= data.gas.reportedPeriod * 60) {
           if (this.meters.lastMeterGas !== null) {
-            let gasDiff = data.gas.reading - this.meters.lastMeterGas
-            measureGas = gasDiff / timeDiffSeconds * 3600
-            measureGas = Math.round(1000 * measureGas) / 1000
+            const gasDiff = data.gas.reading - this.meters.lastMeterGas;
+            measureGas = (gasDiff / timeDiffSeconds) * 3600;
+            measureGas = Math.round(1000 * measureGas) / 1000;
           }
-          current.lastMeterGasTm = data.gas.timestamp
+          current.lastMeterGasTm = data.gas.timestamp;
         }
       } else {
-        let meterGas = data.gas.reading; // gas_cumulative_meter
-        let meterGasTm = Date.now() / 1000; // gas_meter_timestamp
+        const meterGas = data.gas.reading; // gas_cumulative_meter
+        const meterGasTm = Date.now() / 1000; // gas_meter_timestamp
         // constructed gas readings
         if (current.lastMeterGas !== meterGas) {
           if (current.lastMeterGas !== null) {
@@ -85,13 +85,14 @@ class P1Device extends Homey.Device {
               hoursPassed = 1;
             }
             // gas_interval_meter
-            measureGas = Math.round(1000 * ((meterGas - current.lastMeterGas) / hoursPassed)) / 1000;
+            const measureGasRaw = ((meterGas - current.lastMeterGas) / hoursPassed);
+            measureGas = Math.round(1000 * measureGasRaw) / 1000;
           }
           current.lastMeterGasTm = meterGasTm;
         }
       }
-      current.lastMeterGas = data.gas.reading
-      current.lastMeasureGas = measureGas
+      current.lastMeterGas = data.gas.reading;
+      current.lastMeasureGas = measureGas;
     }
 
     if (Object.prototype.hasOwnProperty.call(data, 'electricity') && data.electricity) {
@@ -102,16 +103,45 @@ class P1Device extends Homey.Device {
       const meterPowerPeakProduced = data.electricity.delivered.tariff2.reading;
       const meterPowerOffpeakProduced = data.electricity.delivered.tariff1.reading;
 
+      data.electricity.instantaneous.power.positive = {
+        L1: {
+          reading: 100,
+        },
+      };
+
+      let positiveL1 = 0;
+      let positiveL2 = 0;
+      let positiveL3 = 0;
+      let negativeL1 = 0;
+      let negativeL2 = 0;
+      let negativeL3 = 0;
+
+      if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.power.positive, 'L1')) {
+        positiveL1 = data.electricity.instantaneous.power.positive.L1.reading;
+      }
+      if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.power.positive, 'L2')) {
+        positiveL2 = data.electricity.instantaneous.power.positive.L2.reading;
+      }
+      if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.power.positive, 'L3')) {
+        positiveL3 = data.electricity.instantaneous.power.positive.L3.reading;
+      }
+
+      if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.power.negative, 'L1')) {
+        negativeL1 = data.electricity.instantaneous.power.negative.L1.reading;
+      }
+      if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.power.negative, 'L2')) {
+        negativeL2 = data.electricity.instantaneous.power.negative.L2.reading;
+      }
+      if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.power.negative, 'L3')) {
+        negativeL3 = data.electricity.instantaneous.power.negative.L3.reading;
+      }
+
       const measurePowerConsumed = this.round(
-        (data.electricity.instantaneous.power.positive.L1.reading
-          + data.electricity.instantaneous.power.positive.L2.reading
-          + data.electricity.instantaneous.power.positive.L3.reading) * 1000,
+        (positiveL1 + positiveL2 + positiveL3) * 1000,
       );
 
       const lastMeasurePowerProduced = this.round(
-        (data.electricity.instantaneous.power.negative.L1.reading
-          + data.electricity.instantaneous.power.negative.L2.reading
-          + data.electricity.instantaneous.power.negative.L3.reading) * 1000,
+        (negativeL1 + negativeL2 + negativeL3) * 1000,
       );
 
       const measurePower = measurePowerConsumed - lastMeasurePowerProduced;
