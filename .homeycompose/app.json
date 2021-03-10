@@ -1,0 +1,70 @@
+{
+  "id": "com.p1",
+  "version": "4.0.2",
+  "compatibility": ">=5.0.0",
+  "brandColor": "#3399cc",
+  "homeyCommunityTopicId": 6150,
+  "sdk": 3,
+  "name": {
+    "nl": "P1 Slimme meter",
+    "en": "P1 Smartmeter"
+  },
+  "description": {
+    "nl": "P1 Slimme meter",
+    "en": "P1 Smartmeter"
+  },
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png"
+  },
+  "author": {
+    "name": "Leendert de Kok",
+    "email": "koktaildotcom@hotmail.com"
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "koktaildotcom"
+      }
+    }
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Leendert de Kok",
+        "email": "koktaildotcom@hotmail.com"
+      },
+      {
+        "name": "Lucas van der Have",
+        "email": "lucasvdhave@gmail.com"
+      },
+      {
+        "name": "Stèphan Eizinga",
+        "email": "stephan@monkeysoft.nl"
+      }
+    ]
+  },
+  "category": [
+    "energy"
+  ],
+  "permissions": [
+    "homey:manager:api"
+  ],
+  "api": {
+    "postUpdate": {
+      "method": "post",
+      "path": "/update",
+      "public": true
+    },
+    "postUpdateDsmrReader": {
+      "method": "post",
+      "path": "/update/dsmrreader",
+      "public": true
+    }
+  },
+  "pair": [
+    {
+      "id": "pair"
+    }
+  ]
+}

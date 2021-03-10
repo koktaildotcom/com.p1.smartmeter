@@ -1,52 +1,57 @@
-/* eslint-disable prefer-destructuring */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
+function pair() {
+  const deviceName = $('#deviceName').val();
 
-const homeyIsV2 = typeof Homey.showLoadingOverlay === 'function';
-Homey.setTitle(__('pair.titleAM550'));
+  Homey.showLoadingOverlay();
 
-if (!homeyIsV2) {
-	Homey.showLoadingOverlay = () => {
-		$('#applySettings').prop('disabled', true);
-	};
-	Homey.hideLoadingOverlay = () => {
-		$('#applySettings').prop('disabled', false);
-	};
+  const hasOffPeak = $('#includeOffPeak').prop('checked');
+  const hasProduction = $('#includeProduction').prop('checked');
+  const hasGas = $('#includeGas').prop('checked');
+
+  if (deviceName !== '') {
+    const device = {
+      name: deviceName,
+      data: { id: 'p1' },
+      settings: {
+        include_gas: hasGas,
+        include_off_peak: hasOffPeak,
+        include_production: hasProduction,
+      },
+      capabilities: [],
+    };
+
+    if (hasGas) {
+      device.capabilities.push('measure_gas');
+      device.capabilities.push('meter_gas');
+    }
+    device.capabilities.push('measure_power');
+    if (hasProduction) {
+      device.capabilities.push('measure_power.consumed');
+      device.capabilities.push('measure_power.produced');
+    }
+    device.capabilities.push('meter_power');
+    if (hasOffPeak) {
+      device.capabilities.push('meter_power.peak');
+      device.capabilities.push('meter_power.offPeak');
+    }
+    if (hasProduction) {
+      device.capabilities.push('meter_power.producedPeak');
+    }
+    if (hasProduction && hasOffPeak) {
+      device.capabilities.push('meter_power.producedOffPeak');
+    }
+    if (hasOffPeak) {
+      device.capabilities.push('meter_offpeak');
+    }
+    Homey.createDevice(device)
+      .then(() => {
+        Homey.hideLoadingOverlay();
+        Homey.done();
+      })
+      .catch(err => {
+        Homey.hideLoadingOverlay();
+        Homey.alert(err);
+      });
+  } else {
+    Homey.alert(__('pair.required'), 'error');
+  }
 }
-
-function applySettings() {
-	// variables
-	const deviceName = $('#deviceName').val();
-	if (deviceName !== '') {
-		const data = {
-			name: deviceName,
-			data: deviceName,
-			includeOffPeak: $('#includeOffPeak').prop('checked'),
-			includeProduction: $('#includeProduction').prop('checked'),
-			includeGas: $('#includeGas').prop('checked'),
-		};
-		// Continue to back-end, pass along data
-		Homey.emit('validate', data, (error, result) => {
-			if (error) {
-				Homey.alert(error.message, 'error');
-			} else {
-				// Homey.alert(`${__('pair.success')} ${result}`, 'info');
-				const device = JSON.parse(result);
-				Homey.addDevice(device, (err, res) => {
-					if (err) { Homey.alert(err, 'error'); return; }
-					setTimeout(() => {
-						Homey.done();
-					}, 5000);
-				});
-			}
-		});
-	} else {
-		Homey.alert(__('pair.required'), 'error');
-		// Homey.done();
-	}
-}
-
-$(document).ready(() => {
-	// console.log('doc is ready');
-	discover();
-});

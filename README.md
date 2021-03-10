@@ -12,7 +12,7 @@ The repository `https://github.com/koktaildotcom/com.p1.smartmeter-dsmr.reader` 
 3. Power.
 4. Cli access to the device.
 
-### Script for reading the data and push it to the api
+### Script for reading the data and push it to the api (Standalone)
 
 > NOTE: This example is for DSMR 4.0 supported devices.
 1. Install the script `https://github.com/koktaildotcom/com.p1.smartmeter-dsmr.reader` on the device connected to the serial p1.
@@ -21,10 +21,17 @@ The repository `https://github.com/koktaildotcom/com.p1.smartmeter-dsmr.reader` 
 4. Change the `config.serialPort` for your situation (you should check your smartmeter or google around..)
 5. Run the script by calling: `node src/p1.js`
 
+### Script for reading the data and push it to the api (DSMR-Reader)
+
+1. Install the script `https://gist.github.com/steffjenl/31bd083eeb9d0be04375b7695b9f2eaf` as plugin for DSM-Reader.
+2. More information about installing plugin's can be found on `https://dsmr-reader.readthedocs.io/nl/v3/plugins.html`
+3. Change the `HOMEY_ID` as described in `forward_raw_telegram_to_api.py`.
+4. Execute as user dsmr in the dsmr directory `./post-deploy.sh`
+
 ### Usage of the Homey app
 1. Install the app `com.p1.smartmeter`.
 2. Add device `p1 smartmeter`.
-3. Use the package `com.p1.smartmeter-dsmr.reader` to push data `com.p1.smartmeter`'s endpoint `/update`.
+3. Use the package `com.p1.smartmeter-dsmr.reader` to push data `com.p1.smartmeter`'s endpoint `/update` or `/update/dsmrreader`.
 
 ### Endpoint
 
@@ -70,7 +77,17 @@ The repository `https://github.com/koktaildotcom/com.p1.smartmeter-dsmr.reader` 
    	}
    }
    ```
+
+#### POST: `/update/dsmrreader`
+
+   body:
    
+   ```
+   {
+   	"telegram": "RAW TELEGRAM MESSAGE"
+   }
+   ```
+
 ## History
 
 ### v2.0.0 - 01.01.2019
@@ -96,6 +113,24 @@ The repository `https://github.com/koktaildotcom/com.p1.smartmeter-dsmr.reader` 
 
 ### v3.1.2 - 19.12.2019
 - Bump version because of rejecting in store
+
+### v3.1.4 - 14.05.2020
+- Add endpoint for raw telegram messages
+- Fixed translation issues https://github.com/koktaildotcom/com.p1.smartmeter/issues/15
+- Removed deprecated driver `p1-smartmeter`.
+- Fixed power consumed missing https://github.com/koktaildotcom/com.p1.smartmeter/issues/19 
+
+### v4.0.0 - 02.10.2020
+- Update to SDK 3
+
+### v4.0.1 - 30.10.2020
+- Update dependencies
+- Fix removing gas meters
+- Improve dsmrreader with reportedPeriod, timestamp and switched electricity
+- Calculate gas per hour with timestamp and reportedPeriod from dsmr
+
+### v4.0.2 - 02.03.2021
+- bugfix missing L1, L2, L3
 
 ## Final note ##
 The repository is available at: https://github.com/koktaildotcom/com.p1.smartmeter

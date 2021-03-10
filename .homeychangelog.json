@@ -1,5 +1,33 @@
 {
-  "3.1.1": {
-    "en": "Added support for live data"
-  }
+    "2.0.0": {
+        "en": "initial commit"
+    },
+    "2.0.1": {
+        "en": "add brandcolor and community topic id"
+    },
+    "2.0.2": {
+        "en": "add repository description for DSMR 4.0"
+    },
+    "2.0.3": {
+        "en": "update current gas usage once per hour"
+    },
+    "3.0.0": {
+        "en": "Add support for Homey v3 Energy, Added capability as it is needed for the power overview, Hide total consumed/generated from device sensor overview"
+    },
+    "3.1.1": {
+        "en": "Add new p1 smartmeter implementation to work with the new com.p1.smartmeter-dsmr.reader"
+    },
+    "3.1.2": {
+        "en": "Bump version because of rejecting in store"
+    },
+    "4.0.0": {
+        "en": "update to SDK 3"
+    },
+    "4.0.1": {
+        "en": "- Update dependencies, Fix removing gas meters, Improve dsmrreader with reportedPeriod, timestamp and switched electricity, Calculate gas per hour with timestamp and reportedPeriod from dsmr"
+    },
+    "4.0.2": {
+        "en": "bugfix missing L1, L2, L3"
+    }
 }
+

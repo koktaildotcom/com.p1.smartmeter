@@ -1,0 +1,25 @@
+{
+  "id": "meter_power.consumed.changed",
+  "title": {
+    "en": "Consumed electricity changed",
+    "nl": "Verbruikte elektriciteit gewijzigd"
+  },
+  "args": [
+    {
+      "name": "p1-smartmeter",
+      "type": "device",
+      "filter": "driver_id=p1-smartmeter"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "meter_power.consumed",
+      "type": "number",
+      "title": {
+        "en": "Consumed electricity (W)",
+        "nl": "Verbruikte elektriciteit (W)"
+      },
+      "example": 123456
+    }
+  ]
+}

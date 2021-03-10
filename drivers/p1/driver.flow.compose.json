@@ -1,0 +1,51 @@
+{
+  "triggers": [
+    {
+      "id": "meter_tariff.changed",
+      "title": {
+        "en": "Tariff has changed",
+        "nl": "Tarief is gewijzigd"
+      },
+      "args": [],
+      "tokens": [
+        {
+          "name": "tariff",
+          "type": "boolean",
+          "title": {
+            "en": "off-peak",
+            "nl": "dal"
+          },
+          "example": false
+        }
+      ]
+    },
+    {
+      "id": "power.changed",
+      "title": {
+        "en": "Power use changed",
+        "nl": "Stroomverbruik gewijzigd"
+      },
+      "args": [],
+      "tokens": [
+        {
+          "name": "power",
+          "type": "number",
+          "title": {
+            "en": "Watt",
+            "nl": "Watt"
+          },
+          "example": 850
+        },
+        {
+          "name": "power_delta",
+          "type": "number",
+          "title": {
+            "en": "+- W",
+            "nl": "+- W"
+          },
+          "example": 18
+        }
+      ]
+    }
+  ]
+}

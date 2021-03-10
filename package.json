@@ -1,0 +1,14 @@
+{
+  "name": "com.p1.smartmeter",
+  "engines": {
+    "node": ">=12.16.1"
+  },
+  "dependencies": {
+    "node-dsmr": "^0.1.11"
+  },
+  "devDependencies": {
+    "eslint": "^7.10.0",
+    "eslint-config-athom": "^2.1.0",
+    "homey": "^2.7.1"
+  }
+}

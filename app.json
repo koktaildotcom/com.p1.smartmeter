@@ -1,573 +1,508 @@
 {
-    "id": "com.p1",
-    "version": "3.1.2",
-    "compatibility": ">=3.0.0",
-    "brandColor": "#3399cc",
-    "homeyCommunityTopicId": 6150,
-    "sdk": 2,
-    "name": {
-        "nl": "P1 Slimme meter",
-        "en": "P1 Smartmeter"
-    },
-    "description": {
-        "nl": "P1 Slimme meter",
-        "en": "P1 Smartmeter"
-    },
-    "images": {
-        "small": "/assets/images/small.png",
-        "large": "/assets/images/large.png"
-    },
-    "author": {
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
+  "id": "com.p1",
+  "version": "4.0.2",
+  "compatibility": ">=5.0.0",
+  "brandColor": "#3399cc",
+  "homeyCommunityTopicId": 6150,
+  "sdk": 3,
+  "name": {
+    "nl": "P1 Slimme meter",
+    "en": "P1 Smartmeter"
+  },
+  "description": {
+    "nl": "P1 Slimme meter",
+    "en": "P1 Smartmeter"
+  },
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png"
+  },
+  "author": {
+    "name": "Leendert de Kok",
+    "email": "koktaildotcom@hotmail.com"
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "koktaildotcom"
+      }
+    }
+  },
+  "contributors": {
+    "developers": [
+      {
         "name": "Leendert de Kok",
         "email": "koktaildotcom@hotmail.com"
+      },
+      {
+        "name": "Lucas van der Have",
+        "email": "lucasvdhave@gmail.com"
+      },
+      {
+        "name": "Stèphan Eizinga",
+        "email": "stephan@monkeysoft.nl"
+      }
+    ]
+  },
+  "category": [
+    "energy"
+  ],
+  "permissions": [
+    "homey:manager:api"
+  ],
+  "api": {
+    "postUpdate": {
+      "method": "post",
+      "path": "/update",
+      "public": true
     },
-    "contributing": {
-        "donate": {
-            "paypal": {
-                "username": "koktaildotcom"
-            }
-        }
-    },
-    "contributors": {
-        "developers": [
-            {
-                "name": "Leendert de Kok",
-                "email": "koktaildotcom@hotmail.com"
-            },
-            {
-                "name": "Lucas van der Have",
-                "email": "lucasvdhave@gmail.com"
-            }
-        ]
-    },
-    "category": [
-        "energy"
-    ],
-    "capabilities": {
-		"meter_offPeak": {
-			"type": "boolean",
-			"title": {
-				"en": "Off-peak",
-				"nl": "Laag tarief"
-			},
-			"desc": {
-				"en": "Is off-peak tariff active?",
-				"nl": "Is laag tarief actief?"
-			},
-			"getable": true,
-            "setable": false,
-            "insights": true,
-			"insightsTitleTrue": { "en": "Off-peak" },
-			"insightsTitleFalse": { "en": "Peak" },
-			"icon": "./assets/images/offPeak_icon.svg"
-        },
-        "measure_gas": {
-			"type": "number",
-			"title": {
-				"en": "Gas",
-				"nl": "Gas"
-			},
-			"desc": {
-				"en": "Gas usage",
-				"nl": "Gasverbruik"
-			},
-			"decimals": 4,
-			"units": {
-				"en": "m\u00B3 /hr",
-				"nl": "m\u00B3 /uur"
-			},
-			"getable": true,
-			"setable": false,
-			"insights": true,
-			"icon": "./assets/images/gas_icon.svg"
-		}
-    },
-    "permissions": [],
-    "drivers": [
-        {
-            "id": "p1-smartmeter",
-            "name": {
-                "nl": "P1 slimme meter (verouderd)",
-                "en": "P1 smartmeter (deprecated)"
-            },
-            "images": {
-                "small": "./drivers/p1-smartmeter/assets/small.png",
-                "large": "./drivers/p1-smartmeter/assets/large.png"
-            },
-            "class": "sensor",
-            "capabilities": [
-                "measure_power",
-                "measure_power.consumed",
-                "meter_power.consumed",
-                "measure_power.generated",
-                "meter_power.generated",
-                "meter_gas.measure",
-                "meter_gas.consumed"
-            ],
-            "energy": {
-                "cumulative": true
-            },
-            "capabilitiesOptions": {
-                "measure_power": {
-                    "title": {
-                        "nl": "Elektriciteit huidig verbruik/teruglevering",
-                        "en": "Electricity current usage/generated"
-                    },
-                    "uiComponent": null
-                },
-                "measure_power.consumed": {
-                    "title": {
-                        "nl": "Elektriciteit huidig verbruik",
-                        "en": "Electricity current usage"
-                    }
-                },
-                "measure_power.generated": {
-                    "isGenerator": true,
-                    "title": {
-                        "nl": "Elektriciteit huidig teruglevering",
-                        "en": "Electricity current delivery"
-                    }
-                },
-                "meter_power.consumed": {
-                    "title": {
-                        "nl": "Elektriciteit verbruik",
-                        "en": "Electricity delivery"
-                    }
-                },
-                "meter_power.generated": {
-                    "isGenerator": true,
-                    "title": {
-                        "nl": "Elektriciteit teruglevering",
-                        "en": "Electricity delivery"
-                    }
-                },
-                "meter_gas.measure": {
-                    "title": {
-                        "nl": "Huidig gasverbruik",
-                        "en": "Gas current usage"
-                    },
-                    "decimals": 5
-                },
-                "meter_gas.consumed": {
-                    "title": {
-                        "nl": "Gasverbruik",
-                        "en": "Gas usage"
-                    }
-                }
-            },
-            "pair": [
-                {
-                    "id": "list_devices",
-                    "template": "list_devices",
-                    "navigation": {
-                        "next": "add_p1"
-                    }
-                },
-                {
-                    "id": "add_p1",
-                    "template": "add_devices"
-                }
-            ]
-        },
-        {
-            "id": "p1",
-            "name": {
-				"nl": "P1 slimme meter",
-				"en": "P1 smartmeter"
-            },
-            "images": {
-                "small": "./drivers/p1/assets/small.png",
-                "large": "./drivers/p1/assets/large.png"
-            },
-            "class": "sensor",
-            "capabilities": [
-                "measure_gas",
-                "meter_gas",
-                "measure_power",
-                "measure_power.consumed",
-                "measure_power.produced",
-                "meter_power",
-				"meter_power.peak",
-				"meter_power.offPeak",
-				"meter_power.producedPeak",
-                "meter_power.producedOffPeak",
-			    "meter_offPeak"
-            ],
-            "energy": {
-                "cumulative": true
-            },
-            "capabilitiesOptions": {
-                "measure_power": {
-                    "title": {
-                        "en": "Electricity current usage-generated",
-                        "nl": "Elektriciteit huidig verbruik-teruglevering"
-                    },
-                    "uiComponent": null
-                },
-                "measure_power.consumed": {
-                    "title": {
-                        "en": "Electricity current usage",
-                        "nl": "Elektriciteit huidig verbruik"
-                    }
-                },
-                "measure_power.produced": {
-                    "title": {
-                        "en": "Electricity current delivery",
-                        "nl": "Elektriciteit huidig teruglevering"
-                    }
-                },
-                "meter_power": {
-					"title": {
-						"en": "Power meter total",
-						"nl": "Energie meter verbruik totaal"
-					},
-					"decimals": 2
-				},
-				"meter_power.peak": {
-					"title": {
-						"en": "Power meter usage peak tariff",
-						"nl": "Meterstand verbuik piek-tarief"
-					},
-					"decimals": 2
-				},
-				"meter_power.offPeak": {
-					"title": {
-						"en": "Power meter usage off-peak tariff",
-						"nl": "Meterstand verbruik dal-tarief"
-					},
-					"decimals": 2
-				},
-				"meter_power.producedPeak": {
-					"title": {
-						"en": "Power meter production peak tariff",
-						"nl": "Meterstand teruglevering piek-tarief"
-					},
-					"decimals": 2
-				},
-				"meter_power.producedOffPeak": {
-					"title": {
-						"en": "Power meter production off-peak tariff",
-						"nl": "Meterstand teruglevering dal-tarief"
-					},
-					"decimals": 2
-                }
-            },
-            "pair": [
-                {
-                    "id": "pair"
-                }
-            ],
-            "settings": [
-				{
-					"type": "group",
-					"label": {
-						"en": "Device information",
-						"nl": "Device informatie"
-					},
-					"children": [
-						{
-							"id": "model",
-							"type": "label",
-							"label": {
-								"en": "Model",
-								"nl": "Model"
-							},
-							"value": "unknown"
-						},
-						{
-							"id": "mac",
-							"type": "label",
-							"label": {
-								"en": "Mac",
-								"nl": "Mac"
-							},
-							"value": "unknown"
-						}
-					]
-				},
-				{
-					"type": "group",
-					"label": {
-						"en": "Meter functionality",
-						"nl": "Meter functionaliteit"
-					},
-					"children": [
-						{
-							"id": "include_off_peak",
-							"type": "checkbox",
-							"label": {
-								"en": "Report OffPeak",
-								"nl": "Rapporteer dal-tarief"
-							},
-							"value": true
-						},
-						{
-							"id": "include_production",
-							"type": "checkbox",
-							"label": {
-								"en": "Report production",
-								"nl": "Rapporteer teruglevering"
-							},
-							"value": true
-						},
-						{
-							"id": "include_gas",
-							"type": "checkbox",
-							"label": {
-								"en": "Report Gas",
-								"nl": "Rapporteer gas"
-							},
-							"value": true
-						}
-					]
-				}
-			]
-        }
-    ],
-    "flow": {
-        "triggers": [
-            {
-                "id": "measure_power.changed",
-                "title": {
-                    "en": "Current total consumed/generated electricity changed",
-                    "nl": "Huidige totaal verbruikte/opgewekte elektriciteit gewijzigd"
-                },
-                "args": [
-                    {
-                        "name": "p1-smartmeter",
-                        "type": "device",
-                        "filter": "driver_id=p1-smartmeter"
-                    }
-                ],
-                "tokens": [
-                    {
-                        "name": "measure_power",
-                        "type": "number",
-                        "title": {
-                            "en": "Current total consumed/generated electricity (W)",
-                            "nl": "Huidige toaal verbruikte/opgewekte elektriciteit (W)"
-                        },
-                        "example": 500
-                    }
-                ]
-            },
-            {
-                "id": "measure_power.consumed.changed",
-                "title": {
-                    "en": "Current electricity changed",
-                    "nl": "Huidige elektriciteitsverbruik gewijzigd"
-                },
-                "args": [
-                    {
-                        "name": "p1-smartmeter",
-                        "type": "device",
-                        "filter": "driver_id=p1-smartmeter"
-                    }
-                ],
-                "tokens": [
-                    {
-                        "name": "measure_power.consumed",
-                        "type": "number",
-                        "title": {
-                            "en": "Current electricity (W)",
-                            "nl": "Huidige elektriciteitsverbruik (W)"
-                        },
-                        "example": 500
-                    }
-                ]
-            },
-            {
-                "id": "meter_power.consumed.changed",
-                "title": {
-                    "en": "Consumed electricity changed",
-                    "nl": "Verbruikte elektriciteit gewijzigd"
-                },
-                "args": [
-                    {
-                        "name": "p1-smartmeter",
-                        "type": "device",
-                        "filter": "driver_id=p1-smartmeter"
-                    }
-                ],
-                "tokens": [
-                    {
-                        "name": "meter_power.consumed",
-                        "type": "number",
-                        "title": {
-                            "en": "Consumed electricity (W)",
-                            "nl": "Verbruikte elektriciteit (W)"
-                        },
-                        "example": 123456
-                    }
-                ]
-            },
-            {
-                "id": "measure_power.generated.changed",
-                "title": {
-                    "en": "Current generated electricity changed",
-                    "nl": "Huidige opgewekte elektriciteit gewijzigd"
-                },
-                "args": [
-                    {
-                        "name": "p1-smartmeter",
-                        "type": "device",
-                        "filter": "driver_id=p1-smartmeter"
-                    }
-                ],
-                "tokens": [
-                    {
-                        "name": "measure_power.generated",
-                        "type": "number",
-                        "title": {
-                            "en": "Current generated electricity (W)",
-                            "nl": "Huidige opgewekte elektriciteit (W)"
-                        },
-                        "example": 100
-                    }
-                ]
-            },
-            {
-                "id": "meter_power.generated.changed",
-                "title": {
-                    "en": "Generated electricity changed",
-                    "nl": "Opgewekte elektriciteit gewijzigd"
-                },
-                "args": [
-                    {
-                        "name": "p1-smartmeter",
-                        "type": "device",
-                        "filter": "driver_id=p1-smartmeter"
-                    }
-                ],
-                "tokens": [
-                    {
-                        "name": "meter_power.generated",
-                        "type": "number",
-                        "title": {
-                            "en": "Generated electricity (W)",
-                            "nl": "Opgewekte elektriciteit (W)"
-                        },
-                        "example": 123456
-                    }
-                ]
-            },
-            {
-                "id": "meter_gas.measure.changed",
-                "title": {
-                    "en": "Current gas consumption changed",
-                    "nl": "Huidig gasverbruik gewijzigd"
-                },
-                "args": [
-                    {
-                        "name": "p1-smartmeter",
-                        "type": "device",
-                        "filter": "driver_id=p1-smartmeter"
-                    }
-                ],
-                "tokens": [
-                    {
-                        "name": "meter_gas.measure",
-                        "type": "number",
-                        "title": {
-                            "en": "Current gas consumption (m³)",
-                            "nl": "Huidig gasverbruik (m³)"
-                        },
-                        "example": 0.123
-                    }
-                ]
-            },
-            {
-                "id": "meter_gas.consumed.changed",
-                "title": {
-                    "en": "Gas consumption changed",
-                    "nl": "Gasverbruik gewijzigd"
-                },
-                "args": [
-                    {
-                        "name": "p1-smartmeter",
-                        "type": "device",
-                        "filter": "driver_id=p1-smartmeter"
-                    }
-                ],
-                "tokens": [
-                    {
-                        "name": "meter_gas.consumed",
-                        "type": "number",
-                        "title": {
-                            "en": "Gas consumption (m³)",
-                            "nl": "Gasverbruik (m³)"
-                        },
-                        "example": 500
-                    }
-                ]
-            },
-            {
-                "id":"meter_tariff.changed",
-				"title": {
-					"en":"Tariff has changed",
-					"nl":"Tarief is gewijzigd"
-				},
-				"args": [
-					{
-						"name": "p1",
-						"type": "device",
-						"filter": "driver_id=p1",
-						"placeholder": {
-							"en": "Which device",
-							"nl": "Welk apparaat"
-                        }
-					}
-				],
-				"tokens":[
-					{
-						"name":"tariff",
-						"type": "boolean",
-						"title": {
-							"en":"off-peak",
-							"nl":"dal"
-						},
-						"example" : false
-					}
-				]
-			},
-			{
-				"id":"power.changed",
-				"title": {
-					"en":"Power use changed",
-					"nl":"Stroomverbruik gewijzigd"
-				},
-				"args": [
-					{
-						"name": "p1",
-						"type": "device",
-						"filter": "driver_id=p1",
-						"placeholder": {
-							"en": "Which device",
-							"nl": "Welk apparaat"
-                        }
-					}
-				],
-				"tokens":[
-					{
-						"name":"power",
-						"type": "number",
-						"title": {
-							"en":"Watt",
-							"nl":"Watt"
-						},
-						"example" : 850
-					},
-					{
-						"name":"power_delta",
-						"type": "number",
-						"title": {
-							"en":"+- W",
-							"nl":"+- W"
-						},
-					    "example" : 18
-					}
-				]
-            }
-        ]
+    "postUpdateDsmrReader": {
+      "method": "post",
+      "path": "/update/dsmrreader",
+      "public": true
     }
+  },
+  "pair": [
+    {
+      "id": "pair"
+    }
+  ],
+  "flow": {
+    "triggers": [
+      {
+        "id": "measure_power.changed",
+        "title": {
+          "en": "Current total consumed/generated electricity changed",
+          "nl": "Huidige totaal verbruikte/opgewekte elektriciteit gewijzigd"
+        },
+        "args": [
+          {
+            "name": "p1-smartmeter",
+            "type": "device",
+            "filter": "driver_id=p1-smartmeter"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "measure_power",
+            "type": "number",
+            "title": {
+              "en": "Current total consumed/generated electricity (W)",
+              "nl": "Huidige toaal verbruikte/opgewekte elektriciteit (W)"
+            },
+            "example": 500
+          }
+        ]
+      },
+      {
+        "id": "measure_power.consumed.changed",
+        "title": {
+          "en": "Current electricity changed",
+          "nl": "Huidige elektriciteitsverbruik gewijzigd"
+        },
+        "args": [
+          {
+            "name": "p1-smartmeter",
+            "type": "device",
+            "filter": "driver_id=p1-smartmeter"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "measure_power.consumed",
+            "type": "number",
+            "title": {
+              "en": "Current electricity (W)",
+              "nl": "Huidige elektriciteitsverbruik (W)"
+            },
+            "example": 500
+          }
+        ]
+      },
+      {
+        "id": "measure_power.generated.changed",
+        "title": {
+          "en": "Current generated electricity changed",
+          "nl": "Huidige opgewekte elektriciteit gewijzigd"
+        },
+        "args": [
+          {
+            "name": "p1-smartmeter",
+            "type": "device",
+            "filter": "driver_id=p1-smartmeter"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "measure_power.generated",
+            "type": "number",
+            "title": {
+              "en": "Current generated electricity (W)",
+              "nl": "Huidige opgewekte elektriciteit (W)"
+            },
+            "example": 100
+          }
+        ]
+      },
+      {
+        "id": "meter_gas.consumed.changed",
+        "title": {
+          "en": "Gas consumption changed",
+          "nl": "Gasverbruik gewijzigd"
+        },
+        "args": [
+          {
+            "name": "p1-smartmeter",
+            "type": "device",
+            "filter": "driver_id=p1-smartmeter"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "meter_gas.consumed",
+            "type": "number",
+            "title": {
+              "en": "Gas consumption (m³)",
+              "nl": "Gasverbruik (m³)"
+            },
+            "example": 500
+          }
+        ]
+      },
+      {
+        "id": "meter_gas.measure.changed",
+        "title": {
+          "en": "Current gas consumption changed",
+          "nl": "Huidig gasverbruik gewijzigd"
+        },
+        "args": [
+          {
+            "name": "p1-smartmeter",
+            "type": "device",
+            "filter": "driver_id=p1-smartmeter"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "meter_gas.measure",
+            "type": "number",
+            "title": {
+              "en": "Current gas consumption (m³)",
+              "nl": "Huidig gasverbruik (m³)"
+            },
+            "example": 0.123
+          }
+        ]
+      },
+      {
+        "id": "meter_power.consumed.changed",
+        "title": {
+          "en": "Consumed electricity changed",
+          "nl": "Verbruikte elektriciteit gewijzigd"
+        },
+        "args": [
+          {
+            "name": "p1-smartmeter",
+            "type": "device",
+            "filter": "driver_id=p1-smartmeter"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "meter_power.consumed",
+            "type": "number",
+            "title": {
+              "en": "Consumed electricity (W)",
+              "nl": "Verbruikte elektriciteit (W)"
+            },
+            "example": 123456
+          }
+        ]
+      },
+      {
+        "id": "meter_power.generated.changed",
+        "title": {
+          "en": "Generated electricity changed",
+          "nl": "Opgewekte elektriciteit gewijzigd"
+        },
+        "args": [
+          {
+            "name": "p1-smartmeter",
+            "type": "device",
+            "filter": "driver_id=p1-smartmeter"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "meter_power.generated",
+            "type": "number",
+            "title": {
+              "en": "Generated electricity (W)",
+              "nl": "Opgewekte elektriciteit (W)"
+            },
+            "example": 123456
+          }
+        ]
+      },
+      {
+        "id": "meter_tariff.changed",
+        "title": {
+          "en": "Tariff has changed",
+          "nl": "Tarief is gewijzigd"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=p1"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "tariff",
+            "type": "boolean",
+            "title": {
+              "en": "off-peak",
+              "nl": "dal"
+            },
+            "example": false
+          }
+        ]
+      },
+      {
+        "id": "power.changed",
+        "title": {
+          "en": "Power use changed",
+          "nl": "Stroomverbruik gewijzigd"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=p1"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "power",
+            "type": "number",
+            "title": {
+              "en": "Watt",
+              "nl": "Watt"
+            },
+            "example": 850
+          },
+          {
+            "name": "power_delta",
+            "type": "number",
+            "title": {
+              "en": "+- W",
+              "nl": "+- W"
+            },
+            "example": 18
+          }
+        ]
+      }
+    ]
+  },
+  "drivers": [
+    {
+      "name": {
+        "nl": "P1 slimme meter",
+        "en": "P1 smartmeter"
+      },
+      "images": {
+        "small": "./drivers/p1/assets/small.png",
+        "large": "./drivers/p1/assets/large.png"
+      },
+      "class": "sensor",
+      "capabilities": [
+        "measure_gas",
+        "meter_gas",
+        "measure_power",
+        "measure_power.consumed",
+        "measure_power.produced",
+        "meter_power",
+        "meter_power.peak",
+        "meter_power.offPeak",
+        "meter_power.producedPeak",
+        "meter_power.producedOffPeak",
+        "meter_offpeak"
+      ],
+      "energy": {
+        "cumulative": true
+      },
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": {
+            "en": "Electricity current usage-generated",
+            "nl": "Elektriciteit huidig verbruik-teruglevering"
+          },
+          "uiComponent": null
+        },
+        "measure_power.consumed": {
+          "title": {
+            "en": "Electricity current usage",
+            "nl": "Elektriciteit huidig verbruik"
+          }
+        },
+        "measure_power.produced": {
+          "title": {
+            "en": "Electricity current delivery",
+            "nl": "Elektriciteit huidige teruglevering"
+          }
+        },
+        "meter_power": {
+          "title": {
+            "en": "Power meter total",
+            "nl": "Energie meter verbruik totaal"
+          },
+          "decimals": 2
+        },
+        "meter_power.peak": {
+          "title": {
+            "en": "Power meter usage peak tariff",
+            "nl": "Meterstand verbuik piek-tarief"
+          },
+          "decimals": 2
+        },
+        "meter_power.offPeak": {
+          "title": {
+            "en": "Power meter usage off-peak tariff",
+            "nl": "Meterstand verbruik dal-tarief"
+          },
+          "decimals": 2
+        },
+        "meter_power.producedPeak": {
+          "title": {
+            "en": "Power meter production peak tariff",
+            "nl": "Meterstand teruglevering piek-tarief"
+          },
+          "decimals": 2
+        },
+        "meter_power.producedOffPeak": {
+          "title": {
+            "en": "Power meter production off-peak tariff",
+            "nl": "Meterstand teruglevering dal-tarief"
+          },
+          "decimals": 2
+        }
+      },
+      "pair": [
+        {
+          "id": "pair"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Device information",
+            "nl": "Device informatie"
+          },
+          "children": [
+            {
+              "id": "model",
+              "type": "label",
+              "label": {
+                "en": "Model",
+                "nl": "Model"
+              },
+              "value": "unknown"
+            },
+            {
+              "id": "mac",
+              "type": "label",
+              "label": {
+                "en": "Mac",
+                "nl": "Mac"
+              },
+              "value": "unknown"
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Meter functionality",
+            "nl": "Meter functionaliteit"
+          },
+          "children": [
+            {
+              "id": "include_off_peak",
+              "type": "checkbox",
+              "label": {
+                "en": "Report OffPeak",
+                "nl": "Rapporteer dal-tarief"
+              },
+              "value": true
+            },
+            {
+              "id": "include_production",
+              "type": "checkbox",
+              "label": {
+                "en": "Report production",
+                "nl": "Rapporteer teruglevering"
+              },
+              "value": true
+            },
+            {
+              "id": "include_gas",
+              "type": "checkbox",
+              "label": {
+                "en": "Report Gas",
+                "nl": "Rapporteer gas"
+              },
+              "value": true
+            }
+          ]
+        }
+      ],
+      "id": "p1"
+    }
+  ],
+  "capabilities": {
+    "measure_gas": {
+      "type": "number",
+      "title": {
+        "en": "Gas",
+        "nl": "Gas"
+      },
+      "desc": {
+        "en": "Gas usage",
+        "nl": "Gasverbruik"
+      },
+      "decimals": 4,
+      "units": {
+        "en": "m³ /hr",
+        "nl": "m³ /uur"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "icon": "./assets/images/gas_icon.svg"
+    },
+    "meter_offpeak": {
+      "type": "boolean",
+      "title": {
+        "en": "Off-peak",
+        "nl": "Laag tarief"
+      },
+      "desc": {
+        "en": "Is off-peak tariff active?",
+        "nl": "Is laag tarief actief?"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Off-peak"
+      },
+      "insightsTitleFalse": {
+        "en": "Peak"
+      },
+      "icon": "./assets/images/offPeak_icon.svg"
+    }
+  }
 }

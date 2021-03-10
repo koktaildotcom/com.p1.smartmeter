@@ -1,0 +1,25 @@
+{
+  "id": "meter_power.generated.changed",
+  "title": {
+    "en": "Generated electricity changed",
+    "nl": "Opgewekte elektriciteit gewijzigd"
+  },
+  "args": [
+    {
+      "name": "p1-smartmeter",
+      "type": "device",
+      "filter": "driver_id=p1-smartmeter"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "meter_power.generated",
+      "type": "number",
+      "title": {
+        "en": "Generated electricity (W)",
+        "nl": "Opgewekte elektriciteit (W)"
+      },
+      "example": 123456
+    }
+  ]
+}

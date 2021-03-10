@@ -1,0 +1,25 @@
+{
+  "id": "measure_power.consumed.changed",
+  "title": {
+    "en": "Current electricity changed",
+    "nl": "Huidige elektriciteitsverbruik gewijzigd"
+  },
+  "args": [
+    {
+      "name": "p1-smartmeter",
+      "type": "device",
+      "filter": "driver_id=p1-smartmeter"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "measure_power.consumed",
+      "type": "number",
+      "title": {
+        "en": "Current electricity (W)",
+        "nl": "Huidige elektriciteitsverbruik (W)"
+      },
+      "example": 500
+    }
+  ]
+}
