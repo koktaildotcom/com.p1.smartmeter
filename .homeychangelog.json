@@ -28,6 +28,9 @@
     },
     "4.0.2": {
         "en": "bugfix missing L1, L2, L3"
+    },
+    "4.0.3": {
+        "en": "bugfix upgrade dsmr reader"
     }
 }
 

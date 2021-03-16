@@ -132,5 +132,8 @@ The repository `https://github.com/koktaildotcom/com.p1.smartmeter-dsmr.reader` 
 ### v4.0.2 - 02.03.2021
 - bugfix missing L1, L2, L3
 
+### v4.0.3 - 16.03.2021
+- bugfix upgrade dsmr reader
+
 ## Final note ##
 The repository is available at: https://github.com/koktaildotcom/com.p1.smartmeter
