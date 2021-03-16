@@ -1,6 +1,7 @@
 'use strict';
 
 const Homey = require('homey');
+const DsmrReader = require('./lib/dsmrreader');
 
 module.exports = {
 
@@ -9,8 +10,7 @@ module.exports = {
   },
 
   async postUpdateDsmrReader({ homey, body }) {
-    const data = homey.app.parseDSMRData(body);
-    return homey.emit('update.data', data);
+    return homey.emit('update.data', DsmrReader.parseData(body));
   },
 
 };
