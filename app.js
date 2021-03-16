@@ -12,6 +12,10 @@ class P1 extends Homey.App {
     this.dsmrreader = new DsmrReader();
   }
 
+  parseDSMRData(data) {
+    return this.dsmrreader.parseData(data);
+  }
+
 }
 
 module.exports = P1;

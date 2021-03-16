@@ -9,8 +9,8 @@ module.exports = {
   },
 
   async postUpdateDsmrReader({ homey, body }) {
-    const DsmrReader = Homey.app.dsmrreader;
-    return homey.emit('update.data', DsmrReader.parseData(body));
+    const data = homey.app.parseDSMRData(body);
+    return homey.emit('update.data', data);
   },
 
 };
