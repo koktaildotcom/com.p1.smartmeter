@@ -111,23 +111,34 @@ class P1Device extends Homey.Device {
       let negativeL3 = 0;
 
       if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.power.positive, 'L1')) {
-        positiveL1 = data.electricity.instantaneous.power.positive.L1.reading;
+        if (data.electricity.instantaneous.power.positive.L1.reading) {
+          positiveL1 = data.electricity.instantaneous.power.positive.L1.reading;
+        }      
       }
       if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.power.positive, 'L2')) {
-        positiveL2 = data.electricity.instantaneous.power.positive.L2.reading;
+        if (data.electricity.instantaneous.power.positive.L2.reading) {
+          positiveL2 = data.electricity.instantaneous.power.positive.L2.reading;
+        }
       }
       if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.power.positive, 'L3')) {
-        positiveL3 = data.electricity.instantaneous.power.positive.L3.reading;
+        if (data.electricity.instantaneous.power.positive.L3.reading) {
+          positiveL3 = data.electricity.instantaneous.power.positive.L3.reading;
+        }
       }
-
       if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.power.negative, 'L1')) {
-        negativeL1 = data.electricity.instantaneous.power.negative.L1.reading;
+        if (data.electricity.instantaneous.power.negative.L1.reading) {
+          negativeL1 = data.electricity.instantaneous.power.negative.L1.reading;
+        }
       }
       if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.power.negative, 'L2')) {
-        negativeL2 = data.electricity.instantaneous.power.negative.L2.reading;
+        if (data.electricity.instantaneous.power.negative.L2.reading) {
+          negativeL2 = data.electricity.instantaneous.power.negative.L2.reading;
+        }
       }
       if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.power.negative, 'L3')) {
-        negativeL3 = data.electricity.instantaneous.power.negative.L3.reading;
+        if (data.electricity.instantaneous.power.negative.L3.reading) {
+          negativeL3 = data.electricity.instantaneous.power.negative.L3.reading;
+        }
       }
 
       const measurePowerConsumed = this.round(
