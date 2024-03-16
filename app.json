@@ -22,6 +22,7 @@
     "name": "Leendert de Kok",
     "email": "koktaildotcom@hotmail.com"
   },
+  "source": "https://github.com/koktaildotcom/com.p1.smartmeter",
   "contributing": {
     "donate": {
       "paypal": {
@@ -323,6 +324,12 @@
         "measure_power",
         "measure_power.consumed",
         "measure_power.produced",
+        "measure_voltage.L1",
+        "measure_voltage.L2",
+        "measure_voltage.L3",
+        "measure_current.L1",
+        "measure_current.L2",
+        "measure_current.L3",
         "meter_power",
         "meter_power.peak",
         "meter_power.offPeak",
@@ -351,6 +358,42 @@
           "title": {
             "en": "Electricity current delivery",
             "nl": "Elektriciteit huidige teruglevering"
+          }
+        },
+        "measure_voltage.L1": {
+          "title": {
+            "en": "Electricity voltage L1",
+            "nl": "Elektriciteit voltage L1"
+          }
+        },
+        "measure_voltage.L2": {
+          "title": {
+            "en": "Electricity voltage L2",
+            "nl": "Elektriciteit voltage L2"
+          }
+        },
+        "measure_voltage.L3": {
+          "title": {
+            "en": "Electricity voltage L3",
+            "nl": "Elektriciteit voltage L3"
+          }
+        },
+        "measure_current.L1": {
+          "title": {
+            "en": "Electricity current L1",
+            "nl": "Elektriciteit amperage L1"
+          }
+        },
+        "measure_current.L2": {
+          "title": {
+            "en": "Electricity current L2",
+            "nl": "Elektriciteit amperage L2"
+          }
+        },
+        "measure_current.L3": {
+          "title": {
+            "en": "Electricity current L3",
+            "nl": "Elektriciteit amperage L3"
           }
         },
         "meter_power": {
@@ -455,6 +498,15 @@
                 "nl": "Rapporteer gas"
               },
               "value": true
+            },
+            {
+              "id": "include_triple_phase",
+              "type": "checkbox",
+              "label": {
+                "en": "3 Phase Meter",
+                "nl": "3 Fase Meter"
+              },
+              "value": false
             }
           ]
         }

@@ -16,6 +16,12 @@ class P1Device extends Homey.Device {
       lastMeasurePower: 0, // 'measurePower' (W) (consumed - produced)
       lastMeasurePowerConsumed: 0, // 'measure_power.consumed' (W)
       lastMeasurePowerProduced: 0, // 'measure_power.produced' (W)
+      lastMeasureVoltageL1: 0, // 'measure_voltage.L1 (V)'
+      lastMeasureVoltageL2: 0, // 'measure_voltage.L2 (V)'
+      lastMeasureVoltageL3: 0, // 'measure_voltage.L3 (V)'
+      lastMeasureCurrentL1: 0, // 'measure_current.L1 (A)'
+      lastMeasureCurrentL2: 0, // 'measure_current.L2 (A)'
+      lastMeasureCurrentL3: 0, // 'measure_current.L3 (A)'
       lastMeasurePowerAvg: 0, // '2 minute average measurePower' (kWh)
       lastMeterPower: null, // 'meterPower' (kWh)
       lastMeterPowerPeak: null, // 'meterPower_peak' (kWh)
@@ -103,6 +109,12 @@ class P1Device extends Homey.Device {
       const meterPowerPeakProduced = data.electricity.delivered.tariff2.reading;
       const meterPowerOffpeakProduced = data.electricity.delivered.tariff1.reading;
 
+      let voltageL1 = 0;
+      let voltageL2 = 0;
+      let voltageL3 = 0;
+      let currentL1 = 0;
+      let currentL2 = 0;
+      let currentL3 = 0;
       let positiveL1 = 0;
       let positiveL2 = 0;
       let positiveL3 = 0;
@@ -110,6 +122,36 @@ class P1Device extends Homey.Device {
       let negativeL2 = 0;
       let negativeL3 = 0;
 
+      if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.voltage, 'L1')) {
+        if (data.electricity.instantaneous.voltage.L1.reading) {
+          voltageL1 = data.electricity.instantaneous.voltage.L1.reading;
+        }      
+      }
+      if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.voltage, 'L2')) {
+        if (data.electricity.instantaneous.voltage.L2.reading) {
+          voltageL2 = data.electricity.instantaneous.voltage.L2.reading;
+        }      
+      }
+      if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.voltage, 'L3')) {
+        if (data.electricity.instantaneous.voltage.L3.reading) {
+          voltageL3 = data.electricity.instantaneous.voltage.L3.reading;
+        }      
+      }
+      if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.current, 'L1')) {
+        if (data.electricity.instantaneous.current.L1.reading) {
+          currentL1 = data.electricity.instantaneous.current.L1.reading;
+        }      
+      }
+      if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.current, 'L2')) {
+        if (data.electricity.instantaneous.current.L2.reading) {
+          currentL2 = data.electricity.instantaneous.current.L2.reading;
+        }      
+      }
+      if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.current, 'L3')) {
+        if (data.electricity.instantaneous.current.L3.reading) {
+          currentL3 = data.electricity.instantaneous.current.L3.reading;
+        }      
+      }
       if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.power.positive, 'L1')) {
         if (data.electricity.instantaneous.power.positive.L1.reading) {
           positiveL1 = data.electricity.instantaneous.power.positive.L1.reading;
@@ -181,6 +223,12 @@ class P1Device extends Homey.Device {
       current.lastMeasurePower = measurePower;
       current.lastMeasurePowerConsumed = measurePowerConsumed;
       current.lastMeasurePowerProduced = lastMeasurePowerProduced;
+      current.lastMeasureVoltageL1 = voltageL1
+      current.lastMeasureVoltageL2 = voltageL2
+      current.lastMeasureVoltageL3 = voltageL3
+      current.lastMeasureCurrentL1 = currentL1
+      current.lastMeasureCurrentL2 = currentL2
+      current.lastMeasureCurrentL3 = currentL3
       current.lastMeasurePowerAvg = measurePowerAvg;
       current.lastMeterPower = meterPower;
       current.lastMeterPowerPeak = meterPowerPeak;
@@ -254,6 +302,22 @@ class P1Device extends Homey.Device {
       );
       await this.tryToRemoveCapability('meter_offpeak');
     }
+
+    if (settings.include_triple_phase) {
+      await this.tryToAddCapability('measure_voltage.L1');
+      await this.tryToAddCapability('measure_voltage.L2');
+      await this.tryToAddCapability('measure_voltage.L3');
+      await this.tryToAddCapability('measure_current.L1');
+      await this.tryToAddCapability('measure_current.L2');
+      await this.tryToAddCapability('measure_current.L3');
+    } else {
+      await this.tryToAddCapability('measure_voltage.L1');
+      await this.tryToRemoveCapability('measure_voltage.L2');
+      await this.tryToRemoveCapability('measure_voltage.L3');
+      await this.tryToAddCapability('measure_current.L1');
+      await this.tryToRemoveCapability('measure_current.L2');
+      await this.tryToRemoveCapability('measure_current.L3');
+    }
   }
 
   /**
@@ -295,6 +359,17 @@ class P1Device extends Homey.Device {
         this.setDeviceCapabilityValue('meter_power.peak', data.lastMeterPowerPeak);
         this.setDeviceCapabilityValue('meter_power.offPeak', data.lastMeterPowerOffpeak);
         this.setDeviceCapabilityValue('meter_offpeak', data.lastOffpeak);
+      }
+      if (await this.getSetting('include_triple_phase')) {
+        this.setDeviceCapabilityValue('measure_voltage.L1', data.lastMeasureVoltageL1);
+        this.setDeviceCapabilityValue('measure_voltage.L2', data.lastMeasureVoltageL2);
+        this.setDeviceCapabilityValue('measure_voltage.L3', data.lastMeasureVoltageL3);
+        this.setDeviceCapabilityValue('measure_current.L1', data.lastMeasureCurrentL1);
+        this.setDeviceCapabilityValue('measure_current.L2', data.lastMeasureCurrentL2);
+        this.setDeviceCapabilityValue('measure_current.L3', data.lastMeasureCurrentL3);
+      } else {
+        this.setDeviceCapabilityValue('measure_voltage.L1', data.lastMeasureVoltageL1);
+        this.setDeviceCapabilityValue('measure_current.L1', data.lastMeasureCurrentL1);
       }
     } catch (error) {
       this.error(error);
