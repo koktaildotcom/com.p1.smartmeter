@@ -14,12 +14,27 @@
     "measure_power",
     "measure_power.consumed",
     "measure_power.produced",
+    "measure_voltage.L1",
+    "measure_voltage.L2",
+    "measure_voltage.L3",
+    "measure_current.L1",
+    "measure_current.L2",
+    "measure_current.L3",
     "meter_power",
     "meter_power.peak",
     "meter_power.offPeak",
     "meter_power.producedPeak",
     "meter_power.producedOffPeak",
-    "meter_offpeak"
+    "meter_offpeak",
+    "meter_failures",
+    "meter_failures.sagL1",
+    "meter_failures.sagL2",
+    "meter_failures.sagL3",
+    "meter_failures.swellL1",
+    "meter_failures.swellL2",
+    "meter_failures.swellL3",
+    "meter_failures.long",
+    "meter_lastfailurelog"
   ],
   "energy": {
     "cumulative": true
@@ -42,6 +57,42 @@
       "title": {
         "en": "Electricity current delivery",
         "nl": "Elektriciteit huidige teruglevering"
+      }
+    },
+    "measure_voltage.L1": {
+      "title": {
+        "en": "Electricity voltage L1",
+        "nl": "Elektriciteit voltage L1"
+      }
+    },
+    "measure_voltage.L2": {
+      "title": {
+        "en": "Electricity voltage L2",
+        "nl": "Elektriciteit voltage L2"
+      }
+    },
+    "measure_voltage.L3": {
+      "title": {
+        "en": "Electricity voltage L3",
+        "nl": "Elektriciteit voltage L3"
+      }
+    },
+    "measure_current.L1": {
+      "title": {
+        "en": "Electricity current L1",
+        "nl": "Elektriciteit amperage L1"
+      }
+    },
+    "measure_current.L2": {
+      "title": {
+        "en": "Electricity current L2",
+        "nl": "Elektriciteit amperage L2"
+      }
+    },
+    "measure_current.L3": {
+      "title": {
+        "en": "Electricity current L3",
+        "nl": "Elektriciteit amperage L3"
       }
     },
     "meter_power": {
@@ -78,6 +129,48 @@
         "nl": "Meterstand teruglevering dal-tarief"
       },
       "decimals": 2
+    },
+    "meter_failures.sagL1": {
+      "title": {
+        "en": "Grid voltage sag L1 count",
+        "nl": "Aantal spanningsdip L1"
+      }
+    },
+    "meter_failures.sagL2": {
+      "title": {
+        "en": "Grid voltage sag L2 count",
+        "nl": "Aantal spanningsdip L2"
+      }
+    },
+    "meter_failures.sagL3": {
+      "title": {
+        "en": "Grid voltage sag L3 count",
+        "nl": "Aantal spanningsdip L3"
+      }
+    },
+    "meter_failures.swellL1": {
+      "title": {
+        "en": "Grid voltage swell L1 count",
+        "nl": "Aantal spanningspieken L1"
+      }
+    },
+    "meter_failures.swellL2": {
+      "title": {
+        "en": "Grid voltage swell L2 count",
+        "nl": "Aantal spanningspieken L2"
+      }
+    },
+    "meter_failures.swellL3": {
+      "title": {
+        "en": "Grid voltage swell L3 count",
+        "nl": "Aantal spanningspieken L3"
+      }
+    },
+    "meter_failures.long": {
+      "title": {
+        "en": "Long grid power failure count",
+        "nl": "Aantal lange stroom net fouten"
+      }
     }
   },
   "pair": [
@@ -103,11 +196,20 @@
           "value": "unknown"
         },
         {
-          "id": "mac",
+          "id": "powerEquipmentId",
           "type": "label",
           "label": {
-            "en": "Mac",
-            "nl": "Mac"
+            "en": "Electricity Meter Serial",
+            "nl": "Elektriciteits Meter Serienummer"
+          },
+          "value": "unknown"
+        },
+        {
+          "id": "gasEquipmentId",
+          "type": "label",
+          "label": {
+            "en": "Gas Meter Serial",
+            "nl": "Gas Meter Serienummer"
           },
           "value": "unknown"
         }
@@ -146,6 +248,24 @@
             "nl": "Rapporteer gas"
           },
           "value": true
+        },
+        {
+          "id": "include_triple_phase",
+          "type": "checkbox",
+          "label": {
+            "en": "3 Phase Meter",
+            "nl": "3 Fase Meter"
+          },
+          "value": false
+        },
+        {
+          "id": "include_geek_stats",
+          "type": "checkbox",
+          "label": {
+            "en": "Geek mode, all metrics",
+            "nl": "Geek mode, alle waardes"
+          },
+          "value": false
         }
       ]
     }
