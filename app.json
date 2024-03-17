@@ -335,7 +335,16 @@
         "meter_power.offPeak",
         "meter_power.producedPeak",
         "meter_power.producedOffPeak",
-        "meter_offpeak"
+        "meter_offpeak",
+        "meter_failures",
+        "meter_failures.sagL1",
+        "meter_failures.sagL2",
+        "meter_failures.sagL3",
+        "meter_failures.swellL1",
+        "meter_failures.swellL2",
+        "meter_failures.swellL3",
+        "meter_failures.long",
+        "meter_lastfailurelog"
       ],
       "energy": {
         "cumulative": true
@@ -430,6 +439,48 @@
             "nl": "Meterstand teruglevering dal-tarief"
           },
           "decimals": 2
+        },
+        "meter_failures.sagL1": {
+          "title": {
+            "en": "Grid voltage sag L1 count",
+            "nl": "Aantal spanningsdip L1"
+          }
+        },
+        "meter_failures.sagL2": {
+          "title": {
+            "en": "Grid voltage sag L2 count",
+            "nl": "Aantal spanningsdip L2"
+          }
+        },
+        "meter_failures.sagL3": {
+          "title": {
+            "en": "Grid voltage sag L3 count",
+            "nl": "Aantal spanningsdip L3"
+          }
+        },
+        "meter_failures.swellL1": {
+          "title": {
+            "en": "Grid voltage swell L1 count",
+            "nl": "Aantal spanningspieken L1"
+          }
+        },
+        "meter_failures.swellL2": {
+          "title": {
+            "en": "Grid voltage swell L2 count",
+            "nl": "Aantal spanningspieken L2"
+          }
+        },
+        "meter_failures.swellL3": {
+          "title": {
+            "en": "Grid voltage swell L3 count",
+            "nl": "Aantal spanningspieken L3"
+          }
+        },
+        "meter_failures.long": {
+          "title": {
+            "en": "Long grid power failure count",
+            "nl": "Aantal lange stroom net fouten"
+          }
         }
       },
       "pair": [
@@ -455,11 +506,20 @@
               "value": "unknown"
             },
             {
-              "id": "mac",
+              "id": "powerEquipmentId",
               "type": "label",
               "label": {
-                "en": "Mac",
-                "nl": "Mac"
+                "en": "Electricity Meter Serial",
+                "nl": "Elektriciteits Meter Serienummer"
+              },
+              "value": "unknown"
+            },
+            {
+              "id": "gasEquipmentId",
+              "type": "label",
+              "label": {
+                "en": "Gas Meter Serial",
+                "nl": "Gas Meter Serienummer"
               },
               "value": "unknown"
             }
@@ -507,6 +567,15 @@
                 "nl": "3 Fase Meter"
               },
               "value": false
+            },
+            {
+              "id": "include_geek_stats",
+              "type": "checkbox",
+              "label": {
+                "en": "Geek mode, all metrics",
+                "nl": "Geek mode, alle waardes"
+              },
+              "value": false
             }
           ]
         }
@@ -534,6 +603,36 @@
       "setable": false,
       "insights": true,
       "icon": "./assets/images/gas_icon.svg"
+    },
+    "meter_failures": {
+      "type": "number",
+      "title": {
+        "en": "Grid failure",
+        "nl": "Net fout"
+      },
+      "desc": {
+        "en": "Grid power failure count",
+        "nl": "Aantal stroom net fouten"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "icon": "./assets/images/power_grid.svg"
+    },
+    "meter_lastfailurelog": {
+      "type": "string",
+      "title": {
+        "en": "Last grid failure",
+        "nl": "Laatste net fout"
+      },
+      "desc": {
+        "en": "Last grid failure and duration in minutes",
+        "nl": "Laatste net fout en lengte in minuten"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "icon": "./assets/images/power_grid.svg"
     },
     "meter_offpeak": {
       "type": "boolean",

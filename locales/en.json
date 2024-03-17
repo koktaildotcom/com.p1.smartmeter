@@ -10,5 +10,7 @@
         "success": "Success!",
         "required": "A name for this device is required!",
 		"addDevice": "Add device"
-    }
+    },
+	"start": "Start",
+	"duration": "Duration"
 }

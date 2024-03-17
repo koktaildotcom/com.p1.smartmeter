@@ -1,0 +1,15 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Grid failure",
+    "nl": "Net fout"
+  },
+  "desc": {
+    "en": "Grid power failure count",
+    "nl": "Aantal stroom net fouten"
+  },
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "icon": "./assets/images/power_grid.svg"
+}

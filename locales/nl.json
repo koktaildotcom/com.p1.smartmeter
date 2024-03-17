@@ -10,5 +10,7 @@
         "success": "Succes!",
         "required": "Voer een naam in voor het device!",
 		"addDevice": "Apparaat toevoegen"
-	}
+	},
+	"start": "Start",
+	"duration": "Lengte"
 }

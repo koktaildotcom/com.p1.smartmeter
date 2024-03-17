@@ -31,6 +31,15 @@ class P1Device extends Homey.Device {
       lastMeterPowerTm: null, // timestamp epoch, e.g. 1514394325
       lastMeterPowerInterval: null, // 'meterPower' at last interval (kWh)
       lastMeterPowerIntervalTm: null, // timestamp epoch, e.g. 1514394325
+      lastMeterPowerFailures: 0, // 'meter_failures'
+      lastMeterPowerFailuresSagL1: 0, // 'meter_failures.sagL1'
+      lastMeterPowerFailuresSagL2: 0, // 'meter_failures.sagL2'
+      lastMeterPowerFailuresSagL3: 0, // 'meter_failures.sagL3'
+      lastMeterPowerFailuresSwellL1: 0, // 'meter_failures.swellL1'
+      lastMeterPowerFailuresSwellL2: 0, // 'meter_failures.swellL2'
+      lastMeterPowerFailuresSwellL3: 0, // 'meter_failures.swellL3'
+      lastMeterPowerFailuresLong: 0, // 'meter_failures.long'
+      lastMeterPowerFailureLog: null, // 'meter_lastfailurelog'
       lastOffpeak: null, // 'meterPower_offpeak' (true/false)
     };
 
@@ -65,6 +74,9 @@ class P1Device extends Homey.Device {
     }
 
     if (Object.prototype.hasOwnProperty.call(data, 'gas') && data.gas) {
+      if (Object.prototype.hasOwnProperty.call(data.gas, 'equipmentId')) {
+       await this.updateSetting({ gasEquipmentId: data.gas.equipmentId });
+      }
       let measureGas = current.lastMeasureGas;
 
       if (Object.prototype.hasOwnProperty.call(data.gas, 'reportedPeriod')) {
@@ -102,6 +114,10 @@ class P1Device extends Homey.Device {
     }
 
     if (Object.prototype.hasOwnProperty.call(data, 'electricity') && data.electricity) {
+      if (Object.prototype.hasOwnProperty.call(data.electricity, 'equipmentId')) {
+        await this.updateSetting({ powerEquipmentId: data.electricity.equipmentId });
+      }
+
       // electricity readings from device
       const meterPowerPeak = data.electricity.received.tariff2.reading;
       const meterPowerOffpeak = data.electricity.received.tariff1.reading;
@@ -109,6 +125,15 @@ class P1Device extends Homey.Device {
       const meterPowerPeakProduced = data.electricity.delivered.tariff2.reading;
       const meterPowerOffpeakProduced = data.electricity.delivered.tariff1.reading;
 
+      const meterPowerFailures = data.electricity.failures;
+      const meterPowerFailuresLong = data.electricity.failuresLong;
+
+      let voltageSagL1 = 0;
+      let voltageSagL2 = 0;
+      let voltageSagL3 = 0;
+      let voltageSwellL1 = 0;
+      let voltageSwellL2 = 0;
+      let voltageSwellL3 = 0;
       let voltageL1 = 0;
       let voltageL2 = 0;
       let voltageL3 = 0;
@@ -121,7 +146,36 @@ class P1Device extends Homey.Device {
       let negativeL1 = 0;
       let negativeL2 = 0;
       let negativeL3 = 0;
-
+      if (Object.prototype.hasOwnProperty.call(data.electricity.voltageSags, 'L1')) {
+        if (data.electricity.voltageSags.L1) {
+          voltageSagL1 = data.electricity.voltageSags.L1;
+        }
+      }
+      if (Object.prototype.hasOwnProperty.call(data.electricity.voltageSags, 'L2')) {
+        if (data.electricity.voltageSags.L2) {
+          voltageSagL2 = data.electricity.voltageSags.L2;
+        }
+      }
+      if (Object.prototype.hasOwnProperty.call(data.electricity.voltageSags, 'L3')) {
+        if (data.electricity.voltageSags.L3) {
+          voltageSagL3 = data.electricity.voltageSags.L3;
+        }
+      }
+      if (Object.prototype.hasOwnProperty.call(data.electricity.voltageSwell, 'L1')) {
+        if (data.electricity.voltageSwell.L1) {
+          voltageSwellL1 = data.electricity.voltageSwell.L1;
+        }
+      }
+      if (Object.prototype.hasOwnProperty.call(data.electricity.voltageSwell, 'L2')) {
+        if (data.electricity.voltageSwell.L2) {
+          voltageSwellL2 = data.electricity.voltageSwell.L2;
+        }
+      }
+      if (Object.prototype.hasOwnProperty.call(data.electricity.voltageSwell, 'L3')) {
+        if (data.electricity.voltageSwell.L3) {
+          voltageSwellL3 = data.electricity.voltageSwell.L3;
+        }
+      }
       if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.voltage, 'L1')) {
         if (data.electricity.instantaneous.voltage.L1.reading) {
           voltageL1 = data.electricity.instantaneous.voltage.L1.reading;
@@ -219,6 +273,16 @@ class P1Device extends Homey.Device {
         this.triggerChangedFlow('power.changed', tokens);
       }
 
+      // construct string of last failure "Start: 01/01/2024, 07:00:00 AM - Duration: 242m"
+      let lastFailure = null;
+      const meterFailureLog = data.electricity.failureLog;
+      if (Array.isArray(meterFailureLog) && meterFailureLog.length > 0) {
+        const latestIndex = meterFailureLog.reduce((maxIndex, item, index, array) => item.timestampEnd > array[maxIndex].timestampEnd ? index : maxIndex, 0);
+
+        const timestamp = new Date((meterFailureLog[latestIndex].timestampEnd - meterFailureLog[latestIndex].duration) * 1000);
+        lastFailure = this.homey.__('start') + ': ' + timestamp.toLocaleString() + ' - ' + this.homey.__('duration') + ': ' + Math.round(meterFailureLog[latestIndex].duration / 60) + 'm';
+      }
+
       // store the new readings in memory
       current.lastMeasurePower = measurePower;
       current.lastMeasurePowerConsumed = measurePowerConsumed;
@@ -236,6 +300,15 @@ class P1Device extends Homey.Device {
       current.lastMeterPowerPeakProduced = meterPowerPeakProduced;
       current.lastMeterPowerOffpeakProduced = meterPowerOffpeakProduced;
       current.lastMeterPowerTm = meterPowerTm;
+      current.lastMeterPowerFailures = meterPowerFailures;
+      current.lastMeterPowerFailuresSagL1 = voltageSagL1;
+      current.lastMeterPowerFailuresSagL2 = voltageSagL2;
+      current.lastMeterPowerFailuresSagL3 = voltageSagL3;
+      current.lastMeterPowerFailuresSwellL1 = voltageSwellL1;
+      current.lastMeterPowerFailuresSwellL2 = voltageSwellL2;
+      current.lastMeterPowerFailuresSwellL3 = voltageSwellL3;
+      current.lastMeterPowerFailuresLong = meterPowerFailuresLong;
+      current.lastMeterPowerFailureLog = lastFailure;
       current.lastOffpeak = offPeak;
     }
 
@@ -318,6 +391,28 @@ class P1Device extends Homey.Device {
       await this.tryToRemoveCapability('measure_current.L2');
       await this.tryToRemoveCapability('measure_current.L3');
     }
+
+    if (settings.include_geek_stats) {
+      await this.tryToAddCapability('meter_failures');
+      await this.tryToAddCapability('meter_failures.sagL1');
+      await this.tryToAddCapability('meter_failures.sagL2');
+      await this.tryToAddCapability('meter_failures.sagL3');
+      await this.tryToAddCapability('meter_failures.swellL1');
+      await this.tryToAddCapability('meter_failures.swellL2');
+      await this.tryToAddCapability('meter_failures.swellL3');
+      await this.tryToAddCapability('meter_failures.long');
+      await this.tryToAddCapability('meter_lastfailurelog');
+    } else {
+      await this.tryToRemoveCapability('meter_failures');
+      await this.tryToRemoveCapability('meter_failures.sagL1');
+      await this.tryToRemoveCapability('meter_failures.sagL2');
+      await this.tryToRemoveCapability('meter_failures.sagL3');
+      await this.tryToRemoveCapability('meter_failures.swellL1');
+      await this.tryToRemoveCapability('meter_failures.swellL2');
+      await this.tryToRemoveCapability('meter_failures.swellL3');
+      await this.tryToRemoveCapability('meter_failures.long');
+      await this.tryToRemoveCapability('meter_lastfailurelog');
+    }
   }
 
   /**
@@ -370,6 +465,17 @@ class P1Device extends Homey.Device {
       } else {
         this.setDeviceCapabilityValue('measure_voltage.L1', data.lastMeasureVoltageL1);
         this.setDeviceCapabilityValue('measure_current.L1', data.lastMeasureCurrentL1);
+      }
+      if (await this.getSetting('include_geek_stats')) {
+        this.setDeviceCapabilityValue('meter_failures', data.lastMeterPowerFailures);
+        this.setDeviceCapabilityValue('meter_failures.sagL1', data.lastMeterPowerFailuresSagL1);
+        this.setDeviceCapabilityValue('meter_failures.sagL2', data.lastMeterPowerFailuresSagL2);
+        this.setDeviceCapabilityValue('meter_failures.sagL3', data.lastMeterPowerFailuresSagL3);
+        this.setDeviceCapabilityValue('meter_failures.swellL1', data.lastMeterPowerFailuresSwellL1);
+        this.setDeviceCapabilityValue('meter_failures.swellL2', data.lastMeterPowerFailuresSwellL2);
+        this.setDeviceCapabilityValue('meter_failures.swellL3', data.lastMeterPowerFailuresSwellL3);
+        this.setDeviceCapabilityValue('meter_failures.long', data.lastMeterPowerFailuresLong);
+        this.setDeviceCapabilityValue('meter_lastfailurelog', data.lastMeterPowerFailureLog);
       }
     } catch (error) {
       this.error(error);
