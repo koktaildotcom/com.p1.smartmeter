@@ -17,6 +17,7 @@ class P1Device extends Homey.Device {
       lastMeasurePowerConsumed: 0, // 'measure_power.consumed' (W)
       lastMeasurePowerProduced: 0, // 'measure_power.produced' (W)
       lastMeasurePowerAvg: 0, // '2 minute average measurePower' (kWh)
+      lastMeterPowerProduced: null,
       lastMeterPower: null, // 'meterPower' (kWh)
       lastMeterPowerPeak: null, // 'meterPower_peak' (kWh)
       lastMeterPowerOffpeak: null, // 'meterPower_offpeak' (kWh)
@@ -113,7 +114,7 @@ class P1Device extends Homey.Device {
       if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.power.positive, 'L1')) {
         if (data.electricity.instantaneous.power.positive.L1.reading) {
           positiveL1 = data.electricity.instantaneous.power.positive.L1.reading;
-        }      
+        }
       }
       if (Object.prototype.hasOwnProperty.call(data.electricity.instantaneous.power.positive, 'L2')) {
         if (data.electricity.instantaneous.power.positive.L2.reading) {
@@ -183,6 +184,7 @@ class P1Device extends Homey.Device {
       current.lastMeasurePowerProduced = lastMeasurePowerProduced;
       current.lastMeasurePowerAvg = measurePowerAvg;
       current.lastMeterPower = meterPower;
+      current.lastMeterPowerProduced = meterPowerProducedTotal;
       current.lastMeterPowerPeak = meterPowerPeak;
       current.lastMeterPowerOffpeak = meterPowerOffpeak;
       current.lastMeterPowerPeakProduced = meterPowerPeakProduced;
@@ -212,6 +214,8 @@ class P1Device extends Homey.Device {
     }
 
     if (settings.include_production) {
+      await this.tryToAddCapability('meter_power.consumed');
+      await this.tryToAddCapability('meter_power.produced');
       await this.tryToAddCapability('measure_power.consumed');
       await this.tryToAddCapability('measure_power.produced');
       await this.tryToAddCapability('meter_power.producedPeak');
@@ -284,12 +288,14 @@ class P1Device extends Homey.Device {
       this.setDeviceCapabilityValue('measure_power', data.lastMeasurePower);
       this.setDeviceCapabilityValue('measure_power.consumed', data.lastMeasurePowerConsumed);
       this.setDeviceCapabilityValue('meter_power', data.lastMeterPower);
+      this.setDeviceCapabilityValue('meter_power.consumed', data.lastMeterPower);
       if (await this.getSetting('include_production')) {
         this.setDeviceCapabilityValue('measure_power.produced', data.lastMeasurePowerProduced);
         this.setDeviceCapabilityValue('meter_power.producedPeak', data.lastMeterPowerPeakProduced);
         if (await this.getSetting('include_off_peak')) {
           this.setDeviceCapabilityValue('meter_power.producedOffPeak', data.lastMeterPowerOffpeakProduced);
         }
+        this.setDeviceCapabilityValue('meter_power.produced', data.lastMeterPowerProduced);
       }
       if (await this.getSetting('include_off_peak')) {
         this.setDeviceCapabilityValue('meter_power.peak', data.lastMeterPowerPeak);

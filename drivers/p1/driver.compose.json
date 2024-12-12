@@ -16,20 +16,26 @@
     "measure_power.produced",
     "meter_power",
     "meter_power.peak",
+    "meter_power.consumed",
+    "meter_power.produced",
     "meter_power.offPeak",
     "meter_power.producedPeak",
     "meter_power.producedOffPeak",
     "meter_offpeak"
   ],
   "energy": {
-    "cumulative": true
+    "cumulative": true,
+    "cumulativeImportedCapability": "meter_power.consumed",
+    "cumulativeExportedCapability": "meter_power.produced"
   },
   "capabilitiesOptions": {
     "measure_power": {
-      "title": {
-        "en": "Electricity current usage-generated",
-        "nl": "Elektriciteit huidig verbruik-teruglevering"
-      },
+      "uiComponent": null
+    },
+    "meter_power.consumed": {
+      "uiComponent": null
+    },
+    "meter_power.produced": {
       "uiComponent": null
     },
     "measure_power.consumed": {
